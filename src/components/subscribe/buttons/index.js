@@ -2,7 +2,16 @@ import React, { PureComponent } from "react";
 
 import {Segment, Button, Grid, Transition} from 'semantic-ui-react';
 
-export default class ButtonsSubScribe extends PureComponent{
+
+class ButtonSubscribe extends PureComponent {
+
+}
+
+class ButtonUnsubscribe extends PureComponent {
+    
+}
+
+export default class ButtonsSubScribeContainer extends PureComponent{
 
         render() {
 

@@ -27,8 +27,7 @@ export default class SubscribeContainer extends PureComponent{
                 </Grid>
               </Segment>
               <Segment basic={true}>
-                <ButtonsSubScribe 
-                          id = "buttons"
+                <ButtonsSubScribe
                           visible = {this.state.isButtonsVisible}
                           updateButtonsVisible = {this.segmentAccordeonVisibility.bind(this)}
                 />

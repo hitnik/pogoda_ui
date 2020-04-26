@@ -4,7 +4,7 @@ import {Menu, Image} from 'semantic-ui-react';
 
 import LogoImg from '../../images/logo.png';
 
-class Navbar extends Component{
+class Navbar extends PureComponent{
     render(){
         return (
             <div>
