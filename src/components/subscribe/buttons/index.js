@@ -4,7 +4,9 @@ import {Segment, Button, Grid, Transition} from 'semantic-ui-react';
 
 
 class ButtonSubscribe extends PureComponent {
-
+  render () {
+    
+  }
 }
 
 class ButtonUnsubscribe extends PureComponent {
