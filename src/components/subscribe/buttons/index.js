@@ -4,13 +4,14 @@ import {Segment, Button, Grid, Transition} from 'semantic-ui-react';
 
 
 class ButtonSubscribe extends PureComponent {
-  render () {
-    
-  }
+
+    render () {
+        return <Button positive onClick={this.props.onClick}>Подписаться на рассылку</Button>;
+    }
 }
 
 class ButtonUnsubscribe extends PureComponent {
-    
+
 }
 
 export default class ButtonsSubScribeContainer extends PureComponent{
@@ -23,7 +24,7 @@ export default class ButtonsSubScribeContainer extends PureComponent{
                 <Grid>
                   <Grid.Column textAlign="center">
                     <Button.Group fluid>
-                      <Button positive onClick={updateButtonsVisible}>Подписаться на рассылку</Button>
+                      <ButtonSubscribe onClick={updateButtonsVisible}/>
                       <Button.Or />
                       <Button negative onClick={updateButtonsVisible}>Отменить подписку</Button>
                   </Button.Group>

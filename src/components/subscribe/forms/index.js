@@ -11,8 +11,8 @@ export default class SegmentForms extends PureComponent{
       const sibcribeForm = (
           <Form widths="equal">
             <Form.Group>
-              <Form.Input fliud label="Title" placeholder="Title" />
-              <Form.Input fluid label="Email" placeholder="Email" />
+              <Form.Input  label="Title" placeholder="Title" />
+              <Form.Input label="Email" placeholder="Email" />
             </Form.Group>
           </Form>
       );
