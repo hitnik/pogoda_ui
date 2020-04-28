@@ -3,7 +3,11 @@ h1 {
     text-align: center;
 }
 
-.rightAlign {
-    display: flex;
-    justify-content: right;
+.padBut {
+    padding-left: 10px;
+    padding-right: 10px;
   }
+
+.padBut.right {
+    padding-right: 0%;
+}

@@ -1,11 +1,42 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, Fragment } from "react";
 
-import {Segment, Button, Grid, Form, Transition} from 'semantic-ui-react';
+import {Segment, Button, Grid, Form, Transition, Container} from 'semantic-ui-react';
 
 class ButtonFormClose extends PureComponent {
 
   render () {
-    return <Form.Button onClick={this.props.onClick}>Закрыть</Form.Button>
+    return <Form.Button onClick={this.props.onClick} content="Закрыть" />
+  }
+}
+
+class ButtonFormSubmit extends PureComponent {
+   render () {
+     return <Form.Button positive onClick={this.props.onClick} content="Отправить"/>
+   }
+}
+
+class ButtonGroupSubmitClose extends PureComponent {
+
+  render () {
+      const {closeAction} = this.props
+
+      const buttonGroup = (
+        <Grid>
+          <Grid.Row >
+            <Grid.Column textAlign="right">
+            <Button.Group >
+              <div className="padBut">
+              <ButtonFormClose className="padBut" onClick={closeAction}/>
+              </div>
+              <div className="padBut.right">
+              <ButtonFormSubmit/>
+              </div>
+            </Button.Group>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+    )
+      return buttonGroup
   }
 }
 
@@ -16,16 +47,10 @@ class SubscribeForm extends PureComponent{
     const form = (
       <Form widths="equal">
         <Form.Group>
-          <Form.Input  label="Title" placeholder="Title" />
-          <Form.Input label="Email" placeholder="Email" />
+          <Form.Input required label="Title" placeholder="Title" />
+          <Form.Input required label="Email" placeholder="Email" />
         </Form.Group>
-        
-          <div className="rightAlign">
-            <Button.Group>
-              <ButtonFormClose floated="right" onClick={updateFormVisible}/>
-            </Button.Group>
-          </div>
-      
+          <ButtonGroupSubmitClose closeAction={updateFormVisible} />
       </Form>
   );
 
