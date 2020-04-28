@@ -58,6 +58,11 @@ class SubscribeForm extends PureComponent{
   }
 }
 
+export default class FormUnsubscribe extends PureComponent {
+  
+  render
+}
+
 export default class SegmentForms extends PureComponent{
 
     render () {
