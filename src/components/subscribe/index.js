@@ -6,12 +6,15 @@ import ButtonsSubScribe from "./buttons";
 import SegmentForm from "./forms";
 
 export default class SubscribeContainer extends PureComponent{
-
-  state = {
-    isButtonsVisible: true,
-    isFormVisible: false
-
+  constructor(props){
+    super(props);
+    this.state = {
+      isButtonsVisible: true,
+      isFormVisible: false,
+      isSubscribe: true, 
+    }
   }
+  
 
   render() {
       const form  = null;
@@ -29,11 +32,12 @@ export default class SubscribeContainer extends PureComponent{
               <Segment basic={true}>
                 <ButtonsSubScribe
                           visible = {this.state.isButtonsVisible}
-                          updateButtonsVisible = {this.segmentAccordeonVisibility.bind(this)}
+                          callForm = {this.callForm.bind(this)}
                 />
                 <SegmentForm
                           visible = {this.state.isFormVisible}
                           updateFormVisible = {this.segmentAccordeonVisibility.bind(this)}
+                          isSubscribe = {this.state.isSubscribe}
 
                 />
               </Segment>  
@@ -42,9 +46,16 @@ export default class SubscribeContainer extends PureComponent{
       )
   }
 
+  callForm = (isSubscribe) => {
+    this.setState({isSubscribe: isSubscribe});
+    this.segmentAccordeonVisibility();
+  }
+
+  
+
   segmentAccordeonVisibility = () => {
     this.setState((prevState) =>{return {isButtonsVisible: !prevState.isButtonsVisible,
-                                         isFormVisible: !prevState.isFormVisible 
+                                         isFormVisible: !prevState.isFormVisible, 
     }})
   }
 

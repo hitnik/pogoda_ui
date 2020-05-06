@@ -17,18 +17,26 @@ class ButtonUnsubscribe extends PureComponent {
 }
 
 export default class ButtonsSubScribeContainer extends PureComponent {
+  
+  onClickSubscribe() {
+    this.props.callForm(true);
+  }
 
+  onClickUnSubscribe () {
+    this.props.callForm(false);
+  }
+  
   render() {
 
-    const { visible, updateButtonsVisible } = this.props
+    const { visible, updateButtonsVisible, callForm } = this.props
 
     const segmentButtons = (
       <Grid>
                   <Grid.Column textAlign="center">
                     <Button.Group fluid>
-                      <ButtonSubscribe onClick={updateButtonsVisible}/>
+                      <ButtonSubscribe onClick={this.onClickSubscribe.bind(this)}/>
                       <Button.Or />
-                      <ButtonUnsubscribe onClick={updateButtonsVisible}/>
+                      <ButtonUnsubscribe onClick={this.onClickUnSubscribe.bind(this)}/>
                   </Button.Group>
                   </Grid.Column>
                 </Grid>
