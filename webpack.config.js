@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+let webpack = require('webpack');
 
 module.exports = {
   entry: "./src/index.js",
@@ -36,6 +37,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       favicon: "./src/favicon/favicon.png"
-    })
+    }),
+    new webpack.SourceMapDevToolPlugin({})
   ]
 };

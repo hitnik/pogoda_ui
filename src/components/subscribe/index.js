@@ -11,7 +11,9 @@ export default class SubscribeContainer extends PureComponent{
     this.state = {
       isButtonsVisible: true,
       isFormVisible: false,
-      isSubscribe: true, 
+      isSubscribe: true,
+      title : '',
+      email: ''
     }
   }
   

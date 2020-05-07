@@ -28,7 +28,7 @@ export default class ButtonsSubScribeContainer extends PureComponent {
   
   render() {
 
-    const { visible, updateButtonsVisible, callForm } = this.props
+    const { visible} = this.props
 
     const segmentButtons = (
       <Grid>

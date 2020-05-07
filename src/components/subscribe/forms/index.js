@@ -28,7 +28,7 @@ class ButtonGroupSubmitClose extends PureComponent {
   }
 
   render () {
-      const {closeAction} = this.props
+      const {closeAction, submitAction} = this.props
       
       const buttonGroup = (
         <Grid>
@@ -39,7 +39,7 @@ class ButtonGroupSubmitClose extends PureComponent {
               <ButtonFormClose className="padBut" onClick={this.close}/>
               </div>
               <div className="padBut.right">
-              <ButtonFormSubmit/>
+                <ButtonFormSubmit  onClick={submitAction}/>
               </div>
             </Button.Group>
             </Grid.Column>
@@ -52,19 +52,73 @@ class ButtonGroupSubmitClose extends PureComponent {
 
 class SubscribeForm extends PureComponent{
 
+  constructor(props){
+    super(props)
+
+    this.form = React.createRef();
+
+    this.titleProps = {
+      value: '',
+      error: false,
+      msgs:{
+        required: {error:'Заполните это поле'}
+      }
+    };
+
+    this.state = {
+      title: this.titleProps,
+      email: '',
+      titleError: false,
+    };
+
+  }
+
+  validate = () => {
+    const titleError = this.state.title.error
+    let valid = true;
+    if (this.state.title.value === '') {
+      this.setState((prevState) =>{return {title: {
+        ...prevState.title,
+        error: !prevState.title.error 
+      }}});
+      valid = false 
+    }
+    return valid;
+  }
+
+  handleInputChange = (event) =>{
+    const name= event.target.name
+    this.setState({
+      [name] : {
+        value : event.target.value,
+        error : false
+      }
+    });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('valid:  ' + this.validate());
+  }
+
   render () {
     const updateFormVisible = this.props.updateFormVisible;
     const isSubscribe = this.props.isSubscribe;
-    const form = isSubscribe ? (<Form widths="equal">
+    const form = isSubscribe ? (<Form ref={this.form} widths="equal">
       <Form.Group>
-        <Form.Input required label="Title" placeholder="Title"/>
-        <Form.Input required label="Email" placeholder="Email" />
+        <Form.Input required name="title" label="Title" placeholder="Title" 
+                    {...(this.state.title.error ? {...this.state.title.msgs.required} : {})}
+                    onChange={this.handleInputChange}
+                    />
+        <Form.Input required type="email" name="email" label="Email" placeholder="Email" onChange={this.handleInputChange}/>
       </Form.Group>
-        <ButtonGroupSubmitClose closeAction={updateFormVisible} />
+        <ButtonGroupSubmitClose closeAction={updateFormVisible} 
+                                submitAction={this.handleSubmit} 
+        />
     </Form>
     ) : (<Form widths="equal">
       <Form.Group>
-        <Form.Input required label="Email" placeholder="Email" />
+        <Form.Input required label="Email" placeholder="Email" onChange={this.handleInputChange}/>
       </Form.Group>
         <ButtonGroupSubmitClose closeAction={updateFormVisible} />
     </Form>
