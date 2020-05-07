@@ -50,40 +50,79 @@ class ButtonGroupSubmitClose extends PureComponent {
   }
 }
 
+class FormInput extends PureComponent {
+  constructor (props){
+    super(props)
+    this.onChange = props.onChange
+    this.name = props.name
+    this.label = props.label
+    this.placeholder = props.placeholder
+
+  }
+  
+  render () {
+    const data = this.props.data
+    const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder} 
+                              {...(data.error ? {...data.msg} : {})}
+                              onChange={this.onChange}
+                              />
+    return input
+  }
+} 
+
 class SubscribeForm extends PureComponent{
+
+  formErrors = {
+    required : {error: 'Заполните это поле'},
+    emailFormat : {error: 'Неправильный формат адреса'}
+  }
+
+  inputProps = {
+    value: '',
+    error: false,
+    msg: null
+  };
 
   constructor(props){
     super(props)
 
     this.form = React.createRef();
-
-    this.titleProps = {
-      value: '',
-      error: false,
-      msgs:{
-        required: {error:'Заполните это поле'}
-      }
-    };
-
+ 
     this.state = {
-      title: this.titleProps,
-      email: '',
+      title: this.inputProps,
+      email: this.inputProps,
       titleError: false,
     };
 
   }
 
   validate = () => {
-    const titleError = this.state.title.error
-    let valid = true;
-    if (this.state.title.value === '') {
+    if (this.props.isSubscribe && this.state.title.value === '') {
+      console.log('in title')
       this.setState((prevState) =>{return {title: {
         ...prevState.title,
-        error: !prevState.title.error 
+        error: !prevState.title.error,
+        msg :  this.formErrors.required
       }}});
-      valid = false 
+      return false; 
     }
-    return valid;
+    if (this.state.email.value === ''){
+      this.setState((prevState) =>{return {email: {
+        ...prevState.title,
+        error: !prevState.title.error,
+        msg :  this.formErrors.required
+      }}});
+      return false; 
+    }
+    else if (! /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email.value)){
+      this.setState((prevState) =>{return {email: {
+        ...prevState.title,
+        error: !prevState.title.error,
+        msg :  this.formErrors.emailFormat
+      }}});
+      return false; 
+    }
+    return true;
   }
 
   handleInputChange = (event) =>{
@@ -96,6 +135,7 @@ class SubscribeForm extends PureComponent{
     });
   }
 
+
   handleSubmit = (e) => {
     e.preventDefault()
     console.log('valid:  ' + this.validate());
@@ -106,21 +146,35 @@ class SubscribeForm extends PureComponent{
     const isSubscribe = this.props.isSubscribe;
     const form = isSubscribe ? (<Form ref={this.form} widths="equal">
       <Form.Group>
-        <Form.Input required name="title" label="Title" placeholder="Title" 
-                    {...(this.state.title.error ? {...this.state.title.msgs.required} : {})}
-                    onChange={this.handleInputChange}
-                    />
-        <Form.Input required type="email" name="email" label="Email" placeholder="Email" onChange={this.handleInputChange}/>
+        <FormInput data = {this.state.title}
+                   onChange = {this.handleInputChange}
+                   name = 'title'
+                   label = 'Title'
+                   placeholder = 'ФИО'   
+                  />
+        <FormInput data = {this.state.email}
+                   onChange = {this.handleInputChange}
+                   name = 'email'
+                   label = 'Email'
+                   placeholder = 'Адрес электронной почты'   
+                  />
       </Form.Group>
         <ButtonGroupSubmitClose closeAction={updateFormVisible} 
                                 submitAction={this.handleSubmit} 
-        />
+                              />
     </Form>
     ) : (<Form widths="equal">
       <Form.Group>
-        <Form.Input required label="Email" placeholder="Email" onChange={this.handleInputChange}/>
+        <FormInput data = {this.state.email}
+                   onChange = {this.handleInputChange}
+                   name = 'email'
+                   label = 'Email'
+                   placeholder = 'Адрес электронной почты'   
+                  />
       </Form.Group>
-        <ButtonGroupSubmitClose closeAction={updateFormVisible} />
+        <ButtonGroupSubmitClose closeAction={updateFormVisible} 
+                                submitAction={this.handleSubmit} 
+                              />
     </Form>
     )
   return form;
