@@ -1,6 +1,7 @@
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-let webpack = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
   entry: "./src/index.js",
@@ -38,6 +39,12 @@ module.exports = {
       template: "./src/index.html",
       favicon: "./src/favicon/favicon.png"
     }),
-    new webpack.SourceMapDevToolPlugin({})
+    new webpack.SourceMapDevToolPlugin({}),
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(false),
+      WEATHER_API_HOST_DEV: JSON.stringify('http://127.0.0.1:8000/hazard/'),
+      WEATHER_API_SCHEMA_DEV: JSON.stringify('openapi')
+
+    })
   ]
 };

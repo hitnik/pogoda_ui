@@ -1,6 +1,7 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { PureComponent} from "react";
 
 import {Segment, Button, Grid, Form, Transition, Container} from 'semantic-ui-react';
+import WeatherAPIConnector from '../../../actions/subscribeActions/subscribe'
 
 class ButtonFormClose extends PureComponent {
 
@@ -85,10 +86,9 @@ class SubscribeForm extends PureComponent{
 
   constructor(props){
     super(props)
-
-    this.form = React.createRef();
  
     this.state = {
+      isLoading: false,
       title: this.inputProps,
       email: this.inputProps,
       titleError: false,
@@ -137,14 +137,17 @@ class SubscribeForm extends PureComponent{
 
 
   handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('valid:  ' + this.validate());
+    e.preventDefault();
+    if (! this.validate()) {return null};
+    this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
+    let api = new WeatherAPIConnector()
+    console.log(api.schema);
   }
 
   render () {
     const updateFormVisible = this.props.updateFormVisible;
     const isSubscribe = this.props.isSubscribe;
-    const form = isSubscribe ? (<Form ref={this.form} widths="equal">
+    const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
         <FormInput data = {this.state.title}
                    onChange = {this.handleInputChange}
