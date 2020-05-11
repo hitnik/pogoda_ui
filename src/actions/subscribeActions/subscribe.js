@@ -19,21 +19,24 @@ export default class WeatherAPIConnector {
     }
 
     async _get_schema () {
-       await fetch(this._schema, {
+       let text; 
+       const response = await fetch(this._schema, {
                 method: 'GET',
-                mode: 'no-cors',
                 cache: 'no-cache',
                 headers: {
                     'Content-Type': 'application/vnd.oai.openapi'
                   },
         }
-        ).then(function(response) {
-            return response.text().then(function(text) {
-             console.log(text);
-            })}
-
         );
-       
+       if(response.ok){
+           text = await response.text();
+       }
+       else {
+           alert('Error while getting cshema');
+           return null ;
+       }
+       console.log(text);
+
     }
 }
 
