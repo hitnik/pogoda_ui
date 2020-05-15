@@ -6,6 +6,8 @@ export default class WeatherAPIConnector {
     _schemaURL
     _swagger
 
+
+
     constructor () {
         if (!PRODUCTION){
             this._host = WEATHER_API_HOST_DEV;
@@ -16,6 +18,9 @@ export default class WeatherAPIConnector {
             this._schemaURL = this._host+ WEATHER_API_SCHEMA_PROD;   
         }
         this._swagger = this._get_schema()
+        if (this._swagger != undefined){
+            console.log('swagger');
+        }
 
     }
 
@@ -37,17 +42,19 @@ export default class WeatherAPIConnector {
     //        return null ;
     //    }
     //    console.log(text);
-        console.log(this._schemaURL);
-        const swagger = new SwaggerClient({ 
+        try {
+        const swagger = await new SwaggerClient({ 
             url: this._schemaURL,
             disableInterfaces: false,
           });
-        
-        console.log(swagger);  
-
-
+        return swagger;
+        } catch(err){
+            alert('Error! '+err);
+        }
     }
 }
+
+
 
 // export default function requestSubscribe(title, email){
 //     console.log(title+'  '+email);
