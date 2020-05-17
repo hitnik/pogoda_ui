@@ -17,15 +17,26 @@ export default class WeatherAPIConnector {
             this._host = WEATHER_API_PROD;
             this._schemaURL = this._host+ WEATHER_API_SCHEMA_PROD;   
         }
-        this._swagger = this._get_schema()
+       
+        this._get_schema()
+        console.log(this._swagger);
         if (this._swagger != undefined){
-            console.log('swagger');
+            console.log(this._swagger);
         }
 
     }
 
-    async _get_schema () {
-       let text; 
+    _get_schema = async () => {
+        await new SwaggerClient({ 
+                url: this._schemaURL,
+                disableInterfaces: false,
+              }).then(
+                result => {this._swagger
+                }, error => {alert('Error: '+error)}
+            )    
+    }
+}
+
     //    const response = await fetch(this._schema, {
     //             method: 'GET',
     //             cache: 'no-cache',
@@ -42,21 +53,13 @@ export default class WeatherAPIConnector {
     //        return null ;
     //    }
     //    console.log(text);
-        try {
-        const swagger = await new SwaggerClient({ 
-            url: this._schemaURL,
-            disableInterfaces: false,
-          });
-        return swagger;
-        } catch(err){
-            alert('Error! '+err);
-        }
-    }
-}
+//         try {
+        
+//     }
+// }
 
 
 
 // export default function requestSubscribe(title, email){
 //     console.log(title+'  '+email);
 //     console.log(PRODUCTION);
-// } 
