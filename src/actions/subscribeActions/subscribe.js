@@ -2,38 +2,39 @@ import React, { PureComponent} from "react";
 import SwaggerClient from 'swagger-client';
 
 export default class WeatherAPIConnector {
-    _host
-    _schemaURL
-    _swagger
+    #host
+    #schemaURL
+    #swagger
 
 
 
     constructor () {
         if (!PRODUCTION){
-            this._host = WEATHER_API_HOST_DEV;
-            this._schemaURL = this._host + WEATHER_API_SCHEMA_DEV;
+            this.#host = WEATHER_API_HOST_DEV;
+            this.#schemaURL = this.#host + WEATHER_API_SCHEMA_DEV;
         }
         else {
-            this._host = WEATHER_API_PROD;
-            this._schemaURL = this._host+ WEATHER_API_SCHEMA_PROD;   
+            this.#host = WEATHER_API_PROD;
+            this.#schemaURL = this.#host+ WEATHER_API_SCHEMA_PROD;   
         }
        
-        this._get_schema()
-        console.log(this._swagger);
-        if (this._swagger != undefined){
-            console.log(this._swagger);
+        
+        const pr = this.#get_schema();
+        console.log(pr)
+        if (pr.PromiseValue != undefined){
+            console.log(this.#swagger);
         }
 
     }
 
-    _get_schema = async () => {
-        await new SwaggerClient({ 
-                url: this._schemaURL,
+    #get_schema = async () => {
+        return await new SwaggerClient({ 
+                url: this.#schemaURL,
                 disableInterfaces: false,
               }).then(
-                result => {this._swagger
+                result => {return result;
                 }, error => {alert('Error: '+error)}
-            )    
+            )     
     }
 }
 
