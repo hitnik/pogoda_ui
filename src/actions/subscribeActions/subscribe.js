@@ -20,6 +20,7 @@ export default class WeatherAPIConnector {
        
         
         const pr = this.#get_schema();
+        
         console.log(pr)
         if (pr.PromiseValue != undefined){
             console.log(this.#swagger);
@@ -27,14 +28,11 @@ export default class WeatherAPIConnector {
 
     }
 
-    #get_schema = async () => {
-        return await new SwaggerClient({ 
+    #get_schema = () => {
+        return new SwaggerClient({ 
                 url: this.#schemaURL,
                 disableInterfaces: false,
-              }).then(
-                result => {return result;
-                }, error => {alert('Error: '+error)}
-            )     
+              }).client.catch(err => alert(err))
     }
 }
 
