@@ -19,7 +19,8 @@ export default class WeatherAPIConnector {
         }
        
         
-        const pr = this.#get_schema();
+        const pr = this.#get_schema().catch(error => alert(error)
+        ).;
         
         console.log(pr)
         if (pr.PromiseValue != undefined){
@@ -32,7 +33,8 @@ export default class WeatherAPIConnector {
         return new SwaggerClient({ 
                 url: this.#schemaURL,
                 disableInterfaces: false,
-              }).client.catch(err => alert(err))
+              })
+
     }
 }
 
