@@ -26,9 +26,9 @@ export default class WeatherAPIConnector {
           .catch(error => alert(error));
         
         console.log(this.#swagger)
-        if (pr.PromiseValue != undefined){
+        if (this.#swagger != undefined){
             console.log(this.#swagger);
-        }
+        }else{'error is occured'}
 
     }
 
