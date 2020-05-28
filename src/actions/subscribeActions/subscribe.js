@@ -19,21 +19,19 @@ export default class WeatherAPIConnector {
         }
        
         
-        const pr = new SwaggerClient({ 
-            url: this.#schemaURL,
-            disableInterfaces: false,
-          }).then(client => this.#swagger=client)
-          .catch(error => alert(error));
-        
-        console.log(this.#swagger)
-        if (this.#swagger != undefined){
-            console.log(this.#swagger);
-        }else{'error is occured'}
+        const pr = this.#get_schema();
 
+        pr.then((client) => {this.#swagger=client;
+            console.log(this.#swagger) 
+            })
+            .catch(error => alert(error));  
+        
+        console.log('swagger');
+        console.log(this.#swagger);    
     }
 
-    #get_schema = () => {
-        return new SwaggerClient({ 
+    #get_schema = async () => {
+        return await new SwaggerClient({ 
                 url: this.#schemaURL,
                 disableInterfaces: false,
               })
