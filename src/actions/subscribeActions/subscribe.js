@@ -18,23 +18,33 @@ export default class WeatherAPIConnector {
             this.#schemaURL = this.#host+ WEATHER_API_SCHEMA_PROD;   
         }
        
-        
+        try{
         const pr = this.#get_schema();
+        console.log('pr');
+        console.log(pr);
+        console.log(pr.apis);
 
-        pr.then((client) => {this.#swagger=client;
-            console.log(this.#swagger) 
-            })
-            .catch(error => alert(error));  
+        }catch(err){
+            alert(err);
+        }
+
+        
+        // pr.then((client) => {this.#swagger=client;
+        //     console.log('in then');
+        //     console.log(this.#swagger); 
+        //     })
+        //     .catch(error => alert(error));  
         
         console.log('swagger');
         console.log(this.#swagger);    
     }
 
-    #get_schema = async () => {
-        return await new SwaggerClient({ 
+    #get_schema =  () => {
+        return new SwaggerClient({ 
                 url: this.#schemaURL,
                 disableInterfaces: false,
-              })
+              }).client
+
 
     }
 }
