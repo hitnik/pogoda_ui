@@ -140,7 +140,8 @@ class SubscribeForm extends PureComponent{
     e.preventDefault();
     if (! this.validate()) {return null};
     this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
-    let api = new WeatherAPIConnector()
+    let api = new WeatherAPIConnector();
+    console.log(api.client)
   }
 
   render () {
