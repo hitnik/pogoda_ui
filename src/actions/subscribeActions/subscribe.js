@@ -1,10 +1,18 @@
 import React, { PureComponent} from "react";
 import SwaggerClient from 'swagger-client';
 
+
+
 export default class WeatherAPIConnector {
     #host
     #schemaURL
-    #swagger
+    #spec
+    #apis = {
+        subscribe: 'newsletter_subscribe',
+        unsubscribe: 'newsletter_unsubscribe',
+        activate: 'activate_subscribe',
+        deactivate: 'deactivate_subscribe'
+    }
 
 
 
@@ -17,13 +25,29 @@ export default class WeatherAPIConnector {
             this.#host = WEATHER_API_PROD;
             this.#schemaURL = this.#host+ WEATHER_API_SCHEMA_PROD;   
         }
+        
+        this.#spec = { 
+            url: this.#schemaURL,
+            disableInterfaces: false,
+          }  
+
        
     }
 
     sendSubscribe = (title, email) =>{
         SwaggerClient({ 
-            url: this.#schemaURL,
-            disableInterfaces: false,
+            spec: this.#spec
+          }).then((client) => {
+              client.execute({
+                operationId: this.#apis[subscribe],
+                parameters: { [title]: title, [email]:email },
+              }).then((response) => {
+                  console.log('in response');
+                  console.log(response);
+              } )
+          })
+          .catch((err) =>{
+            alert(err);
           })
     }
 }
