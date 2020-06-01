@@ -26,6 +26,7 @@ export default class WeatherAPIConnector {
             this.#schemaURL = this.#host+ WEATHER_API_SCHEMA_PROD;   
         }
         
+        
         this.#spec = { 
             url: this.#schemaURL,
             disableInterfaces: false,
@@ -35,20 +36,13 @@ export default class WeatherAPIConnector {
     }
 
     sendSubscribe = (title, email) =>{
-        SwaggerClient({ 
-            spec: this.#spec
-          }).then((client) => {
-              client.execute({
-                operationId: this.#apis[subscribe],
-                parameters: { [title]: title, [email]:email },
-              }).then((response) => {
-                  console.log('in response');
-                  console.log(response);
-              } )
-          })
-          .catch((err) =>{
-            alert(err);
-          })
+        SwaggerClient(this.#spec)
+            .then((client) => {
+              client.apis.default.newsletter_subscribe()
+            })
+            // .catch((err) =>{
+            //  alert(err);
+            // })
     }
 }
 
