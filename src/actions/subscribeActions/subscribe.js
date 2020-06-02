@@ -38,8 +38,14 @@ export default class WeatherAPIConnector {
     sendSubscribe = (title, email) =>{
         SwaggerClient(this.#spec)
             .then((client) => {
-              client.apis.default.newsletter_subscribe()
+             client.apis.subscribe_newsletter.newsletter_subscribe({
+                data: {
+                    title: title,
+                    email: email
+                  }
+                })
             })
+            .then(response => console.log(response))
             // .catch((err) =>{
             //  alert(err);
             // })
