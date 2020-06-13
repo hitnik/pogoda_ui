@@ -1,14 +1,11 @@
 import React, { PureComponent} from "react";
-import SwaggerClient from 'swagger-client';
 
 
 
 export default class WeatherAPIConnector {
     #host
-    #schemaURL
-    #spec
     #apis = {
-        subscribe: 'newsletter_subscribe',
+        subscribe: 'subscribe_newsletter',
         unsubscribe: 'newsletter_unsubscribe',
         activate: 'activate_subscribe',
         deactivate: 'deactivate_subscribe'
@@ -19,36 +16,31 @@ export default class WeatherAPIConnector {
     constructor () {
         if (!PRODUCTION){
             this.#host = WEATHER_API_HOST_DEV;
-            this.#schemaURL = this.#host + WEATHER_API_SCHEMA_DEV;
         }
         else {
             this.#host = WEATHER_API_PROD;
-            this.#schemaURL = this.#host+ WEATHER_API_SCHEMA_PROD;   
         }
-        
-        
-        this.#spec = { 
-            url: this.#schemaURL,
-            disableInterfaces: false,
-          }  
 
-       
     }
 
-    sendSubscribe = (title, email) =>{
-        SwaggerClient(this.#spec)
-            .then((client) => {
-             client.apis.subscribe_newsletter.newsletter_subscribe({
-                data: {
-                    title: title,
-                    email: email
-                  }
-                })
+    sendSubscribe = async (title, email) =>{
+        const apiURL = new URL(this.#apis.subscribe, this.#host);       
+        const response = await fetch(apiURL, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            referrerPolicy: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({title: title, email: email}) // body data type must match "Content-Type" header
+          }).catch((err) =>{
+             alert(err);
             })
-            .then(response => console.log(response))
-            // .catch((err) =>{
-            //  alert(err);
-            // })
+        return await response.json();  
+            
+            
     }
 }
 
