@@ -144,7 +144,11 @@ class SubscribeForm extends PureComponent{
     console.log(this.state.email.value);
     let api = new WeatherAPIConnector();
 api.sendSubscribe(this.state.title.value,this.state.email.value)
-  .then((data) =>{});
+  .then((response) =>{
+    if (response.ok){
+      console.log(response)
+    }
+  });
   }
 
   render () {

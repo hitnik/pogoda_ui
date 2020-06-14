@@ -38,7 +38,7 @@ export default class WeatherAPIConnector {
           }).catch((err) =>{
              alert(err);
             })
-        return await response.json();  
+        return await response;  
             
             
     }
