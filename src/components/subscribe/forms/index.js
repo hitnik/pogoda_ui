@@ -143,13 +143,18 @@ class SubscribeForm extends PureComponent{
     console.log(this.state.title.value);
     console.log(this.state.email.value);
     let api = new WeatherAPIConnector();
-api.sendSubscribe(this.state.title.value,this.state.email.value)
-  .then((response) =>{
-    if (response.ok){
-      console.log(response)
-    }
-  });
-  }
+    api.sendSubscribe(this.state.title.value,this.state.email.value)
+      .then((response) =>{
+        if (response.ok){
+          if (response.status === 200){
+            console.log(response)
+          }
+          else if (response.status === 302){
+            
+          }
+        }
+      });
+      }
 
   render () {
     const updateFormVisible = this.props.updateFormVisible;
