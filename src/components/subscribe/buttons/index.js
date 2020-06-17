@@ -1,12 +1,13 @@
 import React, { PureComponent } from "react";
-
+import { useHistory, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Segment, Button, Grid, Transition } from 'semantic-ui-react';
 
 
 class ButtonSubscribe extends PureComponent {
 
   render() {
-    return <Button positive onClick={this.props.onClick}>Подписаться на рассылку</Button>;
+    return <Button positive onClick={this.props.onClick} >Подписаться на рассылку</Button>;
   }
 }
 
@@ -16,36 +17,30 @@ class ButtonUnsubscribe extends PureComponent {
   }
 }
 
-export default class ButtonsSubScribeContainer extends PureComponent {
+ class ButtonsSubScribeContainer extends PureComponent {
   
-  onClickSubscribe() {
-    this.props.callForm(true);
+  onClick(isSubscribe, event) {
+    const { history } = this.props;
+    if(history && isSubscribe) history.push('/subscribe');
+    else if(history) history.push('/unsubscribe');
   }
 
-  onClickUnSubscribe () {
-    this.props.callForm(false);
-  }
-  
   render() {
-
-    const { visible} = this.props
 
     const segmentButtons = (
       <Grid>
                   <Grid.Column textAlign="center">
                     <Button.Group fluid>
-                      <ButtonSubscribe onClick={this.onClickSubscribe.bind(this)}/>
+                      <ButtonSubscribe onClick={this.onClick.bind(this, true)}/>
                       <Button.Or />
-                      <ButtonUnsubscribe onClick={this.onClickUnSubscribe.bind(this)}/>
+                      <ButtonUnsubscribe onClick={this.onClick.bind(this, false)}/>
                   </Button.Group>
                   </Grid.Column>
                 </Grid>
     );
 
-    return (
-      <Transition.Group animation='drop' duration={750}>
-                    {visible && segmentButtons}
-                </Transition.Group>
-    )
+    return (segmentButtons)
   }
 }
+
+export default withRouter(ButtonsSubScribeContainer);

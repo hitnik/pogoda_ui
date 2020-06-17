@@ -9,8 +9,6 @@ export default class SubscribeContainer extends PureComponent{
   constructor(props){
     super(props);
     this.state = {
-      isButtonsVisible: true,
-      isFormVisible: false,
       isSubscribe: true,
       title : '',
       email: ''
@@ -32,33 +30,11 @@ export default class SubscribeContainer extends PureComponent{
                 </Grid>
               </Segment>
               <Segment basic={true}>
-                <ButtonsSubScribe
-                          visible = {this.state.isButtonsVisible}
-                          callForm = {this.callForm.bind(this)}
-                />
-                <SegmentForm
-                          visible = {this.state.isFormVisible}
-                          updateFormVisible = {this.segmentAccordeonVisibility.bind(this)}
-                          isSubscribe = {this.state.isSubscribe}
-
-                />
+                <ButtonsSubScribe/>
               </Segment>  
             </Segment.Group>
           </Container>
       )
-  }
-
-  callForm = (isSubscribe) => {
-    this.setState({isSubscribe: isSubscribe});
-    this.segmentAccordeonVisibility();
-  }
-
-  
-
-  segmentAccordeonVisibility = () => {
-    this.setState((prevState) =>{return {isButtonsVisible: !prevState.isButtonsVisible,
-                                         isFormVisible: !prevState.isFormVisible, 
-    }})
   }
 
 }

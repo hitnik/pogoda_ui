@@ -157,7 +157,6 @@ class SubscribeForm extends PureComponent{
       }
 
   render () {
-    const updateFormVisible = this.props.updateFormVisible;
     const isSubscribe = this.props.isSubscribe;
     const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
@@ -174,9 +173,7 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
-        <ButtonGroupSubmitClose closeAction={updateFormVisible} 
-                                submitAction={this.handleSubmit} 
-                              />
+        <ButtonGroupSubmitClose submitAction={this.handleSubmit}  />
     </Form>
     ) : (<Form widths="equal">
       <Form.Group>
@@ -187,9 +184,7 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
-        <ButtonGroupSubmitClose closeAction={updateFormVisible} 
-                                submitAction={this.handleSubmit} 
-                              />
+        <ButtonGroupSubmitClose submitAction={this.handleSubmit} />
     </Form>
     )
   return form;
@@ -200,19 +195,19 @@ export default class SegmentForms extends PureComponent{
 
     render () {
 
-      const {visible, updateFormVisible, isSubscribe} = this.props
-     
+
+      const isSubscribe = this.props.isSubscribe;
 
       return (
-          <Transition.Group animation='drop' duration={750}>
-              {visible && <SubscribeForm updateFormVisible={updateFormVisible}
-                                        isSubscribe = {isSubscribe}
-              />
-              }
-          </Transition.Group>
+        <Container>
+          <Segment.Group>
+          <h1>form two</h1>
+            <Segment centered="true" basic={true}>
+               <SubscribeForm isSubscribe = {isSubscribe} />
+          </Segment>  
+            </Segment.Group>
+          </Container>
       )
     }
-
-
 
 }
