@@ -1,6 +1,6 @@
 import React, { PureComponent} from "react";
 
-import {Segment, Button, Grid, Form, Transition, Container} from 'semantic-ui-react';
+import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import WeatherAPIConnector from '../../../actions/subscribeActions/subscribe'
 
 class ButtonFormClose extends PureComponent {
@@ -201,7 +201,16 @@ export default class SegmentForms extends PureComponent{
       return (
         <Container>
           <Segment.Group>
-          <h1>form two</h1>
+            <Segment centered="true">
+              <Grid>
+                <Grid.Column textAlign="center">
+                  { isSubscribe ? <Header as="h3" >Форма подписки на рассылку штормовых предупреждений</Header>
+                  : <Header as="h3" >Форма отказа от подписки на рассылку штормовых предупреждений</Header>
+                  }
+                  
+                </Grid.Column>
+              </Grid>
+            </Segment>  
             <Segment centered="true" basic={true}>
                <SubscribeForm isSubscribe = {isSubscribe} />
           </Segment>  
