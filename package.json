@@ -38,5 +38,13 @@
     "semantic-ui-css": "^2.4.1",
     "swagger-client": "^3.10.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitnik/pogoda_ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hitnik/pogoda_ui/issues"
+  },
+  "homepage": "https://github.com/hitnik/pogoda_ui#readme",
   "description": ""
 }

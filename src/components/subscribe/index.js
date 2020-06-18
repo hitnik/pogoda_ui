@@ -1,11 +1,51 @@
 import React, { PureComponent } from "react";
+import { withRouter} from 'react-router-dom';
 
-import {Segment,  Container, Header, Grid, ButtonOr} from 'semantic-ui-react';
+import {Segment,  Container, Header, Grid, Button} from 'semantic-ui-react';
 
-import ButtonsSubScribe from "./buttons";
-import SegmentForm from "./forms";
 
-export default class SubscribeContainer extends PureComponent{
+class ButtonSubscribe extends PureComponent {
+
+    render() {
+      return <Button positive onClick={this.props.onClick} >Подписаться на рассылку</Button>;
+    }
+  }
+  
+  class ButtonUnsubscribe extends PureComponent {
+    render() {
+      return <Button negative onClick={this.props.onClick}>Отменить подписку</Button>
+    }
+  }
+  
+   class ButtonsSubScribeContainer extends PureComponent {
+    
+    onClick(isSubscribe, event) {
+      const { history } = this.props;
+      if(history && isSubscribe) history.push('/subscribe');
+      else if(history) history.push('/unsubscribe');
+    }
+  
+    render() {
+  
+      const segmentButtons = (
+        <Grid>
+                    <Grid.Column textAlign="center">
+                      <Button.Group fluid>
+                        <ButtonSubscribe onClick={this.onClick.bind(this, true)}/>
+                        <Button.Or />
+                        <ButtonUnsubscribe onClick={this.onClick.bind(this, false)}/>
+                    </Button.Group>
+                    </Grid.Column>
+                  </Grid>
+      );
+  
+      return (segmentButtons)
+    }
+  }
+  
+
+
+class SubscribeContainer extends PureComponent{
   constructor(props){
     super(props);
     this.state = {
@@ -30,7 +70,7 @@ export default class SubscribeContainer extends PureComponent{
                 </Grid>
               </Segment>
               <Segment basic={true}>
-                <ButtonsSubScribe/>
+                <ButtonsSubScribeContainer/>
               </Segment>  
             </Segment.Group>
           </Container>
@@ -39,3 +79,4 @@ export default class SubscribeContainer extends PureComponent{
 
 }
 
+export default withRouter(SubscribeContainer);

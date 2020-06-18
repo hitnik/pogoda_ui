@@ -1,7 +1,7 @@
 import React, { PureComponent} from "react";
 
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
-import WeatherAPIConnector from '../../../actions/subscribeActions/subscribe'
+import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribe'
 
 class ButtonFormClose extends PureComponent {
 
