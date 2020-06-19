@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { withRouter} from 'react-router-dom';
+import { withRouter, useHistory} from 'react-router-dom';
 
 import {Segment,  Container, Header, Grid, Button} from 'semantic-ui-react';
 
@@ -17,16 +17,22 @@ class ButtonSubscribe extends PureComponent {
     }
   }
   
+  
    class ButtonsSubScribeContainer extends PureComponent {
     
+    constructor(props){
+      super(props)
+      this.history=props.history
+    }
+
     onClick(isSubscribe, event) {
-      const { history } = this.props;
-      if(history && isSubscribe) history.push('/subscribe');
-      else if(history) history.push('/unsubscribe');
+    
+      if(this.history && isSubscribe) this.history.push('/subscribe');
+      else if(this.history) this.history.push('/unsubscribe');
     }
   
     render() {
-  
+      
       const segmentButtons = (
         <Grid>
                     <Grid.Column textAlign="center">
@@ -43,21 +49,11 @@ class ButtonSubscribe extends PureComponent {
     }
   }
   
-
-
 class SubscribeContainer extends PureComponent{
-  constructor(props){
-    super(props);
-    this.state = {
-      isSubscribe: true,
-      title : '',
-      email: ''
-    }
-  }
   
-
   render() {
-      const form  = null;
+
+      const history = this.props.history;
 
       return (
           <Container>
@@ -70,7 +66,7 @@ class SubscribeContainer extends PureComponent{
                 </Grid>
               </Segment>
               <Segment basic={true}>
-                <ButtonsSubScribeContainer/>
+                <ButtonsSubScribeContainer history={history}/>
               </Segment>  
             </Segment.Group>
           </Container>

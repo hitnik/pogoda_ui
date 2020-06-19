@@ -25,11 +25,11 @@ class ButtonGroupSubmitClose extends PureComponent {
 
   close = (e) => {
     e.preventDefault();
-    this.props.closeAction();
+    this.props.history.push('/');
   }
 
   render () {
-      const {closeAction, submitAction} = this.props
+      const {submitAction} = this.props
       
       const buttonGroup = (
         <Grid>
@@ -173,7 +173,7 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
-        <ButtonGroupSubmitClose submitAction={this.handleSubmit}  />
+        <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
     ) : (<Form widths="equal">
       <Form.Group>
@@ -184,7 +184,7 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
-        <ButtonGroupSubmitClose submitAction={this.handleSubmit} />
+        <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history}/>
     </Form>
     )
   return form;
@@ -195,9 +195,8 @@ export default class SegmentForms extends PureComponent{
 
     render () {
 
-
-      const isSubscribe = this.props.isSubscribe;
-
+     const isSubscribe = this.props.isSubscribe;
+     const history = this.props.history; 
       return (
         <Container>
           <Segment.Group>
@@ -212,7 +211,7 @@ export default class SegmentForms extends PureComponent{
               </Grid>
             </Segment>  
             <Segment centered="true" basic={true}>
-               <SubscribeForm isSubscribe = {isSubscribe} />
+               <SubscribeForm isSubscribe = {isSubscribe} history={history}/>
           </Segment>  
             </Segment.Group>
           </Container>
