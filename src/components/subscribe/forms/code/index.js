@@ -16,11 +16,16 @@ const CodeInput = (props) => {
 }
 
 const ButtonClose = (props) => {
+    return <Form.Button onClick={props.onClick} content="Отмена" />;
     
-    const button = <Form.Button onClick={this.props.onClick} content="Закрыть" />;
-   
-    return button;
+}
 
+const ButtonRepeat = (props) => {
+    return <Form.Button color='teal' onClick={props.onClick} content="Запросить код" />;
+}
+
+const ButttonSubmit = (props) => {
+    return <Form.Button color='green' onClick={props.onClick} content="Отправить" />;
 }
 
 const CodeForm = () => {
@@ -37,9 +42,25 @@ const CodeForm = () => {
             <Segment centered="true" basic={true}>
             <Grid className="center aligned">
                 <Form>
-                    <Form.Group>
                         <CodeInput name='code' label='Код подтвердения' placeholder='Код' />
-                    </Form.Group>
+                    <Grid>
+                        <Grid.Row >
+                            <Grid.Column textAlign="right">
+                            <Button.Group >
+                            <div >
+                                <ButtonClose className='padBut' />
+                            </div>
+                            <div className='padBut'>
+                                <ButtonRepeat/>
+                            </div>
+                            <div className="padBut.right">
+                                <ButttonSubmit />
+                            </div>
+                            </Button.Group>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row/>
+                    </Grid>
                 </Form>
             </Grid>
          </Segment>  
