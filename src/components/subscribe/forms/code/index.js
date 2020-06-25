@@ -44,11 +44,14 @@ const CodeForm = () => {
                 <Form>
                         <CodeInput name='code' label='Код подтвердения' placeholder='Код' />
                     <Grid>
-                        <Grid.Row>
-                            <
-                            <Header as='h4'>03:25</Header>
+                    <Grid.Row>
+                            <Grid.Column textAlign="center" >
+                                <Header as='h5'>Код действителен:   <span></span> <b>03:25</b></Header>
+                            </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row >
+                    </Grid>    
+                    <Grid>
+                        <Grid.Row>
                             <Grid.Column>
                             <Button.Group >
                             <div >
