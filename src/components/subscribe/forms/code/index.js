@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer'
 
+const isEmpty= (obj) => {
+    return Object.keys(obj).length === 0;
+}  
+
 const CodeInput = (props) => {
     const name = props.name;
     const label = props.label;
@@ -30,17 +34,6 @@ const ButttonSubmit = (props) => {
 
 const Timer = (props) => {
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(props.date));
-    props.changeValid();
-
-    useEffect(() => {
-        setTimeout(() => {
-          setTimeLeft(calculateTimeLeft(props.date));
-        }, 1000);
-      });
-
-    const isEmpty= (obj) => {
-        return Object.keys(obj).length === 0;
-    }  
 
     const addStartZero = (num) => {
         const str = num.toString();
@@ -50,7 +43,14 @@ const Timer = (props) => {
         return str
     }
 
-    if (!isEmpty(timeLeft)){props.changeValid()}
+    useEffect(() => {
+        setTimeout(() => {
+          setTimeLeft(calculateTimeLeft(props.date));
+        }, 1000);
+      });
+
+    
+
     return (
             !isEmpty(timeLeft) ? 
                 <span>
@@ -65,7 +65,12 @@ const CodeForm = () => {
 
     const [isValid, setIsValid] = useState(true);
 
-    const changeValid = () => {useState(false);}
+
+    useEffect(() =>{
+        if (isEmpty(calculateTimeLeft(d))){
+            setIsValid(false);
+        }
+    })  
 
     const form = 
         <Container>
@@ -80,12 +85,11 @@ const CodeForm = () => {
             <Segment centered="true" basic={true}>
             <Grid className="center aligned">
                 <Form>
-                        <CodeInput name='code' label='Код подтвердения' placeholder='Код'/>
-                    {isValid ? <p>Valid</p> : <p>No</p>}                           
+                        <CodeInput name='code' label='Код подтвердения' placeholder='Код'/>                         
                     <Grid>
                     <Grid.Row>
                             <Grid.Column textAlign="center" >
-                                <Header as='h5'><Timer date={d} isValid={isValid} setIsValid={changeValid} /></Header>
+                                <Header as='h5'><Timer date={d} /></Header>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>    
@@ -109,6 +113,7 @@ const CodeForm = () => {
                     </Grid>
                 </Form>
             </Grid>
+            {isValid ? <p>Valid</p> : <p>No</p>}  
          </Segment>  
             </Segment.Group>
         </Container>
