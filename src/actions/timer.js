@@ -1,5 +1,5 @@
 const calculateTimeLeft = (dateString) => {
-  const difference = +new Date(dateString) - +new Date();
+  const difference = +new Date(dateString) - +Date.now();
   let timeLeft = {};
 
   if (difference > 0) {
@@ -11,3 +11,5 @@ const calculateTimeLeft = (dateString) => {
 
   return timeLeft;
 };
+
+export default calculateTimeLeft;
