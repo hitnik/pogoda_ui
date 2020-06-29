@@ -63,7 +63,7 @@ const Timer = (props) => {
 }
 
 const CodeForm = () => {
-    const date = new Date("2020-06-29T17:25:00.00000Z") ;
+    const date = new Date("2020-06-29T17:53:00.00000Z") ;
 
     const isValidOnStart = () =>{
         return !isEmpty(calculateTimeLeft(date)); 
@@ -89,7 +89,7 @@ const CodeForm = () => {
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column textAlign="center" >
-                                    <Header as='h5'> {isValid ? <Timer date={date} changevisible={handleVisibility} /> : <span>Действие кода истекло</span> }</Header>
+                                    <Header as='h5'> {isValid ? <Timer date={date} changevisible={handleVisibility} /> : <span> <Timer date={date} changevisible={handleVisibility}/> Действие кода истекло </span>}</Header>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>   
