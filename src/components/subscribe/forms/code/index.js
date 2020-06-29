@@ -21,7 +21,6 @@ const CodeInput = (props) => {
 
 const ButtonClose = (props) => {
     return <Form.Button onClick={props.onClick} content="Отмена" />;
-    
 }
 
 const ButtonRepeat = (props) => {
@@ -44,35 +43,36 @@ const Timer = (props) => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-          setTimeLeft(calculateTimeLeft(props.date));
-        }, 1000);
+            setTimeout(() => {
+            setTimeLeft(calculateTimeLeft(props.date));
+            if (isEmpty(timeLeft)) {
+                props.changevisible();
+            }
+            }, 1000);
       });
 
     
 
     return (
-            !isEmpty(timeLeft) ? 
+            !isEmpty(timeLeft)? 
                 <span>
                     <span>Код действителен : {addStartZero(timeLeft.minutes)} : {addStartZero(timeLeft.seconds)}</span>
                 </span> 
-                : null)
+                : <span></span>)
      
 }
 
 const CodeForm = () => {
-    const d = new Date("2020-06-27T04:10:00.00000Z") ;
+    const date = new Date("2020-06-29T17:25:00.00000Z") ;
 
-    const [isValid, setIsValid] = useState(true);
+    const isValidOnStart = () =>{
+        return !isEmpty(calculateTimeLeft(date)); 
+    }
 
+    const [isValid, setIsValid] = useState(isValidOnStart);
+    const handleVisibility = () =>  setIsValid(false);
 
-    useEffect(() =>{
-        if (isEmpty(calculateTimeLeft(d))){
-            setIsValid(false);
-        }
-    })  
-
-    const form = 
+    return (
         <Container>
         <Segment.Group>
             <Segment centered="true">
@@ -85,39 +85,40 @@ const CodeForm = () => {
             <Segment centered="true" basic={true}>
             <Grid className="center aligned">
                 <Form>
-                        <CodeInput name='code' label='Код подтвердения' placeholder='Код'/>                         
-                    <Grid>
-                    <Grid.Row>
-                            <Grid.Column textAlign="center" >
-                                <Header as='h5'><Timer date={d} /></Header>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>    
+                    {isValid && <CodeInput name='code' label='Код подтвердения' placeholder='Код'/> }                     
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column textAlign="center" >
+                                    <Header as='h5'> {isValid ? <Timer date={date} changevisible={handleVisibility} /> : <span>Действие кода истекло</span> }</Header>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>   
                     <Grid>
                         <Grid.Row>
                             <Grid.Column>
-                            <Button.Group >
-                            <div >
-                                <ButtonClose className='padBut' />
-                            </div>
-                            <div className='padBut'>
-                                <ButtonRepeat/>
-                            </div>
-                            <div className="padBut.right">
-                                <ButttonSubmit />
-                            </div>
-                            </Button.Group>
+                                <Button.Group >
+                                    <div >
+                                        <ButtonClose className='padBut' />
+                                    </div>
+                                    <div className='padBut'>
+                                        <ButtonRepeat/>
+                                    </div>
+                                    {isValid && 
+                                        <div className="padBut.right">
+                                            <ButttonSubmit />
+                                        </div>
+                                    }
+                                </Button.Group>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row/>
                     </Grid>
                 </Form>
             </Grid>
-            {isValid ? <p>Valid</p> : <p>No</p>}  
          </Segment>  
             </Segment.Group>
         </Container>
-    return form ;   
+    );
 }
 
 // export default class CodeForm extends PureComponent {
