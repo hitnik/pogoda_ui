@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {useHistory} from 'react-router-dom';
 
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer'
@@ -51,8 +52,13 @@ const Timer = (props) => {
      
 }
 
-const CodeForm = () => {
-    const date = new Date("2020-06-30T15:38:00.00000Z") ;
+const CodeForm = (props) => {
+    const date = new Date("2020-06-30T20:46:00.00000Z") ;
+    const title = 'test';
+    const email = 'test.test.com';
+    // const [title, email] = props ;
+    
+    let history = useHistory();
 
     const [isValid, setIsValid] = useState(()=>{
         return !isEmpty(calculateTimeLeft(date));
@@ -73,6 +79,16 @@ const CodeForm = () => {
       }
       );
 
+    const handleClose = () => {
+        history.push('/');
+    }  
+
+    const handleRepeat = () => {
+        history.push({
+            pathname: '/subscribe',
+            state: {title : title}
+        });
+    }
     return (
         <Container>
         <Segment.Group>
@@ -99,10 +115,10 @@ const CodeForm = () => {
                             <Grid.Column>
                                 <Button.Group >
                                     <div >
-                                        <ButtonClose className='padBut' />
+                                        <ButtonClose className='padBut' onClick={handleClose} />
                                     </div>
                                     <div className='padBut'>
-                                        <ButtonRepeat/>
+                                        <ButtonRepeat onClick={handleRepeat} />
                                     </div>
                                     {isValid && 
                                         <div className="padBut.right">

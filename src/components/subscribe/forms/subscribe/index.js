@@ -94,6 +94,14 @@ class SubscribeForm extends PureComponent{
       titleError: false,
     };
 
+    if (this.props.location != undefined){
+      this.state.title.value = this.props.location.state.title;
+      console.log('sdfsdfsdf    '+ this.props.location.state.title);
+      this.state.email.value = this.props.location.state.email;
+    }
+    
+    
+
   }
 
   validate = () => {
