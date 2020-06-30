@@ -32,8 +32,8 @@ const ButttonSubmit = (props) => {
 }
 
 const Timer = (props) => {
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(props.date));
-
+    const timeLeft = props.timeLeft
+    
     const addStartZero = (num) => {
         const str = num.toString();
         if (str.length === 1) {
@@ -41,17 +41,6 @@ const Timer = (props) => {
         } 
         return str
     }
-
-    useEffect(() => {
-            setTimeout(() => {
-            setTimeLeft(calculateTimeLeft(props.date));
-            if (isEmpty(timeLeft)) {
-                props.changevisible();
-            }
-            }, 1000);
-      });
-
-    
 
     return (
             !isEmpty(timeLeft)? 
@@ -63,14 +52,26 @@ const Timer = (props) => {
 }
 
 const CodeForm = () => {
-    const date = new Date("2020-06-29T17:53:00.00000Z") ;
+    const date = new Date("2020-06-30T15:38:00.00000Z") ;
 
-    const isValidOnStart = () =>{
-        return !isEmpty(calculateTimeLeft(date)); 
-    }
+    const [isValid, setIsValid] = useState(()=>{
+        return !isEmpty(calculateTimeLeft(date));
+    });
 
-    const [isValid, setIsValid] = useState(isValidOnStart);
-    const handleVisibility = () =>  setIsValid(false);
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(date));
+
+    useEffect(() => {
+            setTimeout(() => { 
+                if (!isEmpty(timeLeft)){
+                setTimeLeft(calculateTimeLeft(date));
+                }
+            }, 1000);
+            if (isEmpty(timeLeft)) {
+                setIsValid(false);
+                return () =>{}
+            }
+      }
+      );
 
     return (
         <Container>
@@ -89,7 +90,7 @@ const CodeForm = () => {
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column textAlign="center" >
-                                    <Header as='h5'> {isValid ? <Timer date={date} changevisible={handleVisibility} /> : <span> <Timer date={date} changevisible={handleVisibility}/> Действие кода истекло </span>}</Header>
+                                    <Header as='h5'> {isValid ? <Timer timeLeft={timeLeft} /> : <span>Действие кода истекло </span>}</Header>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>   
