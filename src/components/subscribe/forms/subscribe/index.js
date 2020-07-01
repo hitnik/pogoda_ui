@@ -1,5 +1,5 @@
 import React, { PureComponent} from "react";
-
+import {withRouter} from 'react-router-dom';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribe'
 
@@ -63,7 +63,8 @@ class FormInput extends PureComponent {
   
   render () {
     const data = this.props.data
-    const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder} 
+    const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder}
+                              value = {data.value} 
                               {...(data.error ? {...data.msg} : {})}
                               onChange={this.onChange}
                               />
@@ -94,11 +95,14 @@ class SubscribeForm extends PureComponent{
       titleError: false,
     };
 
-    if (this.props.location != undefined){
+    if(this.props.location.state.title){
       this.state.title.value = this.props.location.state.title;
-      console.log('sdfsdfsdf    '+ this.props.location.state.title);
-      this.state.email.value = this.props.location.state.email;
     }
+    
+    console.log('title    '+ this.props.location.state.title);
+    this.state.email.value = this.props.location.state.email;
+    console.log('email   '+ this.props.location.state.email);
+    
     
     
 
@@ -199,12 +203,14 @@ class SubscribeForm extends PureComponent{
   }
 }
 
-export default class SegmentForms extends PureComponent{
+class SegmentForms extends PureComponent{
 
     render () {
 
      const isSubscribe = this.props.isSubscribe;
      const history = this.props.history; 
+     const location = this.props.location;
+
       return (
         <Container>
           <Segment.Group>
@@ -219,7 +225,7 @@ export default class SegmentForms extends PureComponent{
               </Grid>
             </Segment>  
             <Segment centered="true" basic={true}>
-               <SubscribeForm isSubscribe = {isSubscribe} history={history}/>
+               <SubscribeForm isSubscribe = {isSubscribe} history={history} location={location}/>
           </Segment>  
             </Segment.Group>
           </Container>
@@ -227,3 +233,5 @@ export default class SegmentForms extends PureComponent{
     }
 
 }
+
+export default withRouter(SegmentForms)
