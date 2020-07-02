@@ -62,15 +62,22 @@ class FormInput extends PureComponent {
   }
   
   render () {
-    const data = this.props.data
+    const data = this.props.data;
+    console.log(data.title);
     const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder}
-                              value = {data.value} 
+                              defaultValue = {data.value} 
                               {...(data.error ? {...data.msg} : {})}
                               onChange={this.onChange}
                               />
-    return input
+    return input; 
   }
 } 
+
+class InputProps{
+  value = ''
+  error = false
+  msg = null
+}
 
 class SubscribeForm extends PureComponent{
 
@@ -79,31 +86,16 @@ class SubscribeForm extends PureComponent{
     emailFormat : {error: 'Неправильный формат адреса'}
   }
 
-  inputProps = {
-    value: '',
-    error: false,
-    msg: null
-  };
 
   constructor(props){
     super(props)
  
     this.state = {
       isLoading: false,
-      title: this.inputProps,
-      email: this.inputProps,
+      title: new InputProps(),
+      email: new InputProps(),
       titleError: false,
     };
-
-    if(this.props.location.state.title){
-      this.state.title.value = this.props.location.state.title;
-    }
-    
-    console.log('title    '+ this.props.location.state.title);
-    this.state.email.value = this.props.location.state.email;
-    console.log('email   '+ this.props.location.state.email);
-    
-    
     
 
   }
@@ -168,8 +160,19 @@ class SubscribeForm extends PureComponent{
       });
       }
 
+  
+
   render () {
     const isSubscribe = this.props.isSubscribe;
+    const initValues = this.props.location.state != undefined ? this.props.location.state : null;
+    
+    if (initValues != null){
+      this.state.title.value = initValues.title
+    }
+
+
+    console.log(this.state);
+
     const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
         <FormInput data = {this.state.title}
