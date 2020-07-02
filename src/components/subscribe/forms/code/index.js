@@ -53,12 +53,19 @@ const Timer = (props) => {
 }
 
 const CodeForm = (props) => {
+    path = {
+        subscribe: '/subscribe',
+        unsubscribe: '/unsubscribe'
+    }
+
     const date = new Date("2020-06-30T20:46:00.00000Z") ;
     const title = 'test';
-    const email = 'test.test.com';
-    // const [title, email] = props ;
+    const email = 'test@test.com';
+    
     
     let history = useHistory();
+
+    // const [title, email, date , url, issubscribe] = props ;
 
     const [isValid, setIsValid] = useState(()=>{
         return !isEmpty(calculateTimeLeft(date));
@@ -83,10 +90,12 @@ const CodeForm = (props) => {
         history.push('/');
     }  
 
-    const handleRepeat = () => {
+    const handleRepeat = (path) => {
         history.push({
-            pathname: '/subscribe',
-            state: {title : title}
+            pathname: path,
+            state: {title : title,
+                    email : email
+            }
         });
     }
     return (
@@ -138,27 +147,5 @@ const CodeForm = (props) => {
     );
 }
 
-// export default class CodeForm extends PureComponent {
-
-//     render () {
-//         console.log('confirm')
-//         return(
-//             <Container>
-//             <Segment.Group>
-//                 <Segment centered="true">
-//                 <Grid>
-//                     <Grid.Column textAlign="center">
-//                         <Header as="h3" >Отправка кода подтверждения</Header>
-//                     </Grid.Column>
-//                 </Grid>
-//                 </Segment>  
-//                 <Segment centered="true" basic={true}>
-        
-//             </Segment>  
-//                 </Segment.Group>
-//             </Container>
-//         )
-//     }
-// }
 
 export default CodeForm

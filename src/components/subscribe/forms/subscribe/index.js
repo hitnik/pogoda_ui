@@ -63,7 +63,6 @@ class FormInput extends PureComponent {
   
   render () {
     const data = this.props.data;
-    console.log(data.title);
     const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder}
                               defaultValue = {data.value} 
                               {...(data.error ? {...data.msg} : {})}
@@ -167,11 +166,9 @@ class SubscribeForm extends PureComponent{
     const initValues = this.props.location.state != undefined ? this.props.location.state : null;
     
     if (initValues != null){
-      this.state.title.value = initValues.title
+      this.state.title.value = initValues.title;
+      this.state.email.value = initValues.email;
     }
-
-
-    console.log(this.state);
 
     const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
