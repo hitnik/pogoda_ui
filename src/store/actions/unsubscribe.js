@@ -1,0 +1,3 @@
+const UNSUBSCRIBE = 'UNSUBSCRIBE';
+
+export default UNSUBSCRIBE;
