@@ -1,4 +1,4 @@
-import SUBSCRIBE from '../actions';
+import SUBSCRIBE from '../actions/subscribe';
 
 function subscribe () {
     return {

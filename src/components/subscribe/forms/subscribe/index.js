@@ -163,6 +163,7 @@ class SubscribeForm extends PureComponent{
 
   render () {
     const isSubscribe = this.props.isSubscribe;
+    
     const initValues = this.props.location.state != undefined ? this.props.location.state : null;
     
     if (initValues != null){
@@ -210,6 +211,8 @@ class SegmentForms extends PureComponent{
      const isSubscribe = this.props.isSubscribe;
      const history = this.props.history; 
      const location = this.props.location;
+
+     console.log(isSubscribe);
 
       return (
         <Container>

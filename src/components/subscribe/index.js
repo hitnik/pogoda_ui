@@ -24,12 +24,6 @@ class ButtonSubscribe extends PureComponent {
       super(props)
       this.history=props.history
     }
-
-    onClick(isSubscribe, event) {
-    
-      if(this.history && isSubscribe) this.history.push('/subscribe');
-      else if(this.history) this.history.push('/unsubscribe');
-    }
   
     render() {
       
@@ -37,9 +31,9 @@ class ButtonSubscribe extends PureComponent {
         <Grid>
                     <Grid.Column textAlign="center">
                       <Button.Group fluid>
-                        <ButtonSubscribe onClick={this.onClick.bind(this, true)}/>
+                        <ButtonSubscribe onClick={this.props.onClickSubscribe}/>
                         <Button.Or />
-                        <ButtonUnsubscribe onClick={this.onClick.bind(this, false)}/>
+                        <ButtonUnsubscribe onClick={this.props.onClickUnsubscribe}/>
                     </Button.Group>
                     </Grid.Column>
                   </Grid>
@@ -49,11 +43,24 @@ class ButtonSubscribe extends PureComponent {
     }
   }
   
+
 class SubscribeContainer extends PureComponent{
+  
+
+  onClickSubscribe = () => {
+    this.props.subscribe();
+    this.props.history.push('/subscribe')
+  }
+
+  onClickUnsubscribe = () =>{
+    this.props.unsubscribe();
+    this.props.history.push('/subscribe')
+  }
   
   render() {
 
       const history = this.props.history;
+
 
       return (
           <Container>
@@ -66,7 +73,9 @@ class SubscribeContainer extends PureComponent{
                 </Grid>
               </Segment>
               <Segment basic={true}>
-                <ButtonsSubScribeContainer history={history}/>
+                <ButtonsSubScribeContainer onClickSubscribe={this.onClickSubscribe.bind(this)} 
+                                           onClickUnsubscribe={this.onClickUnsubscribe.bind(this)}
+                                           />
               </Segment>  
             </Segment.Group>
           </Container>

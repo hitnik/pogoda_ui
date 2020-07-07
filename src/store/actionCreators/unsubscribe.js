@@ -1,4 +1,4 @@
-import UNSUBSCRIBE from '../actions';
+import UNSUBSCRIBE from '../actions/unsubscribe';
 
 function unsubscribe () {
     return{

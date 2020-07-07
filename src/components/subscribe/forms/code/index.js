@@ -53,10 +53,7 @@ const Timer = (props) => {
 }
 
 const CodeForm = (props) => {
-    path = {
-        subscribe: '/subscribe',
-        unsubscribe: '/unsubscribe'
-    }
+    const path = props.codeConfirmURL;
 
     const date = new Date("2020-06-30T20:46:00.00000Z") ;
     const title = 'test';
@@ -90,7 +87,7 @@ const CodeForm = (props) => {
         history.push('/');
     }  
 
-    const handleRepeat = (path) => {
+    const handleRepeat = () => {
         history.push({
             pathname: path,
             state: {title : title,
@@ -148,4 +145,4 @@ const CodeForm = (props) => {
 }
 
 
-export default CodeForm
+export default CodeForm;
