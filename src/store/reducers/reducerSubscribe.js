@@ -1,12 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit"
 
 import initialState from '../initialState';
-import { subscribe, unsubscribe } from '../actionCreaters';
+import { subscribe, unsubscribe } from '../actionCreators';
 
 
-const isSubscribe = createReducer(initialState, {
-    [subscribe]: (state, action) => true,
-    [unsubscribe]: (state, action) => false
+const isSubscribe = createReducer(initialState.isSubscribe, {
+    [subscribe]: state => true,
+    [unsubscribe]: state => false
 })
 
 

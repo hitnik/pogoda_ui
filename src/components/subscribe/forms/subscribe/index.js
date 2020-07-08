@@ -2,6 +2,7 @@ import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribe'
+import { setSubFormTitle } from "../../../../store/actionCreators";
 
 class ButtonFormClose extends PureComponent {
 
@@ -130,6 +131,10 @@ class SubscribeForm extends PureComponent{
 
   handleInputChange = (event) =>{
     const name= event.target.name
+    if(name == 'email'){
+      this.props.setEmail(event.target.value);
+      // console.log(this.props.subForm)
+    }
     this.setState({
       [name] : {
         value : event.target.value,
@@ -141,10 +146,14 @@ class SubscribeForm extends PureComponent{
 
   handleSubmit = (e) => {
     e.preventDefault();
-    if (! this.validate()) {return null};
-    this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
-    console.log(this.state.title.value);
-    console.log(this.state.email.value);
+    // if (! this.validate()) {return null};
+    // this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
+
+    // console.log(this.state.title.value);
+    // console.log(this.state.email.value);
+
+
+
     let api = new WeatherAPIConnector();
     api.sendSubscribe(this.state.title.value,this.state.email.value)
       .then((response) =>{
@@ -211,8 +220,8 @@ class SegmentForms extends PureComponent{
      const isSubscribe = this.props.isSubscribe;
      const history = this.props.history; 
      const location = this.props.location;
-
-
+     const subForm = this.props.subForm;
+     
       return (
         <Container>
           <Segment.Group>
@@ -227,7 +236,9 @@ class SegmentForms extends PureComponent{
               </Grid>
             </Segment>  
             <Segment centered="true" basic={true}>
-               <SubscribeForm isSubscribe = {isSubscribe} history={history} location={location}/>
+               <SubscribeForm isSubscribe = {isSubscribe} history={history} 
+                              location={location} subForm = {subForm} setEmail = {this.props.setSubFormEmail}
+               />
           </Segment>  
             </Segment.Group>
           </Container>
