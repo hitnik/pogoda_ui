@@ -1,7 +1,6 @@
 const initialState = {
 	isSubscribe: true,
-	codeConfirmURL: null,
-	subscribeValues: {
+	subForm: {
 		title: '',
 		email: ''
 	}

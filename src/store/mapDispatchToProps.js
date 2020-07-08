@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
-import subscribe from './actionCreators/subscribe';
-import unsubscribe from './actionCreators/unsubscribe'
+import { subscribe, unsubscribe}  from './actionCreaters';
+
 
 function mapDispatchToProps(component) { 
     switch(component) {

@@ -212,7 +212,6 @@ class SegmentForms extends PureComponent{
      const history = this.props.history; 
      const location = this.props.location;
 
-     console.log(isSubscribe);
 
       return (
         <Container>

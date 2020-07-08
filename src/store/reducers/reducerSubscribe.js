@@ -1,12 +1,13 @@
-import SUBSCRIBE from '../actions/subscribe';
-import UNSUBSCRIBE from '../actions/unsubscribe';
-import initialState from '../initialState';
+import { createReducer } from "@reduxjs/toolkit"
 
-export default function isSubscribe(state=initialState.isSubscribe, action) {
-    switch(action.type) {
-        case SUBSCRIBE: return action.isSubscribe;
-        case UNSUBSCRIBE: return action.isSubscribe;  
-        
-        default: return state;
-    }
-}
+import initialState from '../initialState';
+import { subscribe, unsubscribe } from '../actionCreaters';
+
+
+const isSubscribe = createReducer(initialState, {
+    [subscribe]: (state, action) => true,
+    [unsubscribe]: (state, action) => false
+})
+
+
+export default isSubscribe;

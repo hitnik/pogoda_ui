@@ -14,14 +14,6 @@ function mapStateToProps(component) {
 				};
 			}
 		}
-		case 'CodeForm':{
-			return function (state) {
-				return {
-					isSubscribe: state.isSubscribe,
-					codeConfirmURL: state.codeConfirmURL
-				}
-			}
-		}
 
 		default: return undefined;
 	}
