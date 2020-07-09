@@ -4,8 +4,14 @@ import initialState from '../initialState';
 import { setSubFormEmail, setSubFormTitle } from '../actionCreators';
 
 const subForm = createReducer(initialState.subForm, {
-    [setSubFormEmail]: (state, action) => {state.subForm.email='test'},
-    [setSubFormTitle]: (state, action) => state.subForm.title=action.payload.title
+    [setSubFormEmail]: (state, action) => {
+        const value = action.payload;
+        state.email=value;
+    },
+    [setSubFormTitle]: (state, action) => {
+        const value = action.payload;
+        state.title=value;
+    },
 })
 
 export default subForm;

@@ -77,6 +77,10 @@ class InputProps{
   value = ''
   error = false
   msg = null
+
+  constructor(value=''){
+    this.value = value;
+  }
 }
 
 class SubscribeForm extends PureComponent{
@@ -92,8 +96,8 @@ class SubscribeForm extends PureComponent{
  
     this.state = {
       isLoading: false,
-      title: new InputProps(),
-      email: new InputProps(),
+      title: new InputProps(this.props.subForm.title),
+      email: new InputProps(this.props.subForm.email),
       titleError: false,
     };
     
@@ -102,7 +106,6 @@ class SubscribeForm extends PureComponent{
 
   validate = () => {
     if (this.props.isSubscribe && this.state.title.value === '') {
-      console.log('in title')
       this.setState((prevState) =>{return {title: {
         ...prevState.title,
         error: !prevState.title.error,
@@ -110,18 +113,19 @@ class SubscribeForm extends PureComponent{
       }}});
       return false; 
     }
+
     if (this.state.email.value === ''){
       this.setState((prevState) =>{return {email: {
-        ...prevState.title,
-        error: !prevState.title.error,
+        ...prevState.email,
+        error: !prevState.email.error,
         msg :  this.formErrors.required
       }}});
       return false; 
     }
     else if (! /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email.value)){
       this.setState((prevState) =>{return {email: {
-        ...prevState.title,
-        error: !prevState.title.error,
+        ...prevState.email,
+        error: !prevState.email.error,
         msg :  this.formErrors.emailFormat
       }}});
       return false; 
@@ -133,7 +137,9 @@ class SubscribeForm extends PureComponent{
     const name= event.target.name
     if(name == 'email'){
       this.props.setEmail(event.target.value);
-      // console.log(this.props.subForm)
+    }
+    if(name == 'title'){
+      this.props.setTitle(event.target.value);
     }
     this.setState({
       [name] : {
@@ -146,39 +152,32 @@ class SubscribeForm extends PureComponent{
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // if (! this.validate()) {return null};
-    // this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
+    if (! this.validate()) {return null};
+    this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
 
-    // console.log(this.state.title.value);
-    // console.log(this.state.email.value);
+    console.log(this.state.title.value);
+    console.log(this.state.email.value);
 
 
 
-    let api = new WeatherAPIConnector();
-    api.sendSubscribe(this.state.title.value,this.state.email.value)
-      .then((response) =>{
-        if (response.ok){
-          if (response.status === 200){
-            console.log(response)
-          }
-          else if (response.status === 302){
+    // let api = new WeatherAPIConnector();
+    // api.sendSubscribe(this.state.title.value,this.state.email.value)
+    //   .then((response) =>{
+    //     if (response.ok){
+    //       if (response.status === 200){
+    //         console.log(response)
+    //       }
+    //       else if (response.status === 302){
             
-          }
-        }
-      });
-      }
+    //       }
+    //     }
+    //   });
+    }
 
   
 
   render () {
     const isSubscribe = this.props.isSubscribe;
-    
-    const initValues = this.props.location.state != undefined ? this.props.location.state : null;
-    
-    if (initValues != null){
-      this.state.title.value = initValues.title;
-      this.state.email.value = initValues.email;
-    }
 
     const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
@@ -238,6 +237,7 @@ class SegmentForms extends PureComponent{
             <Segment centered="true" basic={true}>
                <SubscribeForm isSubscribe = {isSubscribe} history={history} 
                               location={location} subForm = {subForm} setEmail = {this.props.setSubFormEmail}
+                              setTitle = {this.props.setSubFormTitle}
                />
           </Segment>  
             </Segment.Group>
