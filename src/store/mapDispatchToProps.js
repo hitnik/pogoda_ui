@@ -1,5 +1,7 @@
 import { bindActionCreators } from 'redux';
-import { subscribe, unsubscribe, setSubFormEmail, setSubFormTitle}  from './actionCreators';
+import {setSubFormEmail, setSubFormTitle}  from './actionCreators';
+
+import {subscribe, unsubscribe } from './slices/isSubscribe';
 
 
 function mapDispatchToProps(component) { 

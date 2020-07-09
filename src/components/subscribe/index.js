@@ -61,6 +61,7 @@ class SubscribeContainer extends PureComponent{
 
       const history = this.props.history;
 
+      console.log(this.props.isSubscribe)
 
       return (
           <Container>
