@@ -1,6 +1,5 @@
 import { bindActionCreators } from 'redux';
 import {setSubFormEmail, setSubFormTitle}  from './actionCreators';
-
 import {subscribe, unsubscribe } from './slices/isSubscribe';
 
 

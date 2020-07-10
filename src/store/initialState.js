@@ -1,5 +1,4 @@
 const initialState = {
-	isSubscribe: true,
 	subForm: {
 		title: '',
 		email: ''
