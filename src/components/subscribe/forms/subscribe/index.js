@@ -2,7 +2,6 @@ import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribe'
-import { setSubFormTitle } from "../../../../store/actionCreators";
 
 class ButtonFormClose extends PureComponent {
 
@@ -73,15 +72,6 @@ class FormInput extends PureComponent {
   }
 } 
 
-class InputProps{
-  value = ''
-  error = false
-  msg = null
-
-  constructor(value=''){
-    this.value = value;
-  }
-}
 
 class SubscribeForm extends PureComponent{
 
@@ -96,8 +86,6 @@ class SubscribeForm extends PureComponent{
  
     this.state = {
       isLoading: false,
-      title: new InputProps(this.props.subForm.title),
-      email: new InputProps(this.props.subForm.email),
       titleError: false,
     };
     
@@ -137,16 +125,13 @@ class SubscribeForm extends PureComponent{
     const name= event.target.name
     if(name == 'email'){
       this.props.setEmail(event.target.value);
+      // this.props.clearEmailError();
     }
     if(name == 'title'){
+      console.log('title')
       this.props.setTitle(event.target.value);
+      // this.props.clearTitleError();
     }
-    this.setState({
-      [name] : {
-        value : event.target.value,
-        error : false
-      }
-    });
   }
 
 
@@ -178,16 +163,15 @@ class SubscribeForm extends PureComponent{
 
   render () {
     const isSubscribe = this.props.isSubscribe;
-
     const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
-        <FormInput data = {this.state.title}
+        <FormInput data = {this.props.subForm.title}
                    onChange = {this.handleInputChange}
                    name = 'title'
                    label = 'Title'
                    placeholder = 'ФИО'   
                   />
-        <FormInput data = {this.state.email}
+        <FormInput data = {this.props.subForm.email}
                    onChange = {this.handleInputChange}
                    name = 'email'
                    label = 'Email'
@@ -235,9 +219,15 @@ class SegmentForms extends PureComponent{
               </Grid>
             </Segment>  
             <Segment centered="true" basic={true}>
-               <SubscribeForm isSubscribe = {isSubscribe} history={history} 
-                              location={location} subForm = {subForm} setEmail = {this.props.setSubFormEmail}
-                              setTitle = {this.props.setSubFormTitle}
+               <SubscribeForm isSubscribe = {isSubscribe} 
+                              history={history} 
+                              location={location} 
+                              subForm = {subForm} 
+                              setEmail = {this.props.setSubFormEmail}
+                              setTitle = {this.props.setSubFormTitle} 
+                              clearTitleError = {this.props.clearSubFormTitleError}
+                              clearEmailError = {this.props.clearSubFormEmailError}
+
                />
           </Segment>  
             </Segment.Group>

@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
 
-
-import subForm from './reducerSubForm'
 import isSubscribeSliceReducer from '../slices/isSubscribe'
+import subFormSliceReducer from '../slices/subForm'
+import errorsReducer from '../slices/errors';
 
 
 const rootReducer = combineReducers({
     isSubscribe: isSubscribeSliceReducer,
-    subForm
+    subForm : subFormSliceReducer,
+    errors: errorsReducer
 });
 
 export default rootReducer;

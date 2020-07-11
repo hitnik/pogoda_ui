@@ -1,7 +1,8 @@
 import { bindActionCreators } from 'redux';
-import {setSubFormEmail, setSubFormTitle}  from './actionCreators';
 import {subscribe, unsubscribe } from './slices/isSubscribe';
-
+import {setSubFormEmail, setSubFormTitle,
+        clearSubFormEmailError, clearSubFormTitleError
+        }  from './slices/subForm';
 
 function mapDispatchToProps(component) { 
     switch(component) {
@@ -15,7 +16,9 @@ function mapDispatchToProps(component) {
         case "SegmentForms": return function(dispatch) {
             return {
                 setSubFormEmail: bindActionCreators(setSubFormEmail, dispatch),
-                setSubFormTitle : bindActionCreators(setSubFormTitle, dispatch)
+                setSubFormTitle : bindActionCreators(setSubFormTitle, dispatch),
+                clearSubFormTitleError: bindActionCreators(clearSubFormTitleError, dispatch),
+                clearSubFormEmailError: bindActionCreators(clearSubFormEmailError, dispatch)
             };
         };
 
