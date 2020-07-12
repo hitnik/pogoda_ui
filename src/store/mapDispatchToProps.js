@@ -1,7 +1,9 @@
 import { bindActionCreators } from 'redux';
 import {subscribe, unsubscribe } from './slices/isSubscribe';
 import {setSubFormEmail, setSubFormTitle,
-        clearSubFormEmailError, clearSubFormTitleError
+        clearSubFormEmailError, clearSubFormTitleError,
+        setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
+        setSubFormEmailErrorRequired
         }  from './slices/subForm';
 
 function mapDispatchToProps(component) { 
@@ -18,7 +20,10 @@ function mapDispatchToProps(component) {
                 setSubFormEmail: bindActionCreators(setSubFormEmail, dispatch),
                 setSubFormTitle : bindActionCreators(setSubFormTitle, dispatch),
                 clearSubFormTitleError: bindActionCreators(clearSubFormTitleError, dispatch),
-                clearSubFormEmailError: bindActionCreators(clearSubFormEmailError, dispatch)
+                clearSubFormEmailError: bindActionCreators(clearSubFormEmailError, dispatch),
+                setSubFormTitleErrorRequired: bindActionCreators(setSubFormTitleErrorRequired, dispatch),
+                setSubFormEmailErrorFormat: bindActionCreators(setSubFormEmailErrorFormat, dispatch),
+                setSubFormEmailErrorRequired: bindActionCreators(setSubFormEmailErrorRequired, dispatch)
             };
         };
 

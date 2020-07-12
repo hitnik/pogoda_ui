@@ -62,10 +62,10 @@ class FormInput extends PureComponent {
   }
   
   render () {
-    const data = this.props.data;
+    console.log(this.props.data)
     const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder}
-                              defaultValue = {data.value} 
-                              {...(data.error ? {...data.msg} : {})}
+                              defaultValue = {this.props.data.value} 
+                              {...(this.props.data.error ? {...this.props.data.msg} : {})}
                               onChange={this.onChange}
                               />
     return input; 
@@ -93,29 +93,17 @@ class SubscribeForm extends PureComponent{
   }
 
   validate = () => {
-    if (this.props.isSubscribe && this.state.title.value === '') {
-      this.setState((prevState) =>{return {title: {
-        ...prevState.title,
-        error: !prevState.title.error,
-        msg :  this.formErrors.required
-      }}});
+    if (this.props.isSubscribe && this.props.subForm.title.value === '') {
+      this.props.setTitleErrorRequired();
       return false; 
     }
 
-    if (this.state.email.value === ''){
-      this.setState((prevState) =>{return {email: {
-        ...prevState.email,
-        error: !prevState.email.error,
-        msg :  this.formErrors.required
-      }}});
+    if (this.props.subForm.email.value === ''){
+      this.props.setEmailErrorRequired();
       return false; 
     }
-    else if (! /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email.value)){
-      this.setState((prevState) =>{return {email: {
-        ...prevState.email,
-        error: !prevState.email.error,
-        msg :  this.formErrors.emailFormat
-      }}});
+    else if (! /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.props.subForm.email.value)){
+      this.props.setEmailErrorFormat();
       return false; 
     }
     return true;
@@ -180,7 +168,7 @@ class SubscribeForm extends PureComponent{
       </Form.Group>
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
-    ) : (<Form widths="equal">
+    ) : (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
         <FormInput data = {this.state.email}
                    onChange = {this.handleInputChange}
@@ -227,6 +215,9 @@ class SegmentForms extends PureComponent{
                               setTitle = {this.props.setSubFormTitle} 
                               clearTitleError = {this.props.clearSubFormTitleError}
                               clearEmailError = {this.props.clearSubFormEmailError}
+                              setTitleErrorRequired = {this.props.setSubFormTitleErrorRequired}
+                              setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
+                              setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
 
                />
           </Segment>  

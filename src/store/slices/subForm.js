@@ -22,8 +22,6 @@ const subFormSlice = createSlice({
         },
         setSubFormTitle: (state, action) => {
             const value = action.payload;
-            console.log('set title')
-            console.log('errors ');
             state.title.value=value;
         },
         clearSubFormEmailError:(state) => {
@@ -36,7 +34,7 @@ const subFormSlice = createSlice({
         },
         setSubFormTitleErrorRequired: (state) => {
             state.title.error = true;
-            state.title.msg = errorMessages.fieldRequired;
+            state.title.msg = 'required';
         },
         setSubFormEmailErrorRequired: (state) =>{
             state.email.error = true;
@@ -53,7 +51,9 @@ const subFormSlice = createSlice({
 });
 
 export const { setSubFormEmail, setSubFormTitle,
-               clearSubFormEmailError, clearSubFormTitleError 
+               clearSubFormEmailError, clearSubFormTitleError,
+               setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
+               setSubFormEmailErrorRequired
              } = subFormSlice.actions ;
 
 export default subFormSlice.reducer;
