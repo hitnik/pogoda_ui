@@ -34,7 +34,7 @@ const subFormSlice = createSlice({
         },
         setSubFormTitleErrorRequired: (state) => {
             state.title.error = true;
-            state.title.msg = 'required';
+            state.title.msg = errorMessages.fieldRequired;
         },
         setSubFormEmailErrorRequired: (state) =>{
             state.email.error = true;

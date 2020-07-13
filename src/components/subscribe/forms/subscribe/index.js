@@ -1,7 +1,7 @@
 import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
-import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribe'
+import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribeAPI'
 
 class ButtonFormClose extends PureComponent {
 
@@ -62,10 +62,9 @@ class FormInput extends PureComponent {
   }
   
   render () {
-    console.log(this.props.data)
     const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder}
                               defaultValue = {this.props.data.value} 
-                              {...(this.props.data.error ? {...this.props.data.msg} : {})}
+                              error={this.props.data.error ? (this.props.data.msg) : undefined}
                               onChange={this.onChange}
                               />
     return input; 
@@ -97,7 +96,6 @@ class SubscribeForm extends PureComponent{
       this.props.setTitleErrorRequired();
       return false; 
     }
-
     if (this.props.subForm.email.value === ''){
       this.props.setEmailErrorRequired();
       return false; 
@@ -113,12 +111,11 @@ class SubscribeForm extends PureComponent{
     const name= event.target.name
     if(name == 'email'){
       this.props.setEmail(event.target.value);
-      // this.props.clearEmailError();
+      this.props.clearEmailError();
     }
     if(name == 'title'){
-      console.log('title')
       this.props.setTitle(event.target.value);
-      // this.props.clearTitleError();
+      this.props.clearTitleError();
     }
   }
 
@@ -128,8 +125,8 @@ class SubscribeForm extends PureComponent{
     if (! this.validate()) {return null};
     this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
 
-    console.log(this.state.title.value);
-    console.log(this.state.email.value);
+    console.log(this.props.subForm.title);
+    console.log(this.props.subForm.email);
 
 
 
