@@ -1,5 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import errorMessages from '../initialConstants/errorMessages';
+
+
+const subscribeThunk = createAsyncThunk(
+    'subForm/subscribe', 
+    (thunkAPI) =>{
+        console.log('in thunk')
+        console.log(thunkAPI.getState());
+    }
+)
 
 const subFormSlice = createSlice({
     name: 'subForm',
@@ -43,17 +52,21 @@ const subFormSlice = createSlice({
         setSubFormEmailErrorFormat: (state) => {
             state.email.error = true;
             state.email.msg = errorMessages.emailFormat;
-        }
-
-
+        },
     }
 
 });
 
+
+
+
 export const { setSubFormEmail, setSubFormTitle,
                clearSubFormEmailError, clearSubFormTitleError,
                setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
-               setSubFormEmailErrorRequired
+               setSubFormEmailErrorRequired,
+               sendSubscribeRequest
              } = subFormSlice.actions ;
+
+export {subscribeThunk}
 
 export default subFormSlice.reducer;

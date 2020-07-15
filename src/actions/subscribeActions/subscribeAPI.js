@@ -1,4 +1,4 @@
-import React, { PureComponent} from "react";
+ import React, { PureComponent} from "react";
 
 
 
@@ -25,7 +25,7 @@ export default class WeatherAPIConnector {
 
     sendSubscribe = async (title, email) =>{
         const apiURL = new URL(this.#apis.subscribe, this.#host);       
-        const response = await fetch(apiURL, {
+        return await fetch(apiURL, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -33,14 +33,8 @@ export default class WeatherAPIConnector {
               'Content-Type': 'application/json'
               // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            referrerPolicy: 'no-referrer', // no-referrer, *client
             body: JSON.stringify({title: title, email: email}) // body data type must match "Content-Type" header
-          }).catch((err) =>{
-             alert(err);
-            })
-        return await response;  
-            
-            
+          })    
     }
 }
 

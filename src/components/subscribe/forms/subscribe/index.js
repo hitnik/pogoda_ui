@@ -74,11 +74,6 @@ class FormInput extends PureComponent {
 
 class SubscribeForm extends PureComponent{
 
-  formErrors = {
-    required : {error: 'Заполните это поле'},
-    emailFormat : {error: 'Неправильный формат адреса'}
-  }
-
 
   constructor(props){
     super(props)
@@ -127,6 +122,7 @@ class SubscribeForm extends PureComponent{
 
     console.log(this.props.subForm.title);
     console.log(this.props.subForm.email);
+    this.props.sendSubscribeRequest();
 
 
 
@@ -215,6 +211,7 @@ class SegmentForms extends PureComponent{
                               setTitleErrorRequired = {this.props.setSubFormTitleErrorRequired}
                               setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
                               setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
+                              sendSubscribeRequest= {this.props.sendSubscribeRequest}
 
                />
           </Segment>  

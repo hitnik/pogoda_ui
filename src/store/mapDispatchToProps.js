@@ -3,7 +3,7 @@ import {subscribe, unsubscribe } from './slices/isSubscribe';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
-        setSubFormEmailErrorRequired
+        setSubFormEmailErrorRequired, subscribeThunk
         }  from './slices/subForm';
 
 function mapDispatchToProps(component) { 
@@ -23,7 +23,9 @@ function mapDispatchToProps(component) {
                 clearSubFormEmailError: bindActionCreators(clearSubFormEmailError, dispatch),
                 setSubFormTitleErrorRequired: bindActionCreators(setSubFormTitleErrorRequired, dispatch),
                 setSubFormEmailErrorFormat: bindActionCreators(setSubFormEmailErrorFormat, dispatch),
-                setSubFormEmailErrorRequired: bindActionCreators(setSubFormEmailErrorRequired, dispatch)
+                setSubFormEmailErrorRequired: bindActionCreators(setSubFormEmailErrorRequired, dispatch),
+                sendSubscribeRequest: bindActionCreators(subscribeThunk, dispatch)
+
             };
         };
 
