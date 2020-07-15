@@ -1,30 +1,15 @@
- import React, { PureComponent} from "react";
-
-
-
-export default class WeatherAPIConnector {
-    #host
-    #apis = {
+const apis = {
         subscribe: 'subscribe_newsletter',
         unsubscribe: 'newsletter_unsubscribe',
         activate: 'activate_subscribe',
         deactivate: 'deactivate_subscribe'
     }
 
+const host = !PRODUCTION ? WEATHER_API_HOST_DEV : WEATHER_API_PROD;
 
-
-    constructor () {
-        if (!PRODUCTION){
-            this.#host = WEATHER_API_HOST_DEV;
-        }
-        else {
-            this.#host = WEATHER_API_PROD;
-        }
-
-    }
-
-    sendSubscribe = async (title, email) =>{
-        const apiURL = new URL(this.#apis.subscribe, this.#host);       
+const sendSubscribe = async (title, email) =>{
+        const apiURL = new URL(apis.subscribe, host);
+        console.log('in senSubscribe');      
         return await fetch(apiURL, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
@@ -35,8 +20,8 @@ export default class WeatherAPIConnector {
             },
             body: JSON.stringify({title: title, email: email}) // body data type must match "Content-Type" header
           })    
-    }
 }
+
 
     //    const response = await fetch(this._schema, {
     //             method: 'GET',
@@ -64,3 +49,5 @@ export default class WeatherAPIConnector {
 // export default function requestSubscribe(title, email){
 //     console.log(title+'  '+email);
 //     console.log(PRODUCTION);
+
+export {sendSubscribe}

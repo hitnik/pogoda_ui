@@ -1,12 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import errorMessages from '../initialConstants/errorMessages';
+import { sendSubscribe } from '../../actions/subscribeActions/api';
 
 
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
-    (thunkAPI) =>{
-        console.log('in thunk')
-        console.log(thunkAPI.getState());
+    async (arg=null, thunkAPI) =>{
+        const state = thunkAPI.getState();
+        console.log(state);
+        return await sendSubscribe(state.subForm.title.value, state.subForm.email.value)
+        .then(response =>{
+            if(!response.ok) throw new Error(resonse.statusText);
+            return response.json();
+        })
+        .then(json =>{json});
     }
 )
 
@@ -22,7 +29,10 @@ const subFormSlice = createSlice({
             value: '',
             error: false,
             msg: null
-        }
+        }, 
+        loading: 'idle',
+        response_error: '',
+        data:[]
     },
     reducers:{
         setSubFormEmail: (state, action) => {
@@ -52,7 +62,23 @@ const subFormSlice = createSlice({
         setSubFormEmailErrorFormat: (state) => {
             state.email.error = true;
             state.email.msg = errorMessages.emailFormat;
+        }
+    },
+    extraReducers: {
+        [subscribeThunk.pending]: (state, action) => {
+            if (state.loading === 'idle') {
+                state.loading = 'pending';
+              }
         },
+        [subscribeThunk.rejected]: (state, action) => {
+            state.loading = "idle";
+            state.response_error = action.error.message;
+        },
+        [subscribeThunk.fulfilled]: (state, action) => {
+            state.loading = "idle";
+            state.data = action.payload;
+          }
+        
     }
 
 });

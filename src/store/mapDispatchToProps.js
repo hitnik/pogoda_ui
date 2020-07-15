@@ -23,9 +23,7 @@ function mapDispatchToProps(component) {
                 clearSubFormEmailError: bindActionCreators(clearSubFormEmailError, dispatch),
                 setSubFormTitleErrorRequired: bindActionCreators(setSubFormTitleErrorRequired, dispatch),
                 setSubFormEmailErrorFormat: bindActionCreators(setSubFormEmailErrorFormat, dispatch),
-                setSubFormEmailErrorRequired: bindActionCreators(setSubFormEmailErrorRequired, dispatch),
-                sendSubscribeRequest: bindActionCreators(subscribeThunk, dispatch)
-
+                setSubFormEmailErrorRequired: bindActionCreators(setSubFormEmailErrorRequired, dispatch)
             };
         };
 

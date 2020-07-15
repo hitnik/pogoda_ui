@@ -1,7 +1,10 @@
 import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
+import { subscribeThunk } from '../../../../store/slices/subForm';
+import store from '../../../../store/store';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
-import WeatherAPIConnector from '../../../../actions/subscribeActions/subscribeAPI'
+import WeatherAPIConnector from '../../../../actions/subscribeActions/api'
+import { subscribe } from "../../../../store/slices/isSubscribe";
 
 class ButtonFormClose extends PureComponent {
 
@@ -117,12 +120,12 @@ class SubscribeForm extends PureComponent{
 
   handleSubmit = (e) => {
     e.preventDefault();
+
     if (! this.validate()) {return null};
-    this.setState((prevState) =>{return {isLoading: !prevState.isLoading}});
 
     console.log(this.props.subForm.title);
     console.log(this.props.subForm.email);
-    this.props.sendSubscribeRequest();
+    store.dispatch(subscribeThunk());
 
 
 
@@ -144,7 +147,7 @@ class SubscribeForm extends PureComponent{
 
   render () {
     const isSubscribe = this.props.isSubscribe;
-    const form = isSubscribe ? (<Form loading={this.state.isLoading} widths="equal">
+    const form = isSubscribe ? (<Form loading={this.props.subForm.loading === 'pending' ? true: false} widths="equal">
       <Form.Group>
         <FormInput data = {this.props.subForm.title}
                    onChange = {this.handleInputChange}
