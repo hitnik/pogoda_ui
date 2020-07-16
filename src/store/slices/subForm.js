@@ -31,7 +31,7 @@ const subFormSlice = createSlice({
             msg: null
         }, 
         loading: 'idle',
-        response_error: '',
+        responseError: null,
         data:[]
     },
     reducers:{
@@ -69,13 +69,15 @@ const subFormSlice = createSlice({
             if (state.loading === 'idle') {
                 state.loading = 'pending';
               }
+              state.responseError = null;  
         },
         [subscribeThunk.rejected]: (state, action) => {
             state.loading = "idle";
-            state.response_error = action.error.message;
+            state.responseError = action.error.message;
         },
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";
+            state.responseError = null;
             state.data = action.payload;
           }
         

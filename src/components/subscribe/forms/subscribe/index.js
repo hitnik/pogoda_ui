@@ -3,8 +3,8 @@ import {withRouter} from 'react-router-dom';
 import { subscribeThunk } from '../../../../store/slices/subForm';
 import store from '../../../../store/store';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
-import WeatherAPIConnector from '../../../../actions/subscribeActions/api'
-import { subscribe } from "../../../../store/slices/isSubscribe";
+import MessageErrror from '../../../messages/messageError';
+
 
 class ButtonFormClose extends PureComponent {
 
@@ -127,21 +127,7 @@ class SubscribeForm extends PureComponent{
     console.log(this.props.subForm.email);
     store.dispatch(subscribeThunk());
 
-
-
-    // let api = new WeatherAPIConnector();
-    // api.sendSubscribe(this.state.title.value,this.state.email.value)
-    //   .then((response) =>{
-    //     if (response.ok){
-    //       if (response.status === 200){
-    //         console.log(response)
-    //       }
-    //       else if (response.status === 302){
-            
-    //       }
-    //     }
-    //   });
-    }
+  }
 
   
 
@@ -203,6 +189,8 @@ class SegmentForms extends PureComponent{
               </Grid>
             </Segment>  
             <Segment centered="true" basic={true}>
+               {this.props.subForm.responseError != null && 
+               <MessageErrror message={this.props.subForm.responseError}/>}    
                <SubscribeForm isSubscribe = {isSubscribe} 
                               history={history} 
                               location={location} 

@@ -19,35 +19,9 @@ const sendSubscribe = async (title, email) =>{
               // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify({title: title, email: email}) // body data type must match "Content-Type" header
-          })    
+          });
+
 }
-
-
-    //    const response = await fetch(this._schema, {
-    //             method: 'GET',
-    //             cache: 'no-cache',
-    //             headers: {
-    //                 'Content-Type': 'application/vnd.oai.openapi'
-    //               },
-    //     }
-    //     );
-    //    if(response.ok){
-    //        text = await response.text();
-    //    }
-    //    else {
-    //        alert('Error while getting cshema');
-    //        return null ;
-    //    }
-    //    console.log(text);
-//         try {
-        
-//     }
-// }
-
-
-
-// export default function requestSubscribe(title, email){
-//     console.log(title+'  '+email);
-//     console.log(PRODUCTION);
+  
 
 export {sendSubscribe}
