@@ -122,9 +122,6 @@ class SubscribeForm extends PureComponent{
     e.preventDefault();
 
     if (! this.validate()) {return null};
-
-    console.log(this.props.subForm.title);
-    console.log(this.props.subForm.email);
     store.dispatch(subscribeThunk());
 
   }
@@ -212,5 +209,6 @@ class SegmentForms extends PureComponent{
     }
 
 }
+
 
 export default withRouter(SegmentForms)

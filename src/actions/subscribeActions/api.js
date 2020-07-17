@@ -9,7 +9,6 @@ const host = !PRODUCTION ? WEATHER_API_HOST_DEV : WEATHER_API_PROD;
 
 const sendSubscribe = async (title, email) =>{
         const apiURL = new URL(apis.subscribe, host);
-        console.log('in senSubscribe');      
         return await fetch(apiURL, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
