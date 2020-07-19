@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom'
 import errorMessages from '../initialConstants/errorMessages';
 import { sendSubscribe } from '../../actions/subscribeActions/api';
 
-
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
     async (arg=null, thunkAPI) =>{
         const state = thunkAPI.getState();
         return await sendSubscribe(state.subForm.title.value, state.subForm.email.value)
         .then(response =>{
+            console.log('in responce');
             if(!response.ok) throw new Error(resonse.statusText);
             return response.json();
         })
@@ -74,7 +74,8 @@ const subFormSlice = createSlice({
         [subscribeThunk.rejected]: (state, action) => {
             state.loading = "idle";
             state.responseError = action.error.message;
-            state.history.push('/code-confirm');
+            console.log('rejected');
+            console.log(action.error.message);
         },
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";

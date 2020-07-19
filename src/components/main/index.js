@@ -11,9 +11,8 @@ export default class Main extends PureComponent{
                 <div>
                     <Switch>
                         <Route exact path='/' component={SubscribeContainerWrapper}/>
-                            <Route path='/subscribe' component={SegmentFormsWrapper}/>
-                            <Route path='/code-confirm' component={CodeForm}/>
-                            {/* <Route ></Route> */}
+                        <Route path='/subscribe' component={SegmentFormsWrapper}/>
+                        <Route path='/code-confirm' component={CodeForm}/>
                     </Switch>
                 </div>
         )

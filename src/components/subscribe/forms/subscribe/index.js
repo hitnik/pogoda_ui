@@ -1,7 +1,7 @@
 import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
 import { subscribeThunk } from '../../../../store/slices/subForm';
-import store from '../../../../store/store';
+import store from '../../../../';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import MessageErrror from '../../../messages/messageError';
 
@@ -123,7 +123,6 @@ class SubscribeForm extends PureComponent{
 
     if (! this.validate()) {return null};
     store.dispatch(subscribeThunk());
-
   }
 
   

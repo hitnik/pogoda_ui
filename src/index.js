@@ -4,24 +4,19 @@ import App from "./components/App.js";
 import "semantic-ui-css/semantic.min.css";
 import { HashRouter as Router} from "react-router-dom";
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from "history"
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import { routerReducer, routerMiddleware } from 'react-router-redux'
 import { combineReducers } from 'redux';
 import isSubscribeSliceReducer from './store/slices/isSubscribe'
 import subFormSliceReducer from './store/slices/subForm'
 
-const history = createBrowserHistory();
-
 const rootReducer = combineReducers({
-  routing: routerReducer,
   isSubscribe: isSubscribeSliceReducer,
   subForm : subFormSliceReducer,
   
 });
 
-const middleware = [...getDefaultMiddleware(), thunk, routerMiddleware(history)]
+const middleware = [...getDefaultMiddleware(), thunk]
 
 const store = configureStore({
   reducer:rootReducer,
@@ -31,10 +26,12 @@ const store = configureStore({
 
 const Root = ({ store }) => (
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
           <App />
       </Router>
     </Provider>
   )
 
 ReactDOM.render((<Root store={store}/>), document.getElementById("root"));
+
+export default store;
