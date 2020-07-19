@@ -1,19 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { useHistory } from 'react-router-dom'
+import { push } from 'connected-react-router';
 import errorMessages from '../initialConstants/errorMessages';
 import { sendSubscribe } from '../../actions/subscribeActions/api';
+import { createHashHistory } from 'history';
+
+// const history = createHashHistory();
 
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
-    async (arg=null, thunkAPI) =>{
+    async (history, thunkAPI) =>{
         const state = thunkAPI.getState();
         return await sendSubscribe(state.subForm.title.value, state.subForm.email.value)
         .then(response =>{
             console.log('in responce');
-            if(!response.ok) throw new Error(resonse.statusText);
+            if(!response.ok) {
+                throw new Error(resonse.statusText);
+            }
             return response.json();
         })
-        .then(json =>{json});
+        .then(json =>{
+            history.push('/code-confirm');
+            return json});
+        
     }
 )
 
@@ -75,13 +83,11 @@ const subFormSlice = createSlice({
             state.loading = "idle";
             state.responseError = action.error.message;
             console.log('rejected');
-            console.log(action.error.message);
         },
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";
             state.responseError = null;
             state.data = action.payload;
-            
           } 
     }
 });

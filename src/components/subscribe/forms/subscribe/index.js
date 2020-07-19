@@ -4,6 +4,7 @@ import { subscribeThunk } from '../../../../store/slices/subForm';
 import store from '../../../../';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import MessageErrror from '../../../messages/messageError';
+import { push } from "connected-react-router";
 
 
 class ButtonFormClose extends PureComponent {
@@ -122,7 +123,8 @@ class SubscribeForm extends PureComponent{
     e.preventDefault();
 
     if (! this.validate()) {return null};
-    store.dispatch(subscribeThunk());
+    store.dispatch(subscribeThunk(this.props.history));
+    // push('/code-confirm');
   }
 
   
@@ -198,7 +200,8 @@ class SegmentForms extends PureComponent{
                               setTitleErrorRequired = {this.props.setSubFormTitleErrorRequired}
                               setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
                               setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
-                              sendSubscribeRequest= {this.props.sendSubscribeRequest}
+                              sendSubscribeRequest = {this.props.sendSubscribeRequest}
+                              push = {this.props.push}
 
                />
           </Segment>  
