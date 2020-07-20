@@ -5,7 +5,8 @@ import {setSubFormEmail, setSubFormTitle,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
         setSubFormEmailErrorRequired, subscribeThunk
         }  from './slices/subForm';
-import { push } from 'connected-react-router';
+
+        
 
 function mapDispatchToProps(component) { 
     switch(component) {
@@ -13,19 +14,6 @@ function mapDispatchToProps(component) {
             return {
                 unsubscribe: bindActionCreators(unsubscribe, dispatch),
                 subscribe : bindActionCreators(subscribe, dispatch)
-            };
-        };
-       
-        case "SegmentForms": return function(dispatch) {
-            return {
-                setSubFormEmail: bindActionCreators(setSubFormEmail, dispatch),
-                setSubFormTitle : bindActionCreators(setSubFormTitle, dispatch),
-                clearSubFormTitleError: bindActionCreators(clearSubFormTitleError, dispatch),
-                clearSubFormEmailError: bindActionCreators(clearSubFormEmailError, dispatch),
-                setSubFormTitleErrorRequired: bindActionCreators(setSubFormTitleErrorRequired, dispatch),
-                setSubFormEmailErrorFormat: bindActionCreators(setSubFormEmailErrorFormat, dispatch),
-                setSubFormEmailErrorRequired: bindActionCreators(setSubFormEmailErrorRequired, dispatch),
-                push: bindActionCreators(push, dispatch)
             };
         };
 

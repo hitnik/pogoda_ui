@@ -7,40 +7,31 @@ import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { combineReducers } from 'redux';
-
-import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-react-router'
-import { createHashHistory } from 'history';
-
 import isSubscribeSliceReducer from './store/slices/isSubscribe'
 import subFormSliceReducer from './store/slices/subForm'
 
 
 
 
-const rootReducer= (history) => combineReducers({
-  router: connectRouter(history),
+const rootReducer =  combineReducers({
   isSubscribe: isSubscribeSliceReducer,
-  subForm : subFormSliceReducer,
-  
+  subForm : subFormSliceReducer
 });
 
-const history = createHashHistory();
 
-const middleware = [...getDefaultMiddleware(), thunk, routerMiddleware(history)]
+const middleware = [...getDefaultMiddleware(), thunk]
 
 const store = configureStore({
-  reducer:rootReducer(history),
+  reducer:rootReducer,
   middleware:middleware
 });
 
 
 const Root = ({ store }) => (
     <Provider store={store}>
-      <ConnectedRouter history={history}>
         <Router>
             <App />
         </Router>
-      </ConnectedRouter>
     </Provider>
   )
 

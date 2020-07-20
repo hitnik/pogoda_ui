@@ -7,16 +7,7 @@ function mapStateToProps(component) {
 				};
 			}
 		}
-		case "SegmentForms": {
-			return function (state) {
-				return {
-					isSubscribe: state.isSubscribe,
-					subForm: state.subForm
-				};
-			}
-		}
-
-
+		
 		default: return undefined;
 	}
 }

@@ -1,11 +1,15 @@
 import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
-import { subscribeThunk } from '../../../../store/slices/subForm';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import store from '../../../../';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import MessageErrror from '../../../messages/messageError';
-import { push } from "connected-react-router";
-
+import {setSubFormEmail, setSubFormTitle,
+        clearSubFormEmailError, clearSubFormTitleError,
+        setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
+        setSubFormEmailErrorRequired, subscribeThunk
+        }  from '../../../../store/slices/subForm';
 
 class ButtonFormClose extends PureComponent {
 
@@ -124,7 +128,6 @@ class SubscribeForm extends PureComponent{
 
     if (! this.validate()) {return null};
     store.dispatch(subscribeThunk(this.props.history));
-    // push('/code-confirm');
   }
 
   
@@ -212,5 +215,20 @@ class SegmentForms extends PureComponent{
 
 }
 
+function mapStateToProps(state) {
+  return {
+    isSubscribe: state.isSubscribe,
+		subForm: state.subForm
+  }
+}
 
-export default withRouter(SegmentForms)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    setSubFormEmail, setSubFormTitle, clearSubFormTitleError, 
+    clearSubFormEmailError, setSubFormTitleErrorRequired,
+    setSubFormEmailErrorFormat, setSubFormEmailErrorRequired
+   
+ }, dispatch)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(SegmentForms))
