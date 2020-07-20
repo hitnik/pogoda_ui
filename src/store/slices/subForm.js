@@ -77,13 +77,11 @@ const subFormSlice = createSlice({
         [subscribeThunk.rejected]: (state, action) => {
             state.loading = "idle";
             state.responseError = action.error.message;
-            console.log('rejected');
         },
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";
             state.responseError = null;
             state.data = action.payload;
-            console.log(state.data);
           } 
     }
 });

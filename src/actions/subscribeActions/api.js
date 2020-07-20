@@ -1,8 +1,8 @@
 const apis = {
-        subscribe: 'subscribe_newsletter',
-        unsubscribe: 'newsletter_unsubscribe',
-        activate: 'activate_subscribe',
-        deactivate: 'deactivate_subscribe'
+        subscribe: 'hazard/v1/subscribe_newsletter',
+        unsubscribe: 'hazard/v1/newsletter_unsubscribe',
+        activate: 'hazard/v1/activate_subscribe',
+        deactivate: 'hazard/v1/deactivate_subscribe'
     }
 
 const host = !PRODUCTION ? WEATHER_API_HOST_DEV : WEATHER_API_PROD;

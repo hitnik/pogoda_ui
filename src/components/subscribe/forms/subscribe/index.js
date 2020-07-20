@@ -153,11 +153,11 @@ class SubscribeForm extends PureComponent{
     </Form>
     ) : (<Form loading={this.state.isLoading} widths="equal">
       <Form.Group>
-        <FormInput data = {this.state.email}
+        <FormInput data = {this.props.subForm.email}
                    onChange = {this.handleInputChange}
                    name = 'email'
                    label = 'Email'
-                   placeholder = 'Адрес электронной почты'   
+                   placeholder = 'Адрес электронной почты'      
                   />
       </Form.Group>
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history}/>

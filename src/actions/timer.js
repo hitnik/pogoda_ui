@@ -1,5 +1,5 @@
 const calculateTimeLeft = (dateString) => {
-  const difference = +new Date(dateString) - +Date.now();
+  const difference = new Date(dateString) -Date.now();
   let timeLeft = {};
 
   if (difference > 0) {
@@ -8,7 +8,7 @@ const calculateTimeLeft = (dateString) => {
       seconds: Math.floor((difference / 1000) % 60)
     };
   }
-
+  console.log(timeLeft)
   return timeLeft;
 };
 

@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react";
-import { Switch, Route} from 'react-router-dom'
-import  SubscribeContainerWrapper  from "../subscribe/SubscribeContainerWrapper"
-import  SegmentForms from "../subscribe/forms/subscribe/"
-import CodeForm from '../subscribe/forms/code'
+import { Switch, Route} from 'react-router-dom';
+import  SubscribeContainer  from "../subscribe/";
+import  SegmentForms from "../subscribe/forms/subscribe/";
+import CodeForm from '../subscribe/forms/code';
 
 
 export default class Main extends PureComponent{
@@ -10,7 +10,7 @@ export default class Main extends PureComponent{
         return (
                 <div>
                     <Switch>
-                        <Route exact path='/' component={SubscribeContainerWrapper}/>
+                        <Route exact path='/' component={SubscribeContainer}/>
                         <Route path='/subscribe' component={SegmentForms}/>
                         <Route path='/code-confirm' component={CodeForm}/>
                     </Switch>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useHistory} from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer'
@@ -28,6 +30,11 @@ const ButtonRepeat = (props) => {
     return <Form.Button color='teal' onClick={props.onClick} content="Запросить код" />;
 }
 
+const ButtonChangeForm = (props) => {
+    return <Form.Button color='blue' onClick={props.onClick} content="Изменить данные формы" />;
+}
+
+
 const ButttonSubmit = (props) => {
     return <Form.Button color='green' onClick={props.onClick} content="Отправить" />;
 }
@@ -53,16 +60,10 @@ const Timer = (props) => {
 }
 
 const CodeForm = (props) => {
-    const path = props.codeConfirmURL;
+    const path = props.subForm.data.codeConfirm;
+    const date = props.subForm.data.expires;
 
-    const date = new Date("2020-06-30T20:46:00.00000Z") ;
-    const title = 'test';
-    const email = 'test@test.com';
-    
-    
     let history = useHistory();
-
-    // const [title, email, date , url, issubscribe] = props ;
 
     const [isValid, setIsValid] = useState(()=>{
         return !isEmpty(calculateTimeLeft(date));
@@ -87,13 +88,8 @@ const CodeForm = (props) => {
         history.push('/');
     }  
 
-    const handleRepeat = () => {
-        history.push({
-            pathname: path,
-            state: {title : title,
-                    email : email
-            }
-        });
+    const handleChangeForm= () => {
+        history.goBack();
     }
     return (
         <Container>
@@ -108,7 +104,7 @@ const CodeForm = (props) => {
             <Segment centered="true" basic={true}>
             <Grid className="center aligned">
                 <Form>
-                    {isValid && <CodeInput name='code' label='Код подтвердения' placeholder='Код'/> }                     
+                    {isValid && <CodeInput name='code' label='Код подтверждения' placeholder='Код'/> }                     
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column textAlign="center" >
@@ -124,7 +120,10 @@ const CodeForm = (props) => {
                                         <ButtonClose className='padBut' onClick={handleClose} />
                                     </div>
                                     <div className='padBut'>
-                                        <ButtonRepeat onClick={handleRepeat} />
+                                        <ButtonRepeat onClick={handleChangeForm} />
+                                    </div>
+                                    <div className='padBut'>
+                                        <ButtonChangeForm onClick={handleChangeForm} />
                                     </div>
                                     {isValid && 
                                         <div className="padBut.right">
@@ -144,5 +143,19 @@ const CodeForm = (props) => {
     );
 }
 
+function mapStateToProps(state) {
+    return {
+        isSubscribe: state.isSubscribe,
+        subForm : state.subForm
+    }
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+     
+     
+   }, dispatch)
+  }
 
-export default CodeForm;
+
+export default  connect(mapStateToProps, mapDispatchToProps)(CodeForm);
