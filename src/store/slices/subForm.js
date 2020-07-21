@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import errorMessages from '../initialConstants/errorMessages';
 import { sendSubscribe } from '../../actions/subscribeActions/api';
+import history from '../../components/main/history';
 
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
@@ -82,7 +83,8 @@ const subFormSlice = createSlice({
             state.loading = "idle";
             state.responseError = null;
             state.data = action.payload;
-            state.isRedirect = true;
+            // state.isRedirect = true;
+            history.push('/code-confirm');
           } 
     }
 });
