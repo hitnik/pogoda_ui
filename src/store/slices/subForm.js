@@ -4,7 +4,7 @@ import { sendSubscribe } from '../../actions/subscribeActions/api';
 
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
-    async (history, thunkAPI) =>{
+    async (arg=null, thunkAPI) =>{
         const state = thunkAPI.getState();
         return await sendSubscribe(state.subForm.title.value, state.subForm.email.value)
         .then(response =>{
@@ -14,7 +14,6 @@ const subscribeThunk = createAsyncThunk(
             return response.json();
         })
         .then(json =>{
-            history.push('/code-confirm');
             return json});
         
     }
@@ -35,7 +34,8 @@ const subFormSlice = createSlice({
         }, 
         loading: 'idle',
         responseError: null,
-        data:[]
+        data:[],
+        isRedirect: false
     },
     reducers:{
         setSubFormEmail: (state, action) => {
@@ -82,6 +82,7 @@ const subFormSlice = createSlice({
             state.loading = "idle";
             state.responseError = null;
             state.data = action.payload;
+            state.isRedirect = true;
           } 
     }
 });

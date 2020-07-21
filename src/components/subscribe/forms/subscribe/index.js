@@ -1,5 +1,5 @@
 import React, { PureComponent} from "react";
-import {withRouter} from 'react-router-dom';
+import {withRouter ,Redirect} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import store from '../../../../';
@@ -171,45 +171,50 @@ class SegmentForms extends PureComponent{
 
     render () {
 
-     const isSubscribe = this.props.isSubscribe;
-     const history = this.props.history; 
-     const location = this.props.location;
-     const subForm = this.props.subForm;
-     
+      const isSubscribe = this.props.isSubscribe;
+      const history = this.props.history; 
+      const location = this.props.location;
+      const subForm = this.props.subForm;
+      const isRedirect = this.props.subForm.isRedirect;
+      
       return (
         <Container>
-          <Segment.Group>
-            <Segment centered="true">
-              <Grid>
-                <Grid.Column textAlign="center">
-                  { isSubscribe ? <Header as="h3" >Форма подписки на рассылку штормовых предупреждений</Header>
-                  : <Header as="h3" >Форма отказа от подписки на рассылку штормовых предупреждений</Header>
-                  }
-                  
-                </Grid.Column>
-              </Grid>
-            </Segment>  
-            <Segment centered="true" basic={true}>
-               {this.props.subForm.responseError != null && 
-               <MessageErrror message={this.props.subForm.responseError}/>}    
-               <SubscribeForm isSubscribe = {isSubscribe} 
-                              history={history} 
-                              location={location} 
-                              subForm = {subForm} 
-                              setEmail = {this.props.setSubFormEmail}
-                              setTitle = {this.props.setSubFormTitle} 
-                              clearTitleError = {this.props.clearSubFormTitleError}
-                              clearEmailError = {this.props.clearSubFormEmailError}
-                              setTitleErrorRequired = {this.props.setSubFormTitleErrorRequired}
-                              setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
-                              setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
-                              sendSubscribeRequest = {this.props.sendSubscribeRequest}
-                              push = {this.props.push}
-
-               />
+        { isRedirect  ?  < Redirect to='/code-confirm'/>
+        :
+        <Segment.Group>
+          <Segment centered="true">
+            <Grid>
+              <Grid.Column textAlign="center">
+                { isSubscribe ? <Header as="h3" >Форма подписки на рассылку штормовых предупреждений</Header>
+                : <Header as="h3" >Форма отказа от подписки на рассылку штормовых предупреждений</Header>
+                }
+                
+              </Grid.Column>
+            </Grid>
           </Segment>  
-            </Segment.Group>
-          </Container>
+          <Segment centered="true" basic={true}>
+             {this.props.subForm.responseError != null && 
+             <MessageErrror message={this.props.subForm.responseError}/>}    
+             <SubscribeForm isSubscribe = {isSubscribe} 
+                            history={history} 
+                            location={location} 
+                            subForm = {subForm} 
+                            setEmail = {this.props.setSubFormEmail}
+                            setTitle = {this.props.setSubFormTitle} 
+                            clearTitleError = {this.props.clearSubFormTitleError}
+                            clearEmailError = {this.props.clearSubFormEmailError}
+                            setTitleErrorRequired = {this.props.setSubFormTitleErrorRequired}
+                            setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
+                            setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
+                            sendSubscribeRequest = {this.props.sendSubscribeRequest}
+                            push = {this.props.push}
+
+             />
+        </Segment>  
+          </Segment.Group>
+        
+        }
+        </Container>
       )
     }
 
