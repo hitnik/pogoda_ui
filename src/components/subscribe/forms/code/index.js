@@ -4,7 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
-import calculateTimeLeft from '../../../../actions/timer'
+import calculateTimeLeft from '../../../../actions/timer';
+import { setCodeDataInitial, setTimeLeft } from '../../../../store/slices/codeData';
+import { setSubFormTitle, setSubFormEmail, setSubFormInitial } from '../../../../store/slices/subForm';
+import { setStoreInitial } from '../../../../store/store';
 
 const isEmpty= (obj) => {
     return Object.keys(obj).length === 0;
@@ -30,10 +33,6 @@ const ButtonRepeat = (props) => {
     return <Form.Button color='teal' onClick={props.onClick} content="Запросить код" />;
 }
 
-const ButtonChangeForm = (props) => {
-    return <Form.Button color='blue' onClick={props.onClick} content="Изменить данные формы" />;
-}
-
 
 const ButttonSubmit = (props) => {
     return <Form.Button color='green' onClick={props.onClick} content="Отправить" />;
@@ -43,6 +42,7 @@ const Timer = (props) => {
     const timeLeft = props.timeLeft
     
     const addStartZero = (num) => {
+        if (num === undefined) return null;
         const str = num.toString();
         if (str.length === 1) {
             return '0'+str
@@ -51,17 +51,16 @@ const Timer = (props) => {
     }
 
     return (
-            !isEmpty(timeLeft)? 
-                <span>
-                    <span>Код действителен : {addStartZero(timeLeft.minutes)} : {addStartZero(timeLeft.seconds)}</span>
-                </span> 
-                : <span></span>)
+        <span>
+            Код действителен : {addStartZero(timeLeft.minutes)} : {addStartZero(timeLeft.seconds)}
+        </span>
+    )
      
 }
 
 const CodeForm = (props) => {
-    const path = props.subForm.data.codeConfirm;
-    const date = props.subForm.data.expires;
+    const path = props.codeData.confirmURL;
+    const date = props.codeData.dateExpires;
 
     let history = useHistory();
 
@@ -69,27 +68,28 @@ const CodeForm = (props) => {
         return !isEmpty(calculateTimeLeft(date));
     });
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(date));
-
     useEffect(() => {
             setTimeout(() => { 
-                if (!isEmpty(timeLeft)){
-                setTimeLeft(calculateTimeLeft(date));
-                }
+                if (!isEmpty(calculateTimeLeft(date))){
+                    props.setTimeLeft(calculateTimeLeft(date));
+                }else setIsValid(false);
             }, 1000);
-            if (isEmpty(timeLeft)) {
-                setIsValid(false);
-                return () =>{}
-            }
-      }
-      );
+      });
 
-    const handleClose = () => {
-        history.push('/');
+
+    const handleClose = (e) => {
+        e.preventDefault();
+        setStoreInitial();
+        history.push('/')
     }  
 
-    const handleChangeForm= () => {
-        history.goBack();
+    const handleRepeat= (e) => {
+        e.preventDefault();
+        setStoreInitial();
+        props.setSubFormEmail(props.codeData.email);
+        props.setSubFormTitle(props.codeData.title);
+        console.log(history.location.pathname);
+        history.push('/subscribe');
     }
     return (
         <Container>
@@ -108,7 +108,10 @@ const CodeForm = (props) => {
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column textAlign="center" >
-                                    <Header as='h5'> {isValid ? <Timer timeLeft={timeLeft} /> : <span>Действие кода истекло </span>}</Header>
+                                    <Header as='h5'> 
+                                        {isValid ? <Timer timeLeft={props.codeData.timeLeft}/> 
+                                    : <span>Действие кода истекло </span>}
+                                    </Header>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>   
@@ -120,10 +123,7 @@ const CodeForm = (props) => {
                                         <ButtonClose className='padBut' onClick={handleClose} />
                                     </div>
                                     <div className='padBut'>
-                                        <ButtonRepeat onClick={handleChangeForm} />
-                                    </div>
-                                    <div className='padBut'>
-                                        <ButtonChangeForm onClick={handleChangeForm} />
+                                        <ButtonRepeat onClick={handleRepeat} />
                                     </div>
                                     {isValid && 
                                         <div className="padBut.right">
@@ -146,14 +146,13 @@ const CodeForm = (props) => {
 function mapStateToProps(state) {
     return {
         isSubscribe: state.isSubscribe,
-        subForm : state.subForm
+        codeData : state.codeData
     }
   }
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-     
-     
+     setSubFormEmail, setSubFormTitle, setTimeLeft
    }, dispatch)
   }
 

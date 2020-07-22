@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Segment,  Container, Header, Grid, Button} from 'semantic-ui-react';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
+import { setStoreInitial } from '../../store/store';
 
 class ButtonSubscribe extends PureComponent {
 
@@ -50,11 +51,13 @@ class SubscribeContainer extends PureComponent{
 
   onClickSubscribe = () => {
     this.props.subscribe();
+    setStoreInitial();
     this.props.history.push('/subscribe')
   }
 
   onClickUnsubscribe = () =>{
     this.props.unsubscribe();
+    setStoreInitial();
     this.props.history.push('/subscribe')
   }
   

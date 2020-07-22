@@ -1,24 +1,11 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
-import { routerReducer, routerMiddleware } from 'react-router-redux'
-import { combineReducers } from 'redux';
+import  store  from '../../src'
+import { setSubFormInitial } from './slices/subForm';
+import {setCodeDataInitial } from './slices/codeData'
 
-import isSubscribeSliceReducer from './slices/isSubscribe'
-import subFormSliceReducer from './slices/subForm'
+const setStoreInitial = () => {
+    store.dispatch(setSubFormInitial());
+    store.dispatch(setCodeDataInitial());
+}
 
 
-const rootReducer = combineReducers({
-    routing: routerReducer,
-    isSubscribe: isSubscribeSliceReducer,
-    subForm : subFormSliceReducer,
-    
-});
-
-const middleware = [...getDefaultMiddleware(), thunk, routerMiddleware]
-
-const store = configureStore({
-    reducer:rootReducer,
-    middleware:middleware
-});
-
-export default store;
+export  {setStoreInitial};

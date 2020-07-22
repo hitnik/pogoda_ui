@@ -1,44 +1,54 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import errorMessages from '../initialConstants/errorMessages';
 import { sendSubscribe } from '../../actions/subscribeActions/api';
-import history from '../../components/main/history';
+import { push } from 'connected-react-router';
+import store from '../../index';
+import { setCodeData } from './codeData';
 
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
-    async (arg=null, thunkAPI) =>{
-        const state = thunkAPI.getState();
-        return await sendSubscribe(state.subForm.title.value, state.subForm.email.value)
+    async (data, thunkAPI) =>{
+        return await sendSubscribe(data.title, data.email)
         .then(response =>{
             if(!response.ok) {
-                throw new Error(resonse.statusText);
+                throw new Error(response.statusText);
             }
             return response.json();
         })
         .then(json =>{
-            return json});
+            const codeData = {
+                title: data.title,
+                email: data.email,
+                dateExpires: json.expires,
+                confirmURL: json.code_confirm
+            }
+            thunkAPI.dispatch(setCodeData(codeData));
+            store.dispatch(push('/code-confirm'));
+        });
         
     }
 )
 
+const init = {
+    title: {
+        value: '',
+        error: false,
+        msg: null
+    },
+    email: {
+        value: '',
+        error: false,
+        msg: null
+    }, 
+    loading: 'idle',
+    responseError: null,
+}
+
 const subFormSlice = createSlice({
     name: 'subForm',
-    initialState: {
-        title: {
-            value: '',
-            error: false,
-            msg: null
-        },
-        email: {
-            value: '',
-            error: false,
-            msg: null
-        }, 
-        loading: 'idle',
-        responseError: null,
-        data:[],
-        isRedirect: false
-    },
+    initialState: init, 
     reducers:{
+        setSubFormInitial: state=> init,
         setSubFormEmail: (state, action) => {
             const value = action.payload;
             state.email.value=value;
@@ -81,10 +91,7 @@ const subFormSlice = createSlice({
         },
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";
-            state.responseError = null;
-            state.data = action.payload;
-            // state.isRedirect = true;
-            history.push('/code-confirm');
+            state = state.initialState; 
           } 
     }
 });
@@ -96,7 +103,7 @@ export const { setSubFormEmail, setSubFormTitle,
                clearSubFormEmailError, clearSubFormTitleError,
                setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
                setSubFormEmailErrorRequired,
-               sendSubscribeRequest
+               sendSubscribeRequest, setSubFormInitial
              } = subFormSlice.actions ;
 
 export {subscribeThunk}

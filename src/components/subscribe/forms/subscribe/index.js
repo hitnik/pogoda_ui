@@ -1,5 +1,5 @@
 import React, { PureComponent} from "react";
-import {withRouter ,Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import store from '../../../../';
@@ -8,7 +8,7 @@ import MessageErrror from '../../../messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
-        setSubFormEmailErrorRequired, subscribeThunk
+        setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial
         }  from '../../../../store/slices/subForm';
 
 class ButtonFormClose extends PureComponent {
@@ -127,7 +127,8 @@ class SubscribeForm extends PureComponent{
     e.preventDefault();
 
     if (! this.validate()) {return null};
-    store.dispatch(subscribeThunk(this.props.history));
+    store.dispatch(subscribeThunk({title:this.props.subForm.title.value,
+      email: this.props.subForm.email.value }));
   }
 
   
@@ -168,19 +169,19 @@ class SubscribeForm extends PureComponent{
 }
 
 class SegmentForms extends PureComponent{
+    constructor(props) {
+      super (props);
+    }
+
 
     render () {
 
       const isSubscribe = this.props.isSubscribe;
       const history = this.props.history; 
-      const location = this.props.location;
       const subForm = this.props.subForm;
-      const isRedirect = this.props.subForm.isRedirect;
       
       return (
         <Container>
-        { isRedirect  ?  < Redirect to='/code-confirm'/>
-        :
         <Segment.Group>
           <Segment centered="true">
             <Grid>
@@ -197,7 +198,6 @@ class SegmentForms extends PureComponent{
              <MessageErrror message={this.props.subForm.responseError}/>}    
              <SubscribeForm isSubscribe = {isSubscribe} 
                             history={history} 
-                            location={location} 
                             subForm = {subForm} 
                             setEmail = {this.props.setSubFormEmail}
                             setTitle = {this.props.setSubFormTitle} 
@@ -207,13 +207,10 @@ class SegmentForms extends PureComponent{
                             setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
                             setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
                             sendSubscribeRequest = {this.props.sendSubscribeRequest}
-                            push = {this.props.push}
 
              />
         </Segment>  
           </Segment.Group>
-        
-        }
         </Container>
       )
     }
@@ -231,8 +228,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setSubFormEmail, setSubFormTitle, clearSubFormTitleError, 
     clearSubFormEmailError, setSubFormTitleErrorRequired,
-    setSubFormEmailErrorFormat, setSubFormEmailErrorRequired
-   
+    setSubFormEmailErrorFormat, setSubFormEmailErrorRequired,
+    setSubFormInitial   
  }, dispatch)
 }
 
