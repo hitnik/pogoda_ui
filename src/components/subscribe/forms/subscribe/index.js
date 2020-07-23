@@ -10,6 +10,7 @@ import {setSubFormEmail, setSubFormTitle,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
         setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial
         }  from '../../../../store/slices/subForm';
+import { setStoreInitial } from '../../../../store/store';
 
 class ButtonFormClose extends PureComponent {
 
@@ -33,6 +34,7 @@ class ButtonGroupSubmitClose extends PureComponent {
 
   close = (e) => {
     e.preventDefault();
+    setStoreInitial();
     this.props.history.push('/');
   }
 

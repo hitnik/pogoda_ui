@@ -1,12 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit';
-import calculateTimeLeft, { caculateTimeLeft } from '../../actions/timer'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import calculateTimeLeft from '../../actions/timer';
+import { sendCode } from '../../actions/subscribeActions/api';
+import { setStoreInitial } from '../store';
+
+const activateCode = createAsyncThunk(
+    'codeData/activate',
+    (data, thunkAPI) =>{
+        console.log('activate');
+        console.log("data: "+data);
+        return sendCode(data.code, data.url)
+        .then(response =>{
+            if(!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(json =>{
+            return json;
+        });
+    }
+)
+
 
 const init = {
     title: '',
     email: '',
     dateExpires: null,
     confirmURL: null,
-    timeLeft: {}
+    timeLeft: {},
+    loading: 'idle',
+    responseError: null,
+    isSuccess: false
 };
 
 const codeData = createSlice({
@@ -25,14 +49,33 @@ const codeData = createSlice({
         setTimeLeft : (state, action) =>{
             const value = action.payload;
             state.timeLeft = value;
-        }
-
+        },
+        clearCodeDataError: state => {state.responseError= false} 
+    },
+    extraReducers:{
+        [activateCode.pending]: (state, action) => {
+            if (state.loading === 'idle') {
+                state.loading = 'pending';
+              }
+              state.responseError = null;  
+        },
+        [activateCode.rejected]: (state, action) => {
+            state.loading = "idle";
+            state.responseError = action.error.message;
+            console.log(action.payload)
+        },
+        [activateCode.fulfilled]: (state, action) => {
+            state.loading = "idle";
+            state.isSuccess = true; 
+            console.log('success:'+action.payload)
+          } 
     }
 });
 
 export const { setCodeDataInitial, setCodeData,
-    setTimeLeft
+    setTimeLeft, clearCodeDataError
 } = codeData.actions ;
 
+export { activateCode }
 
 export default codeData.reducer;

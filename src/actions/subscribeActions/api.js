@@ -21,6 +21,38 @@ const sendSubscribe = async (title, email) =>{
           });
 
 }
+
+const sendUnsubscribe = async (email) =>{
+  const apiURL = new URL(apis.unsubscribe, host);
+  return await fetch(apiURL, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({email: email}) // body data type must match "Content-Type" header
+    });
+
+}
+
+const sendCode = async (code, url) => {
+  console.log('code '+code);
+  console.log("url:  "+url)
+  const apiURL = new URL(url, host);
+  console.log(apiURL);
+  return await fetch(apiURL, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({code: code}) // body data type must match "Content-Type" header
+  });
+}
   
 
-export {sendSubscribe}
+export {sendSubscribe, sendUnsubscribe, sendCode}

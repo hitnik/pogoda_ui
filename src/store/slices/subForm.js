@@ -3,7 +3,8 @@ import errorMessages from '../initialConstants/errorMessages';
 import { sendSubscribe } from '../../actions/subscribeActions/api';
 import { push } from 'connected-react-router';
 import store from '../../index';
-import { setCodeData } from './codeData';
+import { setCodeData} from './codeData';
+
 
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
@@ -91,7 +92,7 @@ const subFormSlice = createSlice({
         },
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";
-            state = state.initialState; 
+            state = init; 
           } 
     }
 });

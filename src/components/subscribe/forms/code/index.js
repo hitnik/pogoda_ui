@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import {useHistory} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import MessageErrror from '../../../messages/messageError';
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer';
 import { setCodeDataInitial, setTimeLeft } from '../../../../store/slices/codeData';
-import { setSubFormTitle, setSubFormEmail, setSubFormInitial } from '../../../../store/slices/subForm';
+import { setSubFormTitle, setSubFormEmail,
+        setSubFormInitial
+} from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
+import { activateCode, clearCodeDataError } from '../../../../store/slices/codeData';
+import store from '../../../../index';
+import errorMessages from '../../../../store/initialConstants/errorMessages';
 
 const isEmpty= (obj) => {
     return Object.keys(obj).length === 0;
@@ -21,6 +26,11 @@ const CodeInput = (props) => {
                     name={name} 
                     label={label} 
                     placeholder={placeholder} 
+                    error={props.error ? ({content: errorMessages.fieldRequired,
+                                            pointing: 'below',
+                                        }) 
+                      : undefined}
+                    onChange = {props.handleInputChange}
                     />
     return input
 }
@@ -61,21 +71,39 @@ const Timer = (props) => {
 const CodeForm = (props) => {
     const path = props.codeData.confirmURL;
     const date = props.codeData.dateExpires;
-
     let history = useHistory();
 
     const [isValid, setIsValid] = useState(()=>{
         return !isEmpty(calculateTimeLeft(date));
     });
+    
+
+    const [value, setValue] =useState('');
+    const [inputError, setInputError] = useState(false);
 
     useEffect(() => {
             setTimeout(() => { 
                 if (!isEmpty(calculateTimeLeft(date))){
                     props.setTimeLeft(calculateTimeLeft(date));
-                }else setIsValid(false);
+                }else {
+                    props.clearCodeDataError();
+                    setIsValid(false);
+                }
             }, 1000);
       });
+    
+    const  validate = () => {
+        if (value === '') {
+          setInputError(true);
+          return false; 
+        } 
+        return true;
+    }
 
+    const handleInputChange = (event) =>{
+        setInputError(false);
+        setValue(event.target.value);
+    }    
 
     const handleClose = (e) => {
         e.preventDefault();
@@ -83,14 +111,21 @@ const CodeForm = (props) => {
         history.push('/')
     }  
 
-    const handleRepeat= (e) => {
+    const handleRepeat = (e) => {
         e.preventDefault();
         setStoreInitial();
         props.setSubFormEmail(props.codeData.email);
-        props.setSubFormTitle(props.codeData.title);
-        console.log(history.location.pathname);
+        props.isSubscribe && props.setSubFormTitle(props.codeData.title);
         history.push('/subscribe');
     }
+
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        if (!validate()) return null;
+        store.dispatch(activateCode({code:value, url:props.codeData.confirmURL}));
+        
+    }
+
     return (
         <Container>
         <Segment.Group>
@@ -100,11 +135,24 @@ const CodeForm = (props) => {
                     <Header as="h3" >Отправка кода подтверждения</Header>
                 </Grid.Column>
             </Grid>
+            {props.codeData.responseError != null && 
+                <Grid>
+                    <Grid.Column textAlign="center">
+                        <MessageErrror message={props.codeData.responseError}/>
+                    </Grid.Column>
+                </Grid>
+            }
             </Segment>  
             <Segment centered="true" basic={true}>
             <Grid className="center aligned">
-                <Form>
-                    {isValid && <CodeInput name='code' label='Код подтверждения' placeholder='Код'/> }                     
+                <Form loading={props.codeData.loading === 'pending' ? true: false} >
+                    {isValid && <CodeInput name='code' 
+                                           label='Код подтверждения' 
+                                           placeholder='Код'
+                                           error = {inputError}
+                                           handleInputChange = {handleInputChange}
+                                />
+                    }                     
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column textAlign="center" >
@@ -127,7 +175,7 @@ const CodeForm = (props) => {
                                     </div>
                                     {isValid && 
                                         <div className="padBut.right">
-                                            <ButttonSubmit />
+                                            <ButttonSubmit onClick={handleSubmit} />
                                         </div>
                                     }
                                 </Button.Group>
@@ -152,7 +200,8 @@ function mapStateToProps(state) {
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-     setSubFormEmail, setSubFormTitle, setTimeLeft
+     setSubFormEmail, setSubFormTitle, 
+     setTimeLeft, clearCodeDataError
    }, dispatch)
   }
 
