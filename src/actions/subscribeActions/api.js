@@ -38,8 +38,6 @@ const sendUnsubscribe = async (email) =>{
 }
 
 const sendCode = async (code, url) => {
-  console.log('code '+code);
-  console.log("url:  "+url)
   const apiURL = new URL(url, host);
   console.log(apiURL);
   return await fetch(apiURL, {
@@ -54,5 +52,17 @@ const sendCode = async (code, url) => {
   });
 }
   
+const responseErrorsHumanize = (error) => {
+  switch (error){
+    case 'Failed to fetch': 
+      return 'Ошибка выполнения запроса(возможно проблема с сетевым соединением)';
+    case 'Found':
+      return 'Email уже подписан на рассылку';
+    case 'Bad Request':
+      return 'Ошибка запроса ( отравлены неверные данные)';
+    default: 
+      return error;
+  }
+}
 
-export {sendSubscribe, sendUnsubscribe, sendCode}
+export {sendSubscribe, sendUnsubscribe, sendCode, responseErrorsHumanize}

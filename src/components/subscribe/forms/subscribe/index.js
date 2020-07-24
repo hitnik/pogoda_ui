@@ -11,6 +11,7 @@ import {setSubFormEmail, setSubFormTitle,
         setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial
         }  from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
+import { responseErrorsHumanize } from '../../../../actions/subscribeActions/api';
 
 class ButtonFormClose extends PureComponent {
 
@@ -197,7 +198,7 @@ class SegmentForms extends PureComponent{
           </Segment>  
           <Segment centered="true" basic={true}>
              {this.props.subForm.responseError != null && 
-             <MessageErrror message={this.props.subForm.responseError}/>}    
+             <MessageErrror message={responseErrorsHumanize(this.props.subForm.responseError)}/>}    
              <SubscribeForm isSubscribe = {isSubscribe} 
                             history={history} 
                             subForm = {subForm} 

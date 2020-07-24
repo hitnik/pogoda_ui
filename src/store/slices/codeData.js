@@ -6,8 +6,6 @@ import { setStoreInitial } from '../store';
 const activateCode = createAsyncThunk(
     'codeData/activate',
     (data, thunkAPI) =>{
-        console.log('activate');
-        console.log("data: "+data);
         return sendCode(data.code, data.url)
         .then(response =>{
             if(!response.ok) {
@@ -50,7 +48,7 @@ const codeData = createSlice({
             const value = action.payload;
             state.timeLeft = value;
         },
-        clearCodeDataError: state => {state.responseError= false} 
+        clearCodeDataError: state => {state.responseError= null} 
     },
     extraReducers:{
         [activateCode.pending]: (state, action) => {

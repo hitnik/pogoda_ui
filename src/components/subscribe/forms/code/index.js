@@ -13,6 +13,7 @@ import { setStoreInitial } from '../../../../store/store';
 import { activateCode, clearCodeDataError } from '../../../../store/slices/codeData';
 import store from '../../../../index';
 import errorMessages from '../../../../store/initialConstants/errorMessages';
+import { responseErrorsHumanize } from '../../../../actions/subscribeActions/api';
 
 const isEmpty= (obj) => {
     return Object.keys(obj).length === 0;
@@ -138,7 +139,7 @@ const CodeForm = (props) => {
             {props.codeData.responseError != null && 
                 <Grid>
                     <Grid.Column textAlign="center">
-                        <MessageErrror message={props.codeData.responseError}/>
+                        <MessageErrror message={responseErrorsHumanize(props.codeData.responseError)}/>
                     </Grid.Column>
                 </Grid>
             }
