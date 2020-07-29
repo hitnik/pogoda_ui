@@ -123,7 +123,7 @@ const CodeForm = (props) => {
     const handleSubmit = (e) =>{
         e.preventDefault();
         if (!validate()) return null;
-        store.dispatch(activateCode({code:value, url:props.codeData.confirmURL}));
+        store.dispatch(activateCode({code:value, token:props.codeData.token, url:props.codeData.confirmURL}));
         
     }
 

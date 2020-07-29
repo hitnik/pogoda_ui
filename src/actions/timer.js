@@ -1,5 +1,5 @@
 const calculateTimeLeft = (dateString) => {
-  const difference = new Date(dateString) -Date.now();
+  const difference = new Date(parseInt(dateString)) -Date.now();
   let timeLeft = {};
 
   if (difference > 0) {
@@ -12,7 +12,7 @@ const calculateTimeLeft = (dateString) => {
 };
 
 const calculateTimeLeftSeconds = (dateString) =>{
-  const difference = new Date(dateString) -Date.now();
+  const difference = new Date(parseInt(dateString)) -Date.now();
   if (Math.floor(difference / 1000) > 0) return Math.floor(difference / 1000);
   return 0;
 }

@@ -6,7 +6,7 @@ import { setStoreInitial } from '../store';
 const activateCode = createAsyncThunk(
     'codeData/activate',
     (data, thunkAPI) =>{
-        return sendCode(data.code, data.url)
+        return sendCode(data.code, data.token, data.url)
         .then(response =>{
             if(!response.ok) {
                 throw new Error(response.statusText);
@@ -26,6 +26,7 @@ const init = {
     dateExpires: null,
     confirmURL: null,
     timeLeft: {},
+    token: null,
     loading: 'idle',
     responseError: null,
     isSuccess: false
@@ -43,6 +44,7 @@ const codeData = createSlice({
             state.dateExpires = value.dateExpires;
             state.timeLeft = calculateTimeLeft(value.dateExpires);
             state.confirmURL = value.confirmURL;
+            state.token = value.token;
         },
         setTimeLeft : (state, action) =>{
             const value = action.payload;

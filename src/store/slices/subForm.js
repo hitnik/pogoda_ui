@@ -21,7 +21,8 @@ const subscribeThunk = createAsyncThunk(
                 title: data.title,
                 email: data.email,
                 dateExpires: json.expires,
-                confirmURL: json.code_confirm
+                confirmURL: json.code_confirm,
+                token: json.token
             }
             thunkAPI.dispatch(setCodeData(codeData));
             store.dispatch(push('/code-confirm'));
