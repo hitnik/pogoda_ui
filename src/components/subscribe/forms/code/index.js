@@ -14,6 +14,7 @@ import { activateCode, clearCodeDataError } from '../../../../store/slices/codeD
 import store from '../../../../index';
 import errorMessages from '../../../../store/initialConstants/errorMessages';
 import { responseErrorsHumanize } from '../../../../actions/subscribeActions/api';
+import ModalSuccess from '../../../modals/modalSuccess';
 
 const isEmpty= (obj) => {
     return Object.keys(obj).length === 0;
@@ -180,6 +181,17 @@ const CodeForm = (props) => {
                                         </div>
                                     }
                                 </Button.Group>
+                                <ModalSuccess
+                                    message = ''
+                                    activator={({ setShow }) => (
+                                        <button
+                                        type="button"
+                                        onClick={() => setShow(true)}
+                                        >
+                                       Show Modal
+                                       </button>
+                                        )}
+                                />
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row/>
