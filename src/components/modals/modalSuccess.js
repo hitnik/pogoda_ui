@@ -13,9 +13,10 @@ const ModalSuccess = (props) => {
 
     const modal = (
         <Modal open={show}
-               basic
-               centered={true}
-               size='small'
+            dimmer ='blurring'
+            basic
+            centered={true}
+            size='small'
         >
             <Modal.Content>
                 <h3>{props.message}</h3>
