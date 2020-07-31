@@ -8,7 +8,8 @@ import MessageErrror from '../../../messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
-        setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial
+        setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial, 
+        unsubscribeThunk
         }  from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
 import { responseErrorsHumanize } from '../../../../actions/subscribeActions/api';
@@ -130,8 +131,11 @@ class SubscribeForm extends PureComponent{
     e.preventDefault();
 
     if (! this.validate()) {return null};
-    store.dispatch(subscribeThunk({title:this.props.subForm.title.value,
-      email: this.props.subForm.email.value }));
+    this.props.isSubscribe ? store.dispatch(
+                              subscribeThunk(
+                                {title:this.props.subForm.title.value, 
+                                  email: this.props.subForm.email.value }))
+    : store.dispatch(unsubscribeThunk({email:this.props.subForm.email.value}));
   }
 
   

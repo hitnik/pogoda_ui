@@ -41,9 +41,10 @@ module.exports = {
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(false),
-      WEATHER_API_HOST_DEV: JSON.stringify('http://127.0.0.1:8000'),
-      WEATHER_API_SCHEMA_DEV: JSON.stringify('swagger.json')
+      PRODUCTION: JSON.stringify(true),
+      WEATHER_API_HOST_DEV: JSON.stringify('http://192.168.99.100:8000'),
+      WEATHER_API_SCHEMA_DEV: JSON.stringify('swagger.json'),
+      WEATHER_API_HOST_PROD: JSON.stringify('http://192.168.99.100:8000')
     })
   ]
 };

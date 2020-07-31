@@ -67,7 +67,6 @@ const codeData = createSlice({
         [activateCode.fulfilled]: (state, action) => {
             state.loading = "idle";
             state.isSuccess = true; 
-            console.log('success:'+action.payload)
           } 
     }
 });

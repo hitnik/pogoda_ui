@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import MessageErrror from '../../../messages/messageError';
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer';
-import { setCodeDataInitial, setTimeLeft } from '../../../../store/slices/codeData';
+import { setTimeLeft } from '../../../../store/slices/codeData';
 import { setSubFormTitle, setSubFormEmail,
-        setSubFormInitial
 } from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
 import { activateCode, clearCodeDataError } from '../../../../store/slices/codeData';
@@ -83,6 +82,14 @@ const CodeForm = (props) => {
     const [value, setValue] =useState('');
     const [inputError, setInputError] = useState(false);
 
+    const messageSuccess = props.isSubscribe ? 'Подписка на рассылку успешно оформлена.'
+                        : 'Подписка на рассылку отменена.';
+       
+    const successAction = () =>{
+        setStoreInitial();
+        history.push('/')
+    }
+
     useEffect(() => {
             setTimeout(() => { 
                 if (!isEmpty(calculateTimeLeft(date))){
@@ -130,6 +137,9 @@ const CodeForm = (props) => {
 
     return (
         <Container>
+        {props.codeData.isSuccess && <ModalSuccess message={messageSuccess} 
+                                                   closeAction = {successAction} 
+        />}
         <Segment.Group>
             <Segment centered="true">
             <Grid>
@@ -181,17 +191,6 @@ const CodeForm = (props) => {
                                         </div>
                                     }
                                 </Button.Group>
-                                <ModalSuccess
-                                    message = ''
-                                    activator={({ setShow }) => (
-                                        <button
-                                        type="button"
-                                        onClick={() => setShow(true)}
-                                        >
-                                       Show Modal
-                                       </button>
-                                        )}
-                                />
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row/>

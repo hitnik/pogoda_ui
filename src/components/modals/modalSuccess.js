@@ -7,9 +7,11 @@ const modalRoot = document.getElementById( 'modal' );
 
 
 const ModalSuccess = (props) => {
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
 
-    const handleClick = () => setShow(false);
+    const handleClick = () => {
+        props.closeAction && props.closeAction();
+        setShow(false);}
 
     const modal = (
         <Modal open={show}
@@ -23,16 +25,13 @@ const ModalSuccess = (props) => {
             </Modal.Content>
             <Modal.Actions>
             <Button color='green' onClick={handleClick}  inverted>
-                <Icon name='checkmark' /> Got it
+                <Icon name='checkmark' /> Закрыть
             </Button>
             </Modal.Actions>
         </Modal>
     )
     return (
-        <>
-            {props.activator({ setShow })}
-            {createPortal(modal, modalRoot)}
-        </>
+      createPortal(modal, modalRoot)
     )
 }
 
