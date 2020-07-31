@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 const apis = {
         subscribe: 'hazard/v1/subscribe_newsletter',
         unsubscribe: 'hazard/v1/unsubscribe_newsletter',
@@ -10,10 +12,11 @@ const sendSubscribe = async (title, email) =>{
   const apiURL = new URL(apis.subscribe, host);
   return await fetch(apiURL, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'same-origin', // no-cors, *cors, same-origin
+      mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "X-CSRFToken": Cookies.get("csrftoken")
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify({title: title, email: email}) // body data type must match "Content-Type" header
@@ -24,11 +27,12 @@ const sendSubscribe = async (title, email) =>{
 const sendUnsubscribe = async (email) =>{
   const apiURL = new URL(apis.unsubscribe, host);
   return await fetch(apiURL, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'same-origin', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      headers: {
-        'Content-Type': 'application/json'
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json',
+      "X-CSRFToken": Cookies.get("csrftoken")
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify({email: email}) // body data type must match "Content-Type" header
@@ -40,10 +44,11 @@ const sendCode = async (code, token, url) => {
   const apiURL = new URL(url, host);
   return await fetch(apiURL, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'same-origin', // no-cors, *cors, same-origin
+    mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "X-CSRFToken": Cookies.get("csrftoken")
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: JSON.stringify({code: code, token:token}) // body data type must match "Content-Type" header
