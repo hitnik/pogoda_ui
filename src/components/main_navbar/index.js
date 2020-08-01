@@ -1,8 +1,7 @@
 import React, { PureComponent } from "react";
-
 import {Menu, Image} from 'semantic-ui-react';
-
 import LogoImg from '../../images/logo.png';
+import { Link } from 'react-router-dom';
 
 class Navbar extends PureComponent{
     render(){
@@ -11,7 +10,7 @@ class Navbar extends PureComponent{
                 <Menu inverted>
                     <Menu.Item>
                         <Image src={LogoImg} avatar/>
-                        <span>Штормовые предупреждения</span>
+                        <span> <Link to={`/`}>Штормовые предупреждения</Link></span>
                     </Menu.Item>
                 </Menu>
             </div>

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import calculateTimeLeft from '../../actions/timer';
 import { sendCode } from '../../actions/subscribeActions/api';
-import { setStoreInitial } from '../store';
 
 const activateCode = createAsyncThunk(
     'codeData/activate',

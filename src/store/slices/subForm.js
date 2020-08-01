@@ -9,7 +9,14 @@ import { setCodeData} from './codeData';
 const subscribeThunk = createAsyncThunk(
     'subForm/subscribe', 
     async (data, thunkAPI) =>{
-        return await sendSubscribe(data.title, data.email)
+        const state = thunkAPI.getState();
+        const action = () => {
+            if (state.isSubscribe){
+                return sendSubscribe(data.title, data.email)
+            }
+            return sendUnsubscribe(data.email)
+        }
+        return await action()
         .then(response =>{
             if(!response.ok) {
                 throw new Error(response.statusText);
@@ -31,29 +38,6 @@ const subscribeThunk = createAsyncThunk(
     }
 )
 
-const unsubscribeThunk = createAsyncThunk(
-    'subForm/unsubscribe', 
-    async (data, thunkAPI) =>{
-        return await sendUnsubscribe(data.email)
-        .then(response =>{
-            if(!response.ok) {
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then(json =>{
-            const codeData = {
-                email: data.email,
-                dateExpires: json.expires,
-                confirmURL: json.code_confirm,
-                token: json.token
-            }
-            thunkAPI.dispatch(setCodeData(codeData));
-            store.dispatch(push('/code-confirm'));
-        });
-        
-    }
-)
 
 const init = {
     title: {
@@ -118,21 +102,8 @@ const subFormSlice = createSlice({
         [subscribeThunk.fulfilled]: (state, action) => {
             state.loading = "idle";
             state = init; 
-          },
-        [unsubscribeThunk.pending]:(state, action) => {
-            if (state.loading === 'idle') {
-                state.loading = 'pending';
-              }
-              state.responseError = null;  
-        },
-        [unsubscribeThunk.rejected]:(state, action) => {
-            state.loading = "idle";
-            state.responseError = action.error.message;
-        },
-        [unsubscribeThunk.fulfilled]: (state, action) => {
-            state.loading = "idle";
-            state = init; }
-        }
+          }
+    }
 });
 
 
@@ -145,6 +116,6 @@ export const { setSubFormEmail, setSubFormTitle,
                sendSubscribeRequest, setSubFormInitial
              } = subFormSlice.actions ;
 
-export {subscribeThunk, unsubscribeThunk}
+export {subscribeThunk}
 
 export default subFormSlice.reducer;

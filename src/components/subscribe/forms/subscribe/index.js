@@ -9,7 +9,6 @@ import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
         setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial, 
-        unsubscribeThunk
         }  from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
 import { responseErrorsHumanize } from '../../../../actions/subscribeActions/api';
@@ -135,7 +134,7 @@ class SubscribeForm extends PureComponent{
                               subscribeThunk(
                                 {title:this.props.subForm.title.value, 
                                   email: this.props.subForm.email.value }))
-    : store.dispatch(unsubscribeThunk({email:this.props.subForm.email.value}));
+    : store.dispatch(subscribeThunk({email:this.props.subForm.email.value}));
   }
 
   
