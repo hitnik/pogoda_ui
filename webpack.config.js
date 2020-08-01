@@ -1,15 +1,24 @@
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    main: path.resolve(__dirname, 'src/index.js'),
+    SubscribeContainer: path.resolve(__dirname, 'src/components/subscribe/'),
+    SegmentForms: path.resolve(__dirname, 'src/components/subscribe/forms/subscribe'),
+    CodeForm: path.resolve(__dirname, 'src/components/subscribe/forms/code'),
+    ModalSuccess: path.resolve(__dirname, 'src/components/modals/modalSuccess.js')
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
+    filename: '[name].[contenthash:8].js',
   },
   optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
@@ -64,10 +73,7 @@ module.exports = {
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(true),
-      WEATHER_API_HOST_DEV: JSON.stringify('http://127.0.0.1:8000'),
-      WEATHER_API_SCHEMA_DEV: JSON.stringify('swagger.json'),
-      WEATHER_API_HOST_PROD: JSON.stringify('http://127.0.0.1:8000')
+      PRODUCTION: JSON.stringify(true)
     })
   ]
 };

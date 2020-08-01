@@ -1,12 +1,12 @@
 import Cookies from 'js-cookie';
-
+import data from './config.json';
 const apis = {
         subscribe: 'hazard/v1/subscribe_newsletter',
         unsubscribe: 'hazard/v1/unsubscribe_newsletter',
         activate: 'hazard/v1/code-validate',
     }
 
-const host = !PRODUCTION ? WEATHER_API_HOST_DEV : WEATHER_API_HOST_PROD;
+const host = !PRODUCTION ? data.WEATHER_API_HOST_DEV : data.WEATHER_API_HOST_PROD;
 
 const sendSubscribe = async (title, email) =>{
   const apiURL = new URL(apis.subscribe, host);
