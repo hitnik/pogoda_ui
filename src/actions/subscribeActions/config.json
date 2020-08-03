@@ -1,3 +1,4 @@
 {
-    "WEATHER_API_HOST_DEV" : "http://192.168.99.100:8000"
+    "WEATHER_API_HOST_DEV" : "http://192.168.99.100:8000",
+    "WEATHER_API_HOST_PROD" : "pogoda:8000"
 }

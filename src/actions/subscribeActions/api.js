@@ -6,10 +6,9 @@ const apis = {
         activate: 'hazard/v1/code-validate',
     }
 
-const host = !PRODUCTION ? data.WEATHER_API_HOST_DEV : process.env.WEATHER_API_HOST_PROD;
+const host = !PRODUCTION ? data.WEATHER_API_HOST_DEV : data.WEATHER_API_HOST_PROD;
 
 const sendSubscribe = async (title, email) =>{
-  console.log('host '+ host);
   const apiURL = new URL(apis.subscribe, host);
   return await fetch(apiURL, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
