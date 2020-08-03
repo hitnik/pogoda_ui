@@ -6,7 +6,7 @@ const apis = {
         activate: 'hazard/v1/code-validate',
     }
 
-const host = 'pogoda:8000';
+const host = 'http://pogoda:8000';
 
 const sendSubscribe = async (title, email) =>{
   console.log('host '+host);
