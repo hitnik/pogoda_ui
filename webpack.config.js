@@ -73,7 +73,8 @@ module.exports = {
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(true)
+      PRODUCTION: JSON.stringify(true),
+      WEATHER_API_HOST_PROD: JSON.stringify(process.env.API_HOST),
     })
   ]
 };
