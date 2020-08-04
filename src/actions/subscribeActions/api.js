@@ -6,7 +6,7 @@ const apis = {
         activate: 'hazard/v1/code-validate',
     }
 
-const host = 'http://127.0.0.1';
+const host = PRODUCTION ? process.env.API_HOST : data.WEATHER_API_HOST_DEV;
 
 const sendSubscribe = async (title, email) =>{
   console.log('host '+host);
