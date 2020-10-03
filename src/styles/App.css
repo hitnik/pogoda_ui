@@ -11,3 +11,16 @@ h1 {
 .padBut.right {
     padding-right: 0%;
 }
+
+.spoiler {
+    font-size: large;
+    cursor: pointer;
+}
+
+span.dotted {
+    border-bottom: 2px dotted #4183c4;
+}
+
+body .ui.container>.container{
+    box-shadow: none;
+  }
