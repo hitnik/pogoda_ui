@@ -1,9 +1,5 @@
 import React, { PureComponent } from "react";
-import { withRouter} from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import {Segment,  Container, Header, Grid, Button} from 'semantic-ui-react';
-import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
 import { setStoreInitial } from '../../store/store';
 
 class ButtonSubscribe extends PureComponent {
@@ -84,20 +80,6 @@ class SubscribeContainer extends PureComponent{
           </Container>
       )
   }
-
 }
 
-
-function mapStateToProps(state) {
-  return {
-    isSubscribe: state.isSubscribe,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    subscribe, unsubscribe
- }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SubscribeContainer));
+export default SubscribeContainer;

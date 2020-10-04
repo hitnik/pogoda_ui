@@ -1,7 +1,10 @@
-import subscribe from "../subscribe/forms/subscribe";
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
+import { withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SubscribeContainer from '../subscribe';
-import { Transition, Link, Icon, Container, Grid, Segment, Button } from 'semantic-ui-react'
+import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
+import { Transition, Icon, Container, Grid, Segment } from 'semantic-ui-react'
 
 const HomePage = (props) => {
 
@@ -10,31 +13,48 @@ const HomePage = (props) => {
        setButtonsVisible(!buttonsVisible);
     }
 
-    return (
-        <Container className="no-border-bottom">
-        <Segment.Group>
-          <Segment centered="true">
-            <Grid>
-              <Grid.Column textAlign="center">
-               <a className="spoiler" onClick={handleVisibleLinkClick}>
-                     { buttonsVisible ? <Icon name='chevron down'/> : <Icon name='chevron right'/> }
-                    <span className="dotted"> Оформление/отмена подписки на рассылку штормовых предупреждений </span>
-                </a>
-                <Transition visible={buttonsVisible} animation='slide down' duration={500}>
-                   <span>Text</span>
-                </Transition>
-              </Grid.Column>
-            </Grid>
+    return (     
+        <Container>
+          <Segment basic={true} centered="true">
+            <Segment basic={true} centered="true">
+                <Grid>
+                    <Grid.Column textAlign="center">
+                        <a className="spoiler" onClick={handleVisibleLinkClick}>
+                            { buttonsVisible ? <Icon name='chevron down'/> : <Icon name='chevron right'/> }
+                            <span className="dotted"> Оформление/отмена подписки на рассылку штормовых предупреждений </span>
+                        </a>
+                        <Transition visible={buttonsVisible} animation='slide down' duration={500}>
+                            <Container>
+                                {buttonsVisible && 
+                                    <SubscribeContainer 
+                                        history = {props.history}
+                                        subscribe = {props.subscribe}
+                                        unsubscribe = {props.unsubscribe}
+                                    />}
+                            </Container>
+                        </Transition>
+                    </Grid.Column>
+                </Grid>
+            </Segment> 
           </Segment>
-          <Segment basic={true}>   
-
-          </Segment>  
-        </Segment.Group>
-      </Container>
+        </Container>
+ 
         
     )
 
 }
 
-export default HomePage;
+function mapStateToProps(state) {
+    return {
+      isSubscribe: state.isSubscribe,
+    }
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+      subscribe, unsubscribe
+   }, dispatch)
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HomePage));
 
