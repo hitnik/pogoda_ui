@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 import { withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,6 +12,10 @@ const HomePage = (props) => {
     const handleVisibleLinkClick = () => {
        setButtonsVisible(!buttonsVisible);
     }
+    const isMount = true;
+    useEffect( () =>{
+        console.log('after mount')
+    },[isMount]);
 
     return (     
         <Container>
