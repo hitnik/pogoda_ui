@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
-import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react'
+import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
+import {getWarnings} from '../../actions/weatherActions/api';
 
 const HomePage = (props) => {
 
@@ -15,6 +16,9 @@ const HomePage = (props) => {
     const isMount = true;
     useEffect( () =>{
         console.log('after mount')
+        getWarnings()
+        .then( response => response.json())
+        .then(json=>{ console.log(json)})
     },[isMount]);
 
     return (     

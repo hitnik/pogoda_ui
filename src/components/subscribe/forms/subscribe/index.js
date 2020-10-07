@@ -11,7 +11,7 @@ import {setSubFormEmail, setSubFormTitle,
         setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial, 
         }  from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
-import { responseErrorsHumanize } from '../../../../actions/subscribeActions/api';
+import { responseErrorsHumanize } from '../../../../actions/weatherActions/api';
 
 class ButtonFormClose extends PureComponent {
 

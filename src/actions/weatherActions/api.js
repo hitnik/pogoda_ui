@@ -4,12 +4,13 @@ const apis = {
         subscribe: 'hazard/v1/subscribe_newsletter',
         unsubscribe: 'hazard/v1/unsubscribe_newsletter',
         activate: 'hazard/v1/code-validate',
+        warnings: 'hazard/v1/warnings/'
     }
 
 const host = PRODUCTION ?  data.WEATHER_API_HOST_PROD : data.WEATHER_API_HOST_DEV;
 
 const sendSubscribe = async (title, email) =>{
-  console.log('host '+host);
+  console.log('host '+ host);
   const apiURL = new URL(apis.subscribe, host);
   return await fetch(apiURL, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -56,6 +57,21 @@ const sendCode = async (code, token, url) => {
   });
 }
   
+
+const getWarnings = async (date_filter=null) => {
+  let apiURL = new URL(apis.warnings, host);
+  return await fetch(apiURL, {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json',
+      "X-CSRFToken": Cookies.get("csrftoken")
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+}
+
 const responseErrorsHumanize = (error) => {
   switch (error){
     case 'Failed to fetch': 
@@ -71,4 +87,4 @@ const responseErrorsHumanize = (error) => {
   }
 }
 
-export {sendSubscribe, sendUnsubscribe, sendCode, responseErrorsHumanize}
+export {sendSubscribe, sendUnsubscribe, sendCode, getWarnings, responseErrorsHumanize}

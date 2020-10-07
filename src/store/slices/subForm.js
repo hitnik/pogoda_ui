@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import errorMessages from '../initialConstants/errorMessages';
-import { sendSubscribe, sendUnsubscribe } from '../../actions/subscribeActions/api';
+import { sendSubscribe, sendUnsubscribe } from '../../actions/weatherActions/api';
 import { push } from 'connected-react-router';
 import store from '../../index';
 import { setCodeData} from './codeData';
