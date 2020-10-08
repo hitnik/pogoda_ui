@@ -23,12 +23,14 @@ const warningsSlice = createSlice({
             state.responseError = false;
             state.errorMessage = '';
             state.data = action.data;
-        }
+        },
+        fetchWarnings: (state, action)
     }
 })
 
-export const { requestedWarnings, requestedWarningsSuccess
-            } = warningsSlice.actions ;
+export const {  requestedWarnings, requestedWarningsSuccess,
+                fetchWarnings,
+                } = warningsSlice.actions ;
 
 
-export default createSlice.reducer;
+export default warningsSlice.reducer;

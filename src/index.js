@@ -6,9 +6,12 @@ import { HashRouter as Router} from "react-router-dom";
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './store/sagas/rootSaga';
 import { combineReducers } from 'redux';
 import isSubscribeSliceReducer from './store/slices/isSubscribe';
 import subFormSliceReducer from './store/slices/subForm';
+import warningsSliceReducer from './store/slices/warnings';
 import codeData from './store/slices/codeData';
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
@@ -19,17 +22,20 @@ const rootReducer = (history) => combineReducers({
   isSubscribe: isSubscribeSliceReducer,
   subForm : subFormSliceReducer,
   codeData: codeData,
+  warnings: warningsSliceReducer,
   router : connectRouter(history)
 });
 
+const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [...getDefaultMiddleware(), thunk, routerMiddleware(history)]
+const middleware = [...getDefaultMiddleware(), thunk, sagaMiddleware, routerMiddleware(history)]
 
 const store = configureStore({
   reducer:rootReducer(history),
   middleware:middleware
 });
 
+sagaMiddleware.run(rootSaga);
 
 const Root = ({ store }) => (
     <Provider store={store}>

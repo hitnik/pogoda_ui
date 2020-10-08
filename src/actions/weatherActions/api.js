@@ -56,7 +56,7 @@ const sendCode = async (code, token, url) => {
 }
 
 
-const getWarnings =  (date_filter=null) => {
+const getWarnings = (date_filter=null) => {
   let apiURL = new URL(apis.warnings, host);
   return get(apiURL)
 }
