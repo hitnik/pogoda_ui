@@ -14,6 +14,7 @@ const HomePage = (props) => {
        setButtonsVisible(!buttonsVisible);
     }
     const isMount = true;
+    
     useEffect( () =>{
         console.log('after mount')
         getWarnings()

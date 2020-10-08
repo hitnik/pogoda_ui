@@ -58,7 +58,7 @@ const subFormSlice = createSlice({
     name: 'subForm',
     initialState: init, 
     reducers:{
-        setSubFormInitial: state=> init,
+        setSubFormInitial: state => init,
         setSubFormEmail: (state, action) => {
             const value = action.payload;
             state.email.value=value;

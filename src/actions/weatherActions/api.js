@@ -9,58 +9,9 @@ const apis = {
 
 const host = PRODUCTION ?  data.WEATHER_API_HOST_PROD : data.WEATHER_API_HOST_DEV;
 
-const sendSubscribe = async (title, email) =>{
-  console.log('host '+ host);
-  const apiURL = new URL(apis.subscribe, host);
-  return await fetch(apiURL, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      headers: {
-        'Content-Type': 'application/json',
-        "X-CSRFToken": Cookies.get("csrftoken")
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify({title: title, email: email}) // body data type must match "Content-Type" header
-    });
 
-}
-
-const sendUnsubscribe = async (email) =>{
-  const apiURL = new URL(apis.unsubscribe, host);
-  return await fetch(apiURL, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    headers: {
-      'Content-Type': 'application/json',
-      "X-CSRFToken": Cookies.get("csrftoken")
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify({email: email}) // body data type must match "Content-Type" header
-    });
-
-}
-
-const sendCode = async (code, token, url) => {
-  const apiURL = new URL(url, host);
-  return await fetch(apiURL, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    headers: {
-      'Content-Type': 'application/json',
-      "X-CSRFToken": Cookies.get("csrftoken")
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({code: code, token:token}) // body data type must match "Content-Type" header
-  });
-}
-  
-
-const getWarnings = async (date_filter=null) => {
-  let apiURL = new URL(apis.warnings, host);
-  return await fetch(apiURL, {
+const get = async (url) => {
+  return await fetch(url, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -70,6 +21,44 @@ const getWarnings = async (date_filter=null) => {
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
   });
+}
+
+const post = async (url, data=null) =>{
+  return await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json',
+      "X-CSRFToken": Cookies.get("csrftoken")
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+}
+
+const sendSubscribe = async (title, email) =>{
+  const apiURL = new URL(apis.subscribe, host);
+  const data = {title: title, email: email}
+  return await post(apiURL, data);
+}
+
+const sendUnsubscribe = async (email) =>{
+  const apiURL = new URL(apis.unsubscribe, host);
+  const data = {email: email};
+  return await post(apiURL, data)
+}
+
+const sendCode = async (code, token, url) => {
+  const apiURL = new URL(url, host);
+  const data = {code: code, token:token};
+  return await post(apiURL, data);
+}
+
+
+const getWarnings =  (date_filter=null) => {
+  let apiURL = new URL(apis.warnings, host);
+  return get(apiURL)
 }
 
 const responseErrorsHumanize = (error) => {
