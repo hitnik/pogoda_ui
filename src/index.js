@@ -11,7 +11,7 @@ import rootSaga from './store/sagas/rootSaga';
 import { combineReducers } from 'redux';
 import isSubscribeSliceReducer from './store/slices/isSubscribe';
 import subFormSliceReducer from './store/slices/subForm';
-import warningsSliceReducer from './store/slices/warnings';
+import warningsReducer from './store/slices/warnings';
 import codeData from './store/slices/codeData';
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
@@ -22,7 +22,7 @@ const rootReducer = (history) => combineReducers({
   isSubscribe: isSubscribeSliceReducer,
   subForm : subFormSliceReducer,
   codeData: codeData,
-  warnings: warningsSliceReducer,
+  warnings: warningsReducer,
   router : connectRouter(history)
 });
 

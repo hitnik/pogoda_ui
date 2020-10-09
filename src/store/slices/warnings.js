@@ -1,36 +1,82 @@
 import { createSlice} from '@reduxjs/toolkit';
 
 
-const init = {
+const initialState = {
     data: {},
     loading: false,
     responseError: null,
     errorMessage:''
 };
 
-const warningsSlice = createSlice({
-    name: 'codeData',
-    initialState:init,
-    reducers:{},
-    extraReducers:{
-        requestedWarnings:(state, action) => {
-            state.loading = true;
-            state.responseError = false;
-            state.errorMessage = '';
-        },
-        requestedWarningsSuccess:(state, action) => {
-            state.loading = false;
-            state.responseError = false;
-            state.errorMessage = '';
-            state.data = action.data;
-        },
-        fetchWarnings: (state, action)
+
+const warningsReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'REQUESTED_WARNINGS':
+        return {
+            data:'',
+            loading : true,
+            responseError : false,
+            errorMessage: ''
+        };
+      case 'REQUESTED_WARNINGS_SUCCEEDED':
+        return {
+            data: action.data,
+            loading : false,
+            responseError : false,
+            errorMessage: ''
+        };
+      case 'REQUESTED_WARNINGS_FAILED':
+        return {
+            data: '',
+            loading : false,
+            responseError : true,
+            errorMessage: action.error
+        };
+      default:
+        return state;
     }
-})
+  };
+  
+// Action Creators
+const requestedWarnings = () => {
+    return { type: 'REQUESTED_WARNINGS' }
+  };
+  
+  const requestedWarningsSuccess = (data) => {
+    return { type: 'REQUESTED_WARNINGS_SUCCEEDED', data: data.message }
+  };
+  
+  const requestWarningsError = () => {
+    return { type: 'REQUESTED_WARNINGS_FAILED' }
+  };
+  
+  const fetchWarnings = () => {
+    console.log('e')  
+    return { type: 'FETCH_WARNINGS' }
+  };
 
-export const {  requestedWarnings, requestedWarningsSuccess,
+// const warningsSlice = createSlice({
+//     name: 'codeData',
+//     initialState:init,
+//     reducers:{
+//         requestedWarnings:(state, action) => {
+//             state.loading = true;
+//             state.responseError = false;
+//             state.errorMessage = '';
+//         },
+//         requestedWarningsSuccess:(state, action) => {
+//             state.loading = false;
+//             state.responseError = false;
+//             state.errorMessage = '';
+//             state.data = action.data;
+//         },
+//         fetchWarnings: () => {}
+//     }
+// })
+
+export  { requestedWarnings, requestedWarningsSuccess,
                 fetchWarnings,
-                } = warningsSlice.actions ;
+        } ;
 
 
-export default warningsSlice.reducer;
+export default warningsReducer;
