@@ -1,5 +1,5 @@
-import { createSlice} from '@reduxjs/toolkit';
-
+import { createSlice, createAction} from '@reduxjs/toolkit';
+import { takeLatest, takeEvery, put, call } from 'redux-saga/effects';
 
 const initialState = {
     data: {},
@@ -20,7 +20,7 @@ const warningsReducer = (state = initialState, action) => {
         };
       case 'REQUESTED_WARNINGS_SUCCEEDED':
         return {
-            data: action.data,
+            data: action.payload,
             loading : false,
             responseError : false,
             errorMessage: ''
@@ -38,11 +38,9 @@ const warningsReducer = (state = initialState, action) => {
   };
   
 // Action Creators
-const requestedWarnings = () => {
-    return { type: 'REQUESTED_WARNINGS' }
-  };
+const requestedWarnings = createAction('REQUESTED_WARNINGS');
   
-  const requestedWarningsSuccess = (data) => {
+const requestedWarningsSuccess = (data) => {
     return { type: 'REQUESTED_WARNINGS_SUCCEEDED', data: data.message }
   };
   
@@ -50,10 +48,7 @@ const requestedWarnings = () => {
     return { type: 'REQUESTED_WARNINGS_FAILED' }
   };
   
-  const fetchWarnings = () => {
-    console.log('e')  
-    return { type: 'FETCH_WARNINGS' }
-  };
+  const fetchWarnings = createAction('FETCH_WARNINGS');
 
 // const warningsSlice = createSlice({
 //     name: 'codeData',
@@ -74,8 +69,22 @@ const requestedWarnings = () => {
 //     }
 // })
 
+
+
+function* fetchWarningsAsync(){
+    yield console.log('start');
+    // const data = yield call(getWarnings())
+    //                     .then( response => response.json())
+    // yield call(() => console.log(data))
+      
+}
+
+function* watchFetchWarnings(){
+    yield takeEvery('FETCH_WARNINGS', fetchWarningsAsync);
+}
+
 export  { requestedWarnings, requestedWarningsSuccess,
-                fetchWarnings,
+                fetchWarnings, watchFetchWarnings
         } ;
 
 

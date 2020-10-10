@@ -8,6 +8,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './store/sagas/rootSaga';
+import watchFetchWarnings from './store/slices/warnings'
 import { combineReducers } from 'redux';
 import isSubscribeSliceReducer from './store/slices/isSubscribe';
 import subFormSliceReducer from './store/slices/subForm';
@@ -28,14 +29,14 @@ const rootReducer = (history) => combineReducers({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [...getDefaultMiddleware(), thunk, sagaMiddleware, routerMiddleware(history)]
+const middleware = [...getDefaultMiddleware(), sagaMiddleware, thunk, routerMiddleware(history)]
 
 const store = configureStore({
   reducer:rootReducer(history),
   middleware:middleware
 });
 
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(watchFetchWarnings);
 
 const Root = ({ store }) => (
     <Provider store={store}>
