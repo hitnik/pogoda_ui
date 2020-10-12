@@ -1,7 +1,7 @@
 import { createSlice} from '@reduxjs/toolkit';
 
 const init = {
-    url: 'https://dog.ceo/api/breeds/image/random',
+    url: '',
     loading: false,
     error: false,
   };
@@ -9,30 +9,30 @@ const init = {
 const dogSlice = createSlice({
     name: 'dog',
     initialState: init, 
+    reducers:{
+      requestedDog: (state) => {
+        state.url ='';
+        state.loading = true;
+        state.error = false;
+      },
+      requestedDogSuccess: (state, action) =>{
+        const url = action.payload.message;
+        state.url =url;
+        state.loading = false;
+        state.error = false;
+      },
+      requestedDogFailed: (state) => {
+        state.url ='';
+        state.loading = false;
+        state.error = true;
+      },
+      fetchDog: () => {}
+    }
 });
 
-const dog = (state = initialState, action) => {
-    switch (action.type) {
-        case 'REQUESTED_DOG':
-      return {
-        url: '',
-        loading: true,
-        error: false,
-      };
-    case 'REQUESTED_DOG_SUCCEEDED':
-      return {
-        url: action.url,
-        loading: false,
-        error: false,
-      };
-    case 'REQUESTED_DOG_FAILED':
-      return {
-        url: '',
-        loading: false,
-        error: true,
-      };
-    default:
-      return state;
-  }
-        
-}
+
+export const {  requestedDogSuccess, requestedDog, 
+                requestedDogFailed, fetchDog
+              } = dogSlice.actions
+
+export default dogSlice.reducer

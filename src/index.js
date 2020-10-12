@@ -7,12 +7,12 @@ import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './store/sagas/rootSaga';
-import watchFetchDog from './store/sagas/dogSaga'
+import dog from './store/slices/dogSlice';
+import warnings from './store/slices/warningsSlice';
+import rootSaga from './sagas/rootSaga';
 import { combineReducers } from 'redux';
 import isSubscribeSliceReducer from './store/slices/isSubscribe';
 import subFormSliceReducer from './store/slices/subForm';
-import dog from './store/reducers/dog';
 import codeData from './store/slices/codeData';
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
@@ -23,6 +23,7 @@ const rootReducer = (history) => combineReducers({
   isSubscribe: isSubscribeSliceReducer,
   subForm : subFormSliceReducer,
   codeData: codeData,
+  warnings:warnings,
   dog:dog,
   router : connectRouter(history)
 });
@@ -36,7 +37,7 @@ const store = configureStore({
   middleware:middleware
 });
 
-sagaMiddleware.run(watchFetchDog);
+sagaMiddleware.run(rootSaga);
 
 const Root = ({ store }) => (
     <Provider store={store}>

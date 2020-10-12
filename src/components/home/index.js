@@ -6,7 +6,7 @@ import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
 import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
 import {getWarnings} from '../../actions/weatherActions/api';
-import {fetchDog} from '../../store/actions/dogActions';
+import {fetchDog} from '../../store/slices/dogSlice';
 
 const HomePage = (props) => {
 
@@ -92,7 +92,7 @@ function mapStateToProps(state) {
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-      subscribe, unsubscribe, fetchDog
+      subscribe, unsubscribe, fetchDog 
    }, dispatch)
   }
 
