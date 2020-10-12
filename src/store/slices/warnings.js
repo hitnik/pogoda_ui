@@ -1,5 +1,24 @@
-import { createSlice, createAction} from '@reduxjs/toolkit';
-import { takeLatest, takeEvery, put, call } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
+
+const requestedWarnings = () =>{
+  return {
+    type:'REQUESTED_WARNINGS'
+  }
+}  
+const requestedWarningsSuccess = (data) => {
+    return { type: 'REQUESTED_WARNINGS_SUCCEEDED', data: data.message }
+  };
+  
+const requestWarningsError = () => {
+  return { type: 'REQUESTED_WARNINGS_FAILED' }
+};
+
+const fetchWarnings = () =>{
+  return {
+    type:'FETCH_WARNINGS'
+  }
+}
+
 
 const initialState = {
     data: {},
@@ -9,7 +28,7 @@ const initialState = {
 };
 
 
-const warningsReducer = (state = initialState, action) => {
+const warnings = (state = initialState, action) => {
     switch (action.type) {
       case 'REQUESTED_WARNINGS':
         return {
@@ -37,42 +56,11 @@ const warningsReducer = (state = initialState, action) => {
     }
   };
   
-// Action Creators
-const requestedWarnings = createAction('REQUESTED_WARNINGS');
-  
-const requestedWarningsSuccess = (data) => {
-    return { type: 'REQUESTED_WARNINGS_SUCCEEDED', data: data.message }
-  };
-  
-  const requestWarningsError = () => {
-    return { type: 'REQUESTED_WARNINGS_FAILED' }
-  };
-  
-  const fetchWarnings = createAction('FETCH_WARNINGS');
-
-// const warningsSlice = createSlice({
-//     name: 'codeData',
-//     initialState:init,
-//     reducers:{
-//         requestedWarnings:(state, action) => {
-//             state.loading = true;
-//             state.responseError = false;
-//             state.errorMessage = '';
-//         },
-//         requestedWarningsSuccess:(state, action) => {
-//             state.loading = false;
-//             state.responseError = false;
-//             state.errorMessage = '';
-//             state.data = action.data;
-//         },
-//         fetchWarnings: () => {}
-//     }
-// })
-
 
 
 function* fetchWarningsAsync(){
-    yield console.log('start');
+    yield put(requestedWarnings());
+    console.log('start');
     // const data = yield call(getWarnings())
     //                     .then( response => response.json())
     // yield call(() => console.log(data))
@@ -88,4 +76,4 @@ export  { requestedWarnings, requestedWarningsSuccess,
         } ;
 
 
-export default warningsReducer;
+export default warnings;

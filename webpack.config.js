@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash:8].js',
+    filename: process.env.production ? `bundle-[chunkHash].js` : `bundle-[hash].js`
   },
   optimization: {
     minimize: true,

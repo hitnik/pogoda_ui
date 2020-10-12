@@ -6,7 +6,7 @@ import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
 import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
 import {getWarnings} from '../../actions/weatherActions/api';
-import {fetchWarnings, requestedWarnings} from '../../store/slices/warnings';
+import {fetchDog} from '../../store/actions/dogActions';
 
 const HomePage = (props) => {
 
@@ -17,9 +17,13 @@ const HomePage = (props) => {
     const isMount = true;
     
     useEffect( () =>{
-        console.log('after mount')
-        fetchWarnings();
+        console.log('after mount');
+        props.fetchDog();
     },[isMount]);
+
+    const handleDog = () => {
+        props.fetchDog()
+    }
 
     return (     
         <Container>
@@ -62,6 +66,14 @@ const HomePage = (props) => {
                 
             </Segment>
           </Segment>
+          <div>
+            <button onClick={handleDog}>Show Dog</button>
+                {props.loading 
+                    ? <p>Loading...</p> 
+                    : props.error
+                        ? <p>Error, try again</p>
+                        : <p><img src={props.url}/></p>}
+           </div>
         </Container>
  
         
@@ -72,12 +84,15 @@ const HomePage = (props) => {
 function mapStateToProps(state) {
     return {
       isSubscribe: state.isSubscribe,
+      loading:state.dog.loading,
+      error:state.dog.error,
+      url:state.dog.url
     }
   }
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-      subscribe, unsubscribe, fetchWarnings, requestedWarnings
+      subscribe, unsubscribe, fetchDog
    }, dispatch)
   }
 
