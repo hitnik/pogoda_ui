@@ -26,7 +26,7 @@ const warningsSlice = createSlice({
       state.errorMessage = '';
     },
     rejectedWarnings: (state, action) => {
-      const err = action.error.message;
+      const err = action.payload;
       state.data = {};
       state.loading = false;
       state.responseError = true;

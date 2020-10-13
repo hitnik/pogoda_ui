@@ -1,12 +1,14 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, delay } from 'redux-saga/effects';
 import { requestedWarnings, succesedWarnings,
-        rejectedWarnings, fetchWarnings
+        rejectedWarnings
         } from '../store/slices/warningsSlice';
 import {getWarnings} from '../actions/weatherActions/api';
+
 function* fetchWarningsAsync() {
         try {
                 yield put(requestedWarnings());
                 console.log('request')
+                yield delay(1000);
                 const data = yield call(() => {
                 return getWarnings()
                         .then(res => res.json())
@@ -14,7 +16,7 @@ function* fetchWarningsAsync() {
                 );
                 yield put(succesedWarnings(data));
         } catch (error) {
-                yield put(rejectedWarnings());
+                yield put(rejectedWarnings(error.message));
         }
 }
         

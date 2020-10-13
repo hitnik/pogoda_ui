@@ -5,8 +5,10 @@ import { bindActionCreators } from 'redux';
 import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
 import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
-import {getWarnings} from '../../actions/weatherActions/api';
 import {fetchDog} from '../../store/slices/dogSlice';
+import { fetchWarnings } from '../../store/slices/warningsSlice';
+import MessageErrror from '../messages/messageError';
+import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 
 const HomePage = (props) => {
 
@@ -18,7 +20,7 @@ const HomePage = (props) => {
     
     useEffect( () =>{
         console.log('after mount');
-        props.fetchDog();
+        props.fetchWarnings();
     },[isMount]);
 
     const handleDog = () => {
@@ -57,11 +59,16 @@ const HomePage = (props) => {
                 </Grid>
                 </Segment>
                 <Segment>
-                  <Placeholder>
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-                </Placeholder>  
+                    {props.loadingWarnings ? 
+                        <Placeholder>
+                            <Placeholder.Line />
+                            <Placeholder.Line />
+                            <Placeholder.Line />
+                        </Placeholder>  
+                        : props.responseErrorWarnings ?
+                            <MessageErrror message={responseErrorsHumanize(props.errorMessageWarnings)}/>
+                            : <div>OK</div>
+                    }
                 </Segment>
                 
             </Segment>
@@ -83,16 +90,21 @@ const HomePage = (props) => {
 
 function mapStateToProps(state) {
     return {
-      isSubscribe: state.isSubscribe,
-      loading:state.dog.loading,
-      error:state.dog.error,
-      url:state.dog.url
+      isSubscribe : state.isSubscribe,
+      loading : state.dog.loading,
+      error : state.dog.error,
+      url : state.dog.url,
+      data : state.warnings.data,
+      loadingWarnings : state.warnings.loading,
+      responseErrorWarnings : state.warnings.responseError,
+      errorMessageWarnings : state.warnings.errorMessage
     }
   }
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-      subscribe, unsubscribe, fetchDog 
+      subscribe, unsubscribe, fetchDog,
+      fetchWarnings
    }, dispatch)
   }
 
