@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import dog from './store/slices/dogSlice';
 import warnings from './store/slices/warningsSlice';
 import rootSaga from './sagas/rootSaga';
 import { combineReducers } from 'redux';
@@ -24,7 +23,6 @@ const rootReducer = (history) => combineReducers({
   subForm : subFormSliceReducer,
   codeData: codeData,
   warnings:warnings,
-  dog:dog,
   router : connectRouter(history)
 });
 

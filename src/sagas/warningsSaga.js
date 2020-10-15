@@ -1,8 +1,34 @@
 import { takeLatest, put, call, delay } from 'redux-saga/effects';
-import { requestedWarnings, succesedWarnings,
-        rejectedWarnings
+import { requestedWarnings, successedWarnings,
+        rejectedWarnings, updateWarningsArr, 
         } from '../store/slices/warningsSlice';
-import {getWarnings} from '../actions/weatherActions/api';
+import {getWarnings,getHazardLevel } from '../actions/weatherActions/api';
+import store from '../index';
+
+
+function* clearDataAsync() {
+        const data = yield call(() => {return store.getState().warnings.dataRaw});
+        for (const i in  data.results) {
+                const  level = yield call(() => { return getHazardLevel(data.results[i].hazard_level)
+                                                .then(res => res.json());
+                });
+                let clone = Object.assign({}, data.results[i]);
+                clone.hazard_level = level;
+                yield put(updateWarningsArr(clone));
+        }
+              
+        // yield data.results.map(item => {
+        //         const level = 
+        //         console.log(level);
+                // let clone = Object.assign({}, data);
+                
+                // yield call(() => getHazardLevel(data.hazard_level)
+                //         .then(res => clone.hazardLevel=res.json())
+                // );
+                // yield put(updateWarningsArr(clone));
+                // //set needUpdate flag
+
+}
 
 function* fetchWarningsAsync() {
         try {
@@ -11,11 +37,11 @@ function* fetchWarningsAsync() {
                 yield delay(1000);
                 const data = yield call(() => {
                 return getWarnings()
-                        .then(res => res.json())
-                }
-                );
-                yield put(succesedWarnings(data));
+                        .then(response => response.json())
+                });
+                yield put(successedWarnings(data)); 
         } catch (error) {
+                console.log(error)
                 yield put(rejectedWarnings(error.message));
         }
 }
@@ -24,6 +50,11 @@ function* fetchWarningsAsync() {
 function* watchFetchWarnings() {
         yield takeLatest('warnings/fetchWarnings', fetchWarningsAsync);
 }
+
+function* watchSuccesedWarnings() {
+        yield takeLatest('warnings/successedWarnings', clearDataAsync);
+}
+
         
         
-export default watchFetchWarnings;
+export  {watchFetchWarnings, watchSuccesedWarnings}

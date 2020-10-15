@@ -58,7 +58,11 @@ const sendCode = async (code, token, url) => {
 
 const getWarnings = (date_filter=null) => {
   let apiURL = new URL(apis.warnings, host);
-  return get(apiURL)
+  return get(apiURL);
+}
+
+const getHazardLevel = (url) => {
+  return get(url);
 }
 
 const responseErrorsHumanize = (error) => {
@@ -76,4 +80,7 @@ const responseErrorsHumanize = (error) => {
   }
 }
 
-export {sendSubscribe, sendUnsubscribe, sendCode, getWarnings, responseErrorsHumanize}
+export {sendSubscribe, sendUnsubscribe, 
+        sendCode, getWarnings, 
+        responseErrorsHumanize, getHazardLevel
+      }

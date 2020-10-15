@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import store from '../../../../';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
-import MessageErrror from '../../../messages/messageError';
+import MessageErrror from '../../../dummy/messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,

@@ -1,10 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const init = {
-    data: {},
+    dataRaw: {},
+    warningsArr : [],
     loading: false,
     responseError: false,
-    errorMessage:''
+    errorMessage:'',
 };
 
 
@@ -13,21 +14,28 @@ const warningsSlice = createSlice({
   initialState: init,
   reducers:{
     requestedWarnings:(state) =>{
-      state.data = {};
+      state.dataRaw = {};
+      state.warningsArr = [];
       state.loading = true;
       state.responseError = false;
       state.errorMessage = '';
     },
-    succesedWarnings:(state, action) =>{
+    successedWarnings:(state, action) =>{
       const data = action.payload;
-      state.data = {};
-      state.loading = true;
+      state.dataRaw = data;
+      state.warningsArr = [];
+      state.loading = false;
       state.responseError = false;
       state.errorMessage = '';
+    },
+    updateWarningsArr: (state, action) => {
+      const item = action.payload;
+      state.warningsArr.push(item);
     },
     rejectedWarnings: (state, action) => {
       const err = action.payload;
-      state.data = {};
+      state.dataRaw = {};
+      state.warningsArr = [];
       state.loading = false;
       state.responseError = true;
       state.errorMessage = err;
@@ -37,8 +45,9 @@ const warningsSlice = createSlice({
 
 });
     
-export const {requestedWarnings, succesedWarnings,
-              rejectedWarnings, fetchWarnings
+export const {requestedWarnings, successedWarnings,
+              rejectedWarnings, fetchWarnings,
+              setWArningstoFetch, updateWarningsArr,
             } = warningsSlice.actions;
 
 export default warningsSlice.reducer

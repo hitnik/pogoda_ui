@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {useHistory} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MessageErrror from '../../../messages/messageError';
+import MessageErrror from '../../../dummy/messages/messageError';
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer';
 import { setTimeLeft } from '../../../../store/slices/codeData';
