@@ -8,19 +8,42 @@ import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 
 import { fetchWarnings } from '../../store/slices/warningsSlice';
 import MessageErrror from '../dummy/messages/messageError';
 import { responseErrorsHumanize } from '../../actions/weatherActions/api';
-import { warningComponent } from '../dummy/messages/messageError';
+import WarningComponent  from '../dummy/warning/warningComponent';
 
 const HomePage = (props) => {
+
+
+    const testData = {
+        date_end: "2020-10-01",
+        date_start: "2020-10-01",
+        external_link: "http://www.pogoda.by/news/?page=35691",
+        hazard_level:{ 
+            color_code: "FFFF00",
+            danger_level: 1,
+            description: "Погодные условия потенциально опасны — возможны осадки, грозы, возрастание порывов ветра, высокие или низкие температуры и др. Эти явления погоды обычны для территории страны, но временами могут представлять опасность для отдельных видов социально-экономической деятельности",
+            id: 2,
+            title: "Желтый уровень",
+        },
+        id: 1601452103,
+        summary: "Желтый уровень опасности. Днем 1 октября (четверг) в отдельных районах республики ожидается усиление ветра порывами до 15-18 м/с.",
+        title: "Предупреждение о неблагоприятном явлении",
+        url: "http://127.0.0.1:8000/hazard/v1/warnings/1601452103/"
+    }
 
     const [buttonsVisible, setButtonsVisible] = useState(false)
     const handleVisibleLinkClick = () => {
        setButtonsVisible(!buttonsVisible);
     }
+
     const isMount = true;
     
     useEffect( () =>{
         props.fetchWarnings();
     },[isMount]);
+
+    useEffect( () => {
+        setTimeout(() => setButtonsVisible(false), 6000)
+    }, [buttonsVisible]);
 
     useEffect(() =>{
         props.warnings.length > 0 && console.log(props.warnings)
@@ -32,7 +55,7 @@ const HomePage = (props) => {
             <Segment basic={true} centered="true">
                 <Grid>
                     <Grid.Column textAlign="center">
-                        <a className="spoiler" onClick={handleVisibleLinkClick}>
+                        <a className="spoiler" onClick={handleVisibleLinkClick} >
                             { buttonsVisible ? <Icon name='chevron down'/> : <Icon name='chevron right'/> }
                             <span className="dotted"> Оформление/отмена подписки на рассылку штормовых предупреждений </span>
                         </a>
@@ -50,14 +73,14 @@ const HomePage = (props) => {
                 </Grid>
             </Segment> 
             <Segment>
-                <Segment basic={true} centered="true">
+                <Segment basic centered="true">
                 <Grid>
                     <Grid.Column textAlign="center">
                        <Header as='h3'>Актуальные предупреждения о неблагоприятных явлениях</Header> 
                     </Grid.Column>
                 </Grid>
                 </Segment>
-                <Segment>
+                <Segment basic>
                     {props.loadingWarnings ? 
                         <Placeholder>
                             <Placeholder.Line />
@@ -66,10 +89,13 @@ const HomePage = (props) => {
                         </Placeholder>  
                         : props.responseErrorWarnings ?
                             <MessageErrror message={responseErrorsHumanize(props.errorMessageWarnings)}/>
-                            : <Segment basic={true} centered="true">
+                            : <Segment>
 
                               </Segment>
                     }
+                    <Segment.Group>
+                        <WarningComponent data = {testData}/>
+                    </Segment.Group>
                 </Segment>
                 
             </Segment>
