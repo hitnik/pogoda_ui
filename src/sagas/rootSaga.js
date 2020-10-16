@@ -1,10 +1,14 @@
 import {all} from 'redux-saga/effects';
-import {watchFetchWarnings, watchSuccesedWarnings} from './warningsSaga';
+import {watchFetchWarnings, watchSuccesedWarnings,
+        watchFetchWarningsNext, watchSuccesedWarningsNext
+        } from './warningsSaga';
 
 export default function* rootSaga(){
     yield all([
         watchFetchWarnings(),
-        watchSuccesedWarnings()
+        watchSuccesedWarnings(),
+        watchFetchWarningsNext(),
+        watchSuccesedWarningsNext()
         ]);
 };
 

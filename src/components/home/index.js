@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
 import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
-import { fetchWarnings } from '../../store/slices/warningsSlice';
+import { fetchWarnings, fetchWarningsNext } from '../../store/slices/warningsSlice';
 import MessageErrror from '../dummy/messages/messageError';
 import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 import WarningComponent  from '../dummy/warning/warningComponent';
@@ -31,26 +31,35 @@ const HomePage = (props) => {
     }
 
     const [buttonsVisible, setButtonsVisible] = useState(false)
+    const isMount = true;
+
     const handleVisibleLinkClick = () => {
        setButtonsVisible(!buttonsVisible);
     }
+ 
+    const isBottom =  (el) =>{
+        return el.getBoundingClientRect().bottom <= window.innerHeight;
+      }
 
-    const isMount = true;
-    
+    const trackScrolling = () => {
+        const wrappedElement = document.getElementById('root');
+        if (isBottom(wrappedElement)) {
+          console.log('header bottom reached');
+          props.fetchWarningsNext();  
+        }
+      };
+
     useEffect( () =>{
         props.fetchWarnings();
+        document.addEventListener('scroll', trackScrolling);
     },[isMount]);
 
     useEffect( () => {
-        setTimeout(() => setButtonsVisible(false), 6000)
+        setTimeout(() => setButtonsVisible(false), 180000)
     }, [buttonsVisible]);
 
-    useEffect(() =>{
-        props.warnings.length > 0 && console.log(props.warnings)
-    },[props.warnings]);
-
     return (     
-        <Container>
+        <Container >
           <Segment basic={true} centered="true">
             <Segment basic={true} centered="true">
                 <Grid>
@@ -89,13 +98,13 @@ const HomePage = (props) => {
                         </Placeholder>  
                         : props.responseErrorWarnings ?
                             <MessageErrror message={responseErrorsHumanize(props.errorMessageWarnings)}/>
-                            : <Segment>
-
-                              </Segment>
+                            : props.warnings.length > 0 && 
+                                <div>
+                                    {props.warnings.map(
+                                        item => <WarningComponent key={item.id} data = {item}/>
+                                    )}
+                                </div>
                     }
-                    <Segment.Group>
-                        <WarningComponent data = {testData}/>
-                    </Segment.Group>
                 </Segment>
                 
             </Segment>
@@ -120,7 +129,7 @@ function mapStateToProps(state) {
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
       subscribe, unsubscribe, 
-      fetchWarnings
+      fetchWarnings, fetchWarningsNext
    }, dispatch)
   }
 
