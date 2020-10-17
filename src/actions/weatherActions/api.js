@@ -56,8 +56,10 @@ const sendCode = async (code, token, url) => {
 }
 
 
-const getWarnings = (page=1, pageSize=5, date_filter=null) => {
+const getActualWarnings = (page=1, pageSize=5, date_filter=null) => {
   let apiURL = new URL(apis.warnings, host);
+  var date = new Date().toISOString().slice(0,10);
+  console.log(date);
   apiURL.searchParams.append('page_size', pageSize.toString())
   apiURL.searchParams.append('page', page.toString())
   return get(apiURL);
@@ -83,7 +85,7 @@ const responseErrorsHumanize = (error) => {
 }
 
 export {sendSubscribe, sendUnsubscribe, 
-        sendCode, getWarnings, 
+        sendCode, getActualWarnings, 
         responseErrorsHumanize, getHazardLevel,
         get
       }

@@ -49,7 +49,23 @@ const codeData = createSlice({
             const value = action.payload;
             state.timeLeft = value;
         },
-        clearCodeDataError: state => {state.responseError= null} 
+        clearCodeDataError: state => {state.responseError= null},
+        requestedCode: (state) =>{
+            if (state.loading === 'idle') {
+                state.loading = 'pending';
+              }
+              state.responseError = null;  
+        },
+        rejectedCode: (state, action) => {
+            state.loading = "idle";
+            state.responseError = action.error.message;
+            console.log(action.payload)
+        },
+        successedCode: (state) => {
+            state.loading = "idle";
+            state.isSuccess = true; 
+          },
+        fetchCode: () =>{}
     },
     extraReducers:{
         [activateCode.pending]: (state, action) => {
@@ -71,7 +87,9 @@ const codeData = createSlice({
 });
 
 export const { setCodeDataInitial, setCodeData,
-    setTimeLeft, clearCodeDataError
+    setTimeLeft, clearCodeDataError,
+    requestedCode, successedCode, rejectedCode,
+    fetchCode
 } = codeData.actions ;
 
 export { activateCode }
