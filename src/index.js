@@ -5,7 +5,6 @@ import "semantic-ui-css/semantic.min.css";
 import { HashRouter as Router} from "react-router-dom";
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import warnings from './store/slices/warningsSlice';
 import rootSaga from './sagas/rootSaga';
@@ -28,7 +27,7 @@ const rootReducer = (history) => combineReducers({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [...getDefaultMiddleware(), sagaMiddleware, thunk, routerMiddleware(history)]
+const middleware = [...getDefaultMiddleware(), sagaMiddleware, routerMiddleware(history)]
 
 const store = configureStore({
   reducer:rootReducer(history),

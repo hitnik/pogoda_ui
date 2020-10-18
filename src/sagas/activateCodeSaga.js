@@ -1,42 +1,30 @@
-import { takeLatest, put, call, delay, takeEvery} from 'redux-saga/effects';
+import { takeLatest, put, call} from 'redux-saga/effects';
 import {requestedCode, rejectedCode, successedCode} from '../store/slices/codeData';
+import { sendCode } from '../actions/weatherActions/api';
 
 
-
-function* fetchCodeAsync(){
+function* fetchCodeAsync(action){
+    const data = action.payload;
     try {
-        yield put(requestedWarnings());
-        yield delay(1000);
-        const data = yield call(() => {
-        return getActualWarnings()
-                .then(response => response.json())
-        });
-        yield put(successedWarnings(data)); 
-} catch (error) {
-        console.log(error)
-        yield put(rejectedWarnings(error.message));
-}
-};
-
-const activateCode = createAsyncThunk(
-    'codeData/activate',
-    (data, thunkAPI) =>{
+        yield put(requestedCode());
+        const respData = yield call(() => {
         return sendCode(data.code, data.token, data.url)
-        .then(response =>{
-            if(!response.ok) {
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then(json =>{
-            return json;
+                .then(response =>{
+                    if(!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                    })
         });
+        yield put(successedCode(respData)); 
+    } catch (error) {
+        yield put(rejectedCode(error.message));
     }
-)
+}
 
 
-function* watchCode(){
-    yield takeEvery('codeData/fetchCode', fetchCodeAsync)
+function* watchCodeSaga(){
+    yield takeLatest('codeData/fetchCode', fetchCodeAsync);
 };
 
-export default watchCode;
+export default watchCodeSaga;

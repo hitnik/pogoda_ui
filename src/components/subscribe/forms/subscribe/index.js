@@ -2,16 +2,16 @@ import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import store from '../../../../';
 import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
 import MessageErrror from '../../../dummy/messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
-        setSubFormEmailErrorRequired, subscribeThunk, setSubFormInitial, 
+        setSubFormEmailErrorRequired, setSubFormInitial, 
         }  from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
 import { responseErrorsHumanize } from '../../../../actions/weatherActions/api';
+import {fetchSubForm} from '../../../../store/slices/subForm';
 
 class ButtonFormClose extends PureComponent {
 
@@ -130,11 +130,10 @@ class SubscribeForm extends PureComponent{
     e.preventDefault();
 
     if (! this.validate()) {return null};
-    this.props.isSubscribe ? store.dispatch(
-                              subscribeThunk(
-                                {title:this.props.subForm.title.value, 
-                                  email: this.props.subForm.email.value }))
-    : store.dispatch(subscribeThunk({email:this.props.subForm.email.value}));
+    this.props.isSubscribe ? this.props.fetchSubForm(
+        {title:this.props.subForm.title.value, 
+          email: this.props.subForm.email.value })
+    :this.props.fetchSubForm({email:this.props.subForm.email.value});
   }
 
   
@@ -185,6 +184,7 @@ class SegmentForms extends PureComponent{
       const isSubscribe = this.props.isSubscribe;
       const history = this.props.history; 
       const subForm = this.props.subForm;
+      const fetchSubForm = this.props.fetchSubForm;
       
       return (
         <Container>
@@ -213,6 +213,7 @@ class SegmentForms extends PureComponent{
                             setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
                             setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
                             sendSubscribeRequest = {this.props.sendSubscribeRequest}
+                            fetchSubForm = {fetchSubForm}
 
              />
         </Segment>  
@@ -235,7 +236,7 @@ function mapDispatchToProps(dispatch) {
     setSubFormEmail, setSubFormTitle, clearSubFormTitleError, 
     clearSubFormEmailError, setSubFormTitleErrorRequired,
     setSubFormEmailErrorFormat, setSubFormEmailErrorRequired,
-    setSubFormInitial   
+    setSubFormInitial, fetchSubForm
  }, dispatch)
 }
 

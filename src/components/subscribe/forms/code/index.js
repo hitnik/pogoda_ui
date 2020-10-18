@@ -9,11 +9,10 @@ import { setTimeLeft } from '../../../../store/slices/codeData';
 import { setSubFormTitle, setSubFormEmail,
 } from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
-import { activateCode, clearCodeDataError } from '../../../../store/slices/codeData';
-import store from '../../../../index';
 import errorMessages from '../../../../store/initialConstants/errorMessages';
 import { responseErrorsHumanize } from '../../../../actions/weatherActions/api';
 import ModalSuccess from '../../../modals/modalSuccess';
+import { fetchCode, clearCodeDataError } from '../../../../store/slices/codeData';
 
 const isEmpty= (obj) => {
     return Object.keys(obj).length === 0;
@@ -131,8 +130,7 @@ const CodeForm = (props) => {
     const handleSubmit = (e) =>{
         e.preventDefault();
         if (!validate()) return null;
-        store.dispatch(activateCode({code:value, token:props.codeData.token, url:props.codeData.confirmURL}));
-        
+        props.fetchCode({code:value, token:props.codeData.token, url:props.codeData.confirmURL});
     }
 
     return (
@@ -213,7 +211,8 @@ function mapStateToProps(state) {
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
      setSubFormEmail, setSubFormTitle, 
-     setTimeLeft, clearCodeDataError
+     setTimeLeft, clearCodeDataError,
+     fetchCode
    }, dispatch)
   }
 

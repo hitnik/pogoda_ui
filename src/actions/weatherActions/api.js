@@ -17,6 +17,7 @@ const get = async (url) => {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
       'Content-Type': 'application/json',
+      
       "X-CSRFToken": Cookies.get("csrftoken")
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
