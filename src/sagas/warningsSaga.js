@@ -30,7 +30,7 @@ function* fetchWarningsAsync() {
                 });
                 yield put(successedWarnings(data)); 
         } catch (error) {
-                console.log(error)
+
                 yield put(rejectedWarnings(error.message));
         }
 }

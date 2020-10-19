@@ -31,7 +31,7 @@ const HomePage = (props) => {
     }
 
     const [buttonsVisible, setButtonsVisible] = useState(false)
-    const isMount = true;
+    const [isMount, setIsMount] = useState(true);
 
     const handleVisibleLinkClick = () => {
        setButtonsVisible(!buttonsVisible);
@@ -44,8 +44,7 @@ const HomePage = (props) => {
     const trackScrolling = () => {
         const wrappedElement = document.getElementById('root');
         if (isBottom(wrappedElement)) {
-          console.log('header bottom reached');
-          props.fetchWarningsNext();  
+          props.next && props.fetchWarningsNext();  
         }
       };
 
@@ -53,6 +52,12 @@ const HomePage = (props) => {
         props.fetchWarnings();
         document.addEventListener('scroll', trackScrolling);
     },[isMount]);
+
+    useEffect( () =>{
+        setTimeout(() => { 
+            setIsMount(!isMount);
+        },600000);
+    });
 
     useEffect( () => {
         setTimeout(() => setButtonsVisible(false), 180000)
@@ -98,12 +103,13 @@ const HomePage = (props) => {
                         </Placeholder>  
                         : props.responseErrorWarnings ?
                             <MessageErrror message={responseErrorsHumanize(props.errorMessageWarnings)}/>
-                            : props.warnings.length > 0 && 
-                                <div>
-                                    {props.warnings.map(
-                                        item => <WarningComponent key={item.id} data = {item}/>
-                                    )}
-                                </div>
+                                : props.warnings.length > 0 ?
+                                    <div>
+                                        {props.warnings.map(
+                                            item => <WarningComponent key={item.id} data = {item}/>
+                                        )}
+                                    </div>
+                                    : <Header textAlign='center' as='h4'>Здесь пусто!</Header> 
                     }
                 </Segment>
                 
@@ -122,7 +128,8 @@ function mapStateToProps(state) {
       warnings: state.warnings.warningsArr,
       loadingWarnings : state.warnings.loading,
       responseErrorWarnings : state.warnings.responseError,
-      errorMessageWarnings : state.warnings.errorMessage
+      errorMessageWarnings : state.warnings.errorMessage,
+      next: state.warnings.next
     }
   }
   

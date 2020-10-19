@@ -1,4 +1,4 @@
 {
-    "WEATHER_API_HOST_DEV" : "http://127.0.0.1",
+    "WEATHER_API_HOST_DEV" : "http://127.0.0.1:8000",
     "WEATHER_API_HOST_PROD" : "http://10.254.90.101"
 }

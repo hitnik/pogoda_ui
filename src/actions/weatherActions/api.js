@@ -57,12 +57,15 @@ const sendCode = async (code, token, url) => {
 }
 
 
-const getActualWarnings = (page=1, pageSize=5, date_filter=null) => {
+const getActualWarnings = (page=1, pageSize=5) => {
   let apiURL = new URL(apis.warnings, host);
-  var date = new Date().toISOString().slice(0,10);
-  console.log(date);
+  const date = new Date().toISOString().slice(0,10);
+  const date_start = date;
+  const date_end = date;
   apiURL.searchParams.append('page_size', pageSize.toString())
   apiURL.searchParams.append('page', page.toString())
+  apiURL.searchParams.append('date_start_after', date_start);
+  apiURL.searchParams.append('date_end_after', date_end);
   return get(apiURL);
 }
 

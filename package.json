@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 8081 --mode development --open --hot",
+    "start": "webpack-dev-server --host 127.0.0.1 --port 8081 --mode development --open --hot",
     "build": "webpack --mode production"
   },
   "author": "",
