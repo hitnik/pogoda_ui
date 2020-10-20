@@ -133,6 +133,12 @@ const CodeForm = (props) => {
         props.fetchCode({code:value, token:props.codeData.token, url:props.codeData.confirmURL});
     }
 
+    const keyPress = (e) => {
+        if(e.keyCode == 13){
+          handleSubmit(e)
+       }
+      }
+
     return (
         <Container>
         {props.codeData.isSuccess && <ModalSuccess message={messageSuccess} 
@@ -155,7 +161,7 @@ const CodeForm = (props) => {
             </Segment>  
             <Segment centered="true" basic={true}>
             <Grid className="center aligned">
-                <Form loading={props.codeData.loading === 'pending' ? true: false} >
+                <Form onKeyDown={keyPress} loading={props.codeData.loading === 'pending' ? true: false} >
                     {isValid && <CodeInput name='code' 
                                            label='Код подтверждения' 
                                            placeholder='Код'
