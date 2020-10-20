@@ -11,7 +11,7 @@ import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 import WarningComponent  from '../dummy/warning/warningComponent';
 
 
-const host = PRODUCTION ?  WEATHER_API_HOST_PROD : 'data.WEATHER_API_HOST_DEV;'
+const host = PRODUCTION ?  WEATHER_API_HOST_PROD : 'not production'
 
 
 const HomePage = (props) => {
