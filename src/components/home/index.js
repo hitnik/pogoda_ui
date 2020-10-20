@@ -10,10 +10,13 @@ import MessageErrror from '../dummy/messages/messageError';
 import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 import WarningComponent  from '../dummy/warning/warningComponent';
 
+
+const host = PRODUCTION ?  WEATHER_API_HOST_PROD : 'data.WEATHER_API_HOST_DEV;'
+
+
 const HomePage = (props) => {
 
-    console.log("api "+process.env.API);
-    console.log('api from webpack'+ API);
+    console.log(host)
 
     const testData = {
         date_end: "2020-10-01",
