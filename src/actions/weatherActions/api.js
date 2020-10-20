@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import data from './config.json';
 const apis = {
         subscribe: 'hazard/v1/subscribe_newsletter',
         unsubscribe: 'hazard/v1/unsubscribe_newsletter',
@@ -7,7 +6,7 @@ const apis = {
         warnings: 'hazard/v1/warnings/'
     }
 
-const host = PRODUCTION ?  data.WEATHER_API_HOST_PROD : data.WEATHER_API_HOST_DEV;
+const host = PRODUCTION ?  WEATHER_API_HOST_PROD : WEATHER_API_HOST_DEV
 
 
 const get = async (url) => {
