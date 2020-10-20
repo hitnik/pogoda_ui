@@ -12,6 +12,7 @@ import WarningComponent  from '../dummy/warning/warningComponent';
 
 const HomePage = (props) => {
 
+    console.log("api "+process.env.API);
 
     const testData = {
         date_end: "2020-10-01",
