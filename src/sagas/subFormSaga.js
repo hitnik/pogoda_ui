@@ -1,5 +1,7 @@
 import { takeLatest, put, call} from 'redux-saga/effects';
-import { requestedSubForm, rejectedSubForm, successedSubForm } from '../store/slices/subForm';
+import { requestedSubForm, rejectedSubForm, successedSubForm,
+        rejectedHazardLevels, requestedHazardLevels, successedHazardLevels   
+        } from '../store/slices/subForm';
 import { sendSubscribe, sendUnsubscribe, getHazardLevels } from '../actions/weatherActions/api';
 import { push } from 'connected-react-router';
 import store from '../index';
@@ -41,11 +43,26 @@ function* fetchSubFormAsync(action){
 }
 
 function* fetchGetHazardLevels(){
-    
+    try {
+        yield put(requestedHazardLevels());
+        const data = yield call(() => {
+        return getHazardLevels()
+                .then(response => response.json())
+        });
+        yield put(successedHazardLevels(data)); 
+} catch (error) {
+
+        yield put(rejectedHazardLevels(error.message));
+}
 }
 
 function* watchSubFormSaga(){
     yield takeLatest('subForm/fetchSubForm', fetchSubFormAsync);
 };
 
-export default watchSubFormSaga;
+function* watchGetHazardLevelsSaga() {
+    yield takeLatest('subform/fetchGetHazardLevels', fetchGetHazardLevels);
+}
+
+
+export {watchSubFormSaga, watchGetHazardLevelsSaga };

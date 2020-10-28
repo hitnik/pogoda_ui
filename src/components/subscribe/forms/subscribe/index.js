@@ -2,7 +2,10 @@ import React, { PureComponent} from "react";
 import {withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {Segment, Button, Grid, Form, Header, Container} from 'semantic-ui-react';
+import {Segment, Button, Grid, Form, 
+        Header, Container, Dimmer, Loader,
+        Placeholder
+      } from 'semantic-ui-react';
 import MessageErrror from '../../../dummy/messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
@@ -83,6 +86,32 @@ class FormInput extends PureComponent {
 } 
 
 
+const CheckBoxMap = (props) =>{
+
+  return (
+    <Segment centered="true">
+      <Grid>
+        <Grid.Row>
+          <Grid.Column textAlign="center">
+              <Header as='h5'> Выберите уровни опасности метеоявлений, которые вы хотите получать</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+        <Placeholder>
+          <Placeholder.Line />
+          <Placeholder.Line />
+          <Placeholder.Line />
+          </Placeholder>  
+          <Dimmer active inverted>
+            <Loader inverted>Loading</Loader>
+          </Dimmer>
+        </Grid.Row>
+      </Grid>
+    </Segment>  
+
+  )
+}
+
 class SubscribeForm extends PureComponent{
 
 
@@ -160,6 +189,7 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
+      <CheckBoxMap/>
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
     ) : (<Form onKeyDown={this.keyPress} loading={this.state.isLoading} widths="equal">

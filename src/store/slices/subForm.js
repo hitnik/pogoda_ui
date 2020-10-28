@@ -98,7 +98,8 @@ export const { setSubFormEmail, setSubFormTitle,
                setSubFormEmailErrorRequired,
                sendSubscribeRequest, setSubFormInitial,
                requestedSubForm, rejectedSubForm, successedSubForm,
-               fetchSubForm
+               fetchSubForm, requestedHazardLevels, rejectedHazardLevels,
+               successedHazardLevels, fetchGetHazardLevels
              } = subFormSlice.actions ;
 
 export default subFormSlice.reducer;
