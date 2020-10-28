@@ -1,6 +1,6 @@
 import { takeLatest, put, call} from 'redux-saga/effects';
 import { requestedSubForm, rejectedSubForm, successedSubForm } from '../store/slices/subForm';
-import { sendSubscribe, sendUnsubscribe } from '../actions/weatherActions/api';
+import { sendSubscribe, sendUnsubscribe, getHazardLevels } from '../actions/weatherActions/api';
 import { push } from 'connected-react-router';
 import store from '../index';
 import { setCodeData} from '../store/slices/codeData';
@@ -40,6 +40,9 @@ function* fetchSubFormAsync(action){
     }
 }
 
+function* fetchGetHazardLevels(){
+    
+}
 
 function* watchSubFormSaga(){
     yield takeLatest('subForm/fetchSubForm', fetchSubFormAsync);

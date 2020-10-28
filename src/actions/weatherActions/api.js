@@ -3,7 +3,8 @@ const apis = {
         subscribe: 'hazard/v1/subscribe_newsletter',
         unsubscribe: 'hazard/v1/unsubscribe_newsletter',
         activate: 'hazard/v1/code-validate',
-        warnings: 'hazard/v1/warnings/'
+        warnings: 'hazard/v1/warnings/',
+        hazardLevels: 'hazard/v1/hazard-levels/'
     }
 
 const host = PRODUCTION ?  WEATHER_API_HOST_PROD : WEATHER_API_HOST_DEV
@@ -72,6 +73,10 @@ const getHazardLevel = (url) => {
   return get(url);
 }
 
+const getHazardLevels = () => {
+  return get(apis.hazardLevels);
+}
+
 const responseErrorsHumanize = (error) => {
   switch (error){
     case 'Failed to fetch': 
@@ -90,5 +95,5 @@ const responseErrorsHumanize = (error) => {
 export {sendSubscribe, sendUnsubscribe, 
         sendCode, getActualWarnings, 
         responseErrorsHumanize, getHazardLevel,
-        get
+        get, getHazardLevels
       }
