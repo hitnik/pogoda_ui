@@ -136,11 +136,16 @@ class SubscribeForm extends PureComponent{
     :this.props.fetchSubForm({email:this.props.subForm.email.value});
   }
 
+  keyPress = (e) => {
+    if(e.keyCode == 13){
+      this.handleSubmit(e)
+   }
+  }
   
 
   render () {
     const isSubscribe = this.props.isSubscribe;
-    const form = isSubscribe ? (<Form loading={this.props.subForm.loading === 'pending' ? true: false} widths="equal">
+    const form = isSubscribe ? (<Form onKeyDown={this.keyPress} loading={this.props.subForm.loading === 'pending' ? true: false} widths="equal">
       <Form.Group>
         <FormInput data = {this.props.subForm.title}
                    onChange = {this.handleInputChange}
@@ -157,7 +162,7 @@ class SubscribeForm extends PureComponent{
       </Form.Group>
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
-    ) : (<Form loading={this.state.isLoading} widths="equal">
+    ) : (<Form onKeyDown={this.keyPress} loading={this.state.isLoading} widths="equal">
       <Form.Group>
         <FormInput data = {this.props.subForm.email}
                    onChange = {this.handleInputChange}
