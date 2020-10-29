@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Segment, Button, Grid, Form, 
         Header, Container, Dimmer, Loader,
-        Placeholder
+        Checkbox, Message
       } from 'semantic-ui-react';
 import MessageErrror from '../../../dummy/messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
@@ -89,26 +89,44 @@ class FormInput extends PureComponent {
 const CheckBoxMap = (props) =>{
 
   return (
-    <Segment centered="true">
-      <Grid>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-              <Header as='h5'> Выберите уровни опасности метеоявлений, которые вы хотите получать</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-        <Placeholder>
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-          </Placeholder>  
-          <Dimmer active inverted>
-            <Loader inverted>Loading</Loader>
-          </Dimmer>
-        </Grid.Row>
-      </Grid>
-    </Segment>  
-
+    <Segment basic>
+      <Segment basic centered="true">
+        <Grid>
+          <Grid.Row>
+            <Grid.Column textAlign="center">
+                <Header as='h5'> Выберите уровни опасности метеоявлений, которые вы хотите получать</Header>
+            </Grid.Column>
+          </Grid.Row>
+          </Grid>
+      </Segment>
+      {props.levelsError != null 
+          ?
+            <Segment basic>
+              <MessageErrror message={responseErrorsHumanize(props.levelsError)}/> 
+              <Message info floating>Будут выбраны все уровни опасности </Message>
+            </Segment>
+          :
+      <Form.Group>
+        <Form.Field>
+            <Checkbox label='Неопасно'/>
+        </Form.Field>
+        <Form.Field>
+            <Checkbox label='Немного опасно'/>
+        </Form.Field>
+        <Form.Field>
+            <Checkbox label='Просто опасно'/>
+        </Form.Field>
+        <Form.Field>
+            <Checkbox label='Очень опасно'/>
+        </Form.Field>
+        <Dimmer active inverted>
+          <Loader size='large' inverted>Loading</Loader>
+        </Dimmer>
+      </Form.Group>
+      }
+    </Segment>          
+      
+      
   )
 }
 
@@ -189,7 +207,7 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
-      <CheckBoxMap/>
+      <CheckBoxMap levelsError = {'Error'}/>
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
     ) : (<Form onKeyDown={this.keyPress} loading={this.state.isLoading} widths="equal">

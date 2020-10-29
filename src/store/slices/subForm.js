@@ -14,7 +14,7 @@ const init = {
     }, 
     loading: 'idle',
     responseError: null,
-    loadingLevels : 'idle',
+    loadingLevels : false,
     levelsError: null,
     hazardLevels: []
 }
@@ -68,18 +68,18 @@ const subFormSlice = createSlice({
             state = init; 
         },
         requestedHazardLevels: (state) => {
-            if (state.loadingLevels === 'idle') {
-                state.loadingLevels = 'pending';
+            if (state.loadingLevels === false) {
+                state.loadingLevels = true;
               }
               state.levelsError = null;  
         },
         rejectedHazardLevels: (state, action) => {
-            state.loadingLevels = "idle";
+            state.loadingLevels = false;
             const err = action.payload
             state.levelsError = err;
         },
         successedHazardLevels: (state, action) => {
-            state.loadingLevels = "idle";
+            state.loadingLevels = false;
             state.levelsError = null;  
             const levels = action.payload;
             state.hazardLevels = levels; 
