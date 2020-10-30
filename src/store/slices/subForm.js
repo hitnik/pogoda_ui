@@ -16,7 +16,8 @@ const init = {
     responseError: null,
     loadingLevels : false,
     levelsError: null,
-    hazardLevels: []
+    hazardLevels: [],
+    hazardLevelsMarked:[],
 }
 
 const subFormSlice = createSlice({
@@ -52,6 +53,10 @@ const subFormSlice = createSlice({
             state.email.error = true;
             state.email.msg = errorMessages.emailFormat;
         },
+        setMarkedLevels:(state, action) => {
+           const arr = action.payload;
+           state.hazardLevelsMarked = arr; 
+        },
         requestedSubForm: (state) => {
             if (state.loading === 'idle') {
                 state.loading = 'pending';
@@ -81,11 +86,20 @@ const subFormSlice = createSlice({
         successedHazardLevels: (state, action) => {
             state.loadingLevels = false;
             state.levelsError = null;  
-            const levels = action.payload;
+            let levels = action.payload;
+            levels.sort(function (a, b) {
+                if (a.id > b.id) {
+                  return 1;
+                }
+                if (a.id < b.id) {
+                  return -1;
+                }
+                return 0;
+              })
             state.hazardLevels = levels; 
         },
         fetchSubForm: () =>{},
-        fetchGetHazardLevels: () => {}
+        fetchHazardLevels: () =>{}
     }
 });
 
@@ -99,7 +113,7 @@ export const { setSubFormEmail, setSubFormTitle,
                sendSubscribeRequest, setSubFormInitial,
                requestedSubForm, rejectedSubForm, successedSubForm,
                fetchSubForm, requestedHazardLevels, rejectedHazardLevels,
-               successedHazardLevels, fetchGetHazardLevels
+               successedHazardLevels, fetchHazardLevels, setMarkedLevels
              } = subFormSlice.actions ;
 
 export default subFormSlice.reducer;

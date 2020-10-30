@@ -1,4 +1,4 @@
-import { takeLatest, put, call} from 'redux-saga/effects';
+import { takeLatest, put, call, delay} from 'redux-saga/effects';
 import { requestedSubForm, rejectedSubForm, successedSubForm,
         rejectedHazardLevels, requestedHazardLevels, successedHazardLevels   
         } from '../store/slices/subForm';
@@ -12,7 +12,7 @@ function* fetchSubFormAsync(action){
     const state = store.getState();
     const send = () => {
         if (state.isSubscribe){
-            return sendSubscribe(data.title, data.email)
+            return sendSubscribe(data.title, data.email, data.hazardLevels)
         }
         return sendUnsubscribe(data.email)
     }
@@ -43,6 +43,7 @@ function* fetchSubFormAsync(action){
 }
 
 function* fetchGetHazardLevels(){
+    
     try {
         yield put(requestedHazardLevels());
         const data = yield call(() => {
@@ -61,7 +62,7 @@ function* watchSubFormSaga(){
 };
 
 function* watchGetHazardLevelsSaga() {
-    yield takeLatest('subform/fetchGetHazardLevels', fetchGetHazardLevels);
+    yield takeLatest('subForm/fetchHazardLevels', fetchGetHazardLevels);
 }
 
 

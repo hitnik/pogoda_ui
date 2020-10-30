@@ -74,7 +74,7 @@ module.exports = {
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(process.env.PRODUCTION) || false,
-      WEATHER_API_HOST_DEV: JSON.stringify("http://127.0.0.1`"),
+      WEATHER_API_HOST_DEV: JSON.stringify("http://127.0.0.1"),
       WEATHER_API_HOST_PROD: JSON.stringify(process.env.API_HOST),
     })
   ]

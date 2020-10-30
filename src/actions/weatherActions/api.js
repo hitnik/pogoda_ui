@@ -38,9 +38,9 @@ const post = async (url, data=null) =>{
   });
 }
 
-const sendSubscribe = async (title, email) =>{
+const sendSubscribe = async (title, email, hazardLevels) =>{
   const apiURL = new URL(apis.subscribe, host);
-  const data = {title: title, email: email}
+  const data = {title: title, email: email, hazard_levels: hazardLevels}
   return await post(apiURL, data);
 }
 
@@ -74,7 +74,7 @@ const getHazardLevel = (url) => {
 }
 
 const getHazardLevels = () => {
-  return get(apis.hazardLevels);
+  return get(new URL(apis.hazardLevels, host));
 }
 
 const responseErrorsHumanize = (error) => {

@@ -13,7 +13,7 @@ export default function* rootSaga(){
         watchSuccesedWarningsNext(),
         watchCodeSaga(),
         watchSubFormSaga(),
-        watchGetHazardLevelsSaga
+        watchGetHazardLevelsSaga(),
         ]);
 };
 

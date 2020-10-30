@@ -1,16 +1,17 @@
-import React, { PureComponent} from "react";
+import React, { PureComponent, useEffect} from "react";
 import {withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Segment, Button, Grid, Form, 
         Header, Container, Dimmer, Loader,
-        Checkbox, Message
+        Checkbox, Message, Popup, Divider
       } from 'semantic-ui-react';
 import MessageErrror from '../../../dummy/messages/messageError';
 import {setSubFormEmail, setSubFormTitle,
         clearSubFormEmailError, clearSubFormTitleError,
         setSubFormTitleErrorRequired, setSubFormEmailErrorFormat,
         setSubFormEmailErrorRequired, setSubFormInitial, 
+        fetchHazardLevels,setMarkedLevels
         }  from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
 import { responseErrorsHumanize } from '../../../../actions/weatherActions/api';
@@ -87,6 +88,27 @@ class FormInput extends PureComponent {
 
 
 const CheckBoxMap = (props) =>{
+  
+
+  const handleCheckBoxChange = (e)=>{
+    if (e.target.checked) {
+      let id = parseInt(e.target.id)+1;
+      if (document.getElementById(id)){
+        let elem = document.getElementById(id);
+        if (!elem.checked){
+          elem.click();
+        }
+      }
+  }else{
+    let id = parseInt(e.target.id)-1;
+    if (document.getElementById(id)){
+      let elem = document.getElementById(id);
+      if (elem.checked){
+        elem.click();
+      }
+    }
+  }
+}
 
   return (
     <Segment basic>
@@ -97,15 +119,9 @@ const CheckBoxMap = (props) =>{
                 <Header as='h5'> Выберите уровни опасности метеоявлений, которые вы хотите получать</Header>
             </Grid.Column>
           </Grid.Row>
-          </Grid>
+        </Grid>
       </Segment>
-      {props.levelsError != null 
-          ?
-            <Segment basic>
-              <MessageErrror message={responseErrorsHumanize(props.levelsError)}/> 
-              <Message info floating>Будут выбраны все уровни опасности </Message>
-            </Segment>
-          :
+      {props.loadingLevels ?
       <Form.Group>
         <Form.Field>
             <Checkbox label='Неопасно'/>
@@ -123,6 +139,52 @@ const CheckBoxMap = (props) =>{
           <Loader size='large' inverted>Loading</Loader>
         </Dimmer>
       </Form.Group>
+      :
+        props.levelsError === null 
+          ?
+            props.hazardLevels.length > 0 
+              ?
+              <Segment basic>
+              <Form.Group>
+                  {props.hazardLevels.map(
+                      item =>
+                                <Popup key={item.id}
+                                    on = {'hover'}
+                                    content={item.description} 
+                                    trigger ={
+                                      <Form.Field>
+                                        <Checkbox onChange={handleCheckBoxChange}
+                                                        id={item.id} 
+                                                        label={item.title}
+                                                        value={item.id}
+                                                        {...(props.markedLevels.indexOf(item.id) >= 0 && {defaultChecked:true} )}
+                                                       
+                                              />
+                                      </Form.Field>
+                                    } 
+                                    size='tiny'
+                                    wide='very'
+                                /> 
+                              
+                  )}
+              </Form.Group>   
+                <Divider/>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column textAlign="center">
+                        <Header as='h6' color='grey'> Если не омечено ни одного уровня, вы будете подписаны на все.</Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+          : 
+          <Segment basic>
+            <Message floating>Будут выбраны все уровни опасности </Message>
+          </Segment>
+        :
+          <Segment basic>
+            <Message floating>Будут выбраны все уровни опасности </Message>
+          </Segment>
       }
     </Segment>          
       
@@ -140,9 +202,11 @@ class SubscribeForm extends PureComponent{
       isLoading: false,
       titleError: false,
     };
-    
-
   }
+
+  componentDidMount = () => {
+    this.props.fetchHazardLevels();
+}
 
   validate = () => {
     if (this.props.isSubscribe && this.props.subForm.title.value === '') {
@@ -175,11 +239,17 @@ class SubscribeForm extends PureComponent{
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     if (! this.validate()) {return null};
+
+    const form = document.forms.subscribe;
+    const inputs = form.querySelectorAll("input[type='checkbox']");
+    const markedLevels = [];
+    Array.from(inputs).map(item => item.checked && markedLevels.push(parseInt(item.value)));
+    this.props.setMarkedLevels(markedLevels);
     this.props.isSubscribe ? this.props.fetchSubForm(
         {title:this.props.subForm.title.value, 
-          email: this.props.subForm.email.value })
+          email: this.props.subForm.email.value,
+          hazardLevels: markedLevels})
     :this.props.fetchSubForm({email:this.props.subForm.email.value});
   }
 
@@ -192,7 +262,7 @@ class SubscribeForm extends PureComponent{
 
   render () {
     const isSubscribe = this.props.isSubscribe;
-    const form = isSubscribe ? (<Form onKeyDown={this.keyPress} loading={this.props.subForm.loading === 'pending' ? true: false} widths="equal">
+    const form = isSubscribe ? (<Form onKeyDown={this.keyPress} name='subscribe' loading={this.props.subForm.loading === 'pending' ? true: false} widths="equal">
       <Form.Group>
         <FormInput data = {this.props.subForm.title}
                    onChange = {this.handleInputChange}
@@ -207,7 +277,11 @@ class SubscribeForm extends PureComponent{
                    placeholder = 'Адрес электронной почты'   
                   />
       </Form.Group>
-      <CheckBoxMap levelsError = {'Error'}/>
+      <CheckBoxMap loadingLevels={this.props.loadingLevels}
+                   levelsError = {this.props.levelsError} 
+                   hazardLevels={this.props.hazardLevels}
+                   markedLevels = {this.props.hazardLevelsMarked}
+      />
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
     ) : (<Form onKeyDown={this.keyPress} loading={this.state.isLoading} widths="equal">
@@ -257,7 +331,7 @@ class SegmentForms extends PureComponent{
              <MessageErrror message={responseErrorsHumanize(this.props.subForm.responseError)}/>}    
              <SubscribeForm isSubscribe = {isSubscribe} 
                             history={history} 
-                            subForm = {subForm} 
+                            subForm = {this.props.subForm} 
                             setEmail = {this.props.setSubFormEmail}
                             setTitle = {this.props.setSubFormTitle} 
                             clearTitleError = {this.props.clearSubFormTitleError}
@@ -266,8 +340,15 @@ class SegmentForms extends PureComponent{
                             setEmailErrorRequired = {this.props.setSubFormEmailErrorRequired}
                             setEmailErrorFormat = {this.props.setSubFormEmailErrorFormat}
                             sendSubscribeRequest = {this.props.sendSubscribeRequest}
+                            setMarkedLevels = {this.props.setMarkedLevels}
                             fetchSubForm = {fetchSubForm}
-
+                            fetchHazardLevels = {this.props.fetchHazardLevels}
+                            loadingLevels = {this.props.subForm.loadingLevels}
+                            levelsError = {this.props.subForm.levelsError}
+                            hazardLevels = {this.props.subForm.hazardLevels}
+                            hazardLevelsMarked = {this.props.subForm.hazardLevelsMarked}
+                            
+              
              />
         </Segment>  
           </Segment.Group>
@@ -280,7 +361,7 @@ class SegmentForms extends PureComponent{
 function mapStateToProps(state) {
   return {
     isSubscribe: state.isSubscribe,
-		subForm: state.subForm
+    subForm: state.subForm,
   }
 }
 
@@ -289,7 +370,7 @@ function mapDispatchToProps(dispatch) {
     setSubFormEmail, setSubFormTitle, clearSubFormTitleError, 
     clearSubFormEmailError, setSubFormTitleErrorRequired,
     setSubFormEmailErrorFormat, setSubFormEmailErrorRequired,
-    setSubFormInitial, fetchSubForm
+    setSubFormInitial, fetchSubForm, fetchHazardLevels, setMarkedLevels
  }, dispatch)
 }
 

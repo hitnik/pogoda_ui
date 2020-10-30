@@ -6,7 +6,7 @@ import MessageErrror from '../../../dummy/messages/messageError';
 import {Segment,  Container, Header, Grid, Button, Form, FormInput} from 'semantic-ui-react';
 import calculateTimeLeft from '../../../../actions/timer';
 import { setTimeLeft } from '../../../../store/slices/codeData';
-import { setSubFormTitle, setSubFormEmail,
+import { setSubFormTitle, setSubFormEmail, setMarkedLevels
 } from '../../../../store/slices/subForm';
 import { setStoreInitial } from '../../../../store/store';
 import errorMessages from '../../../../store/initialConstants/errorMessages';
@@ -121,9 +121,11 @@ const CodeForm = (props) => {
 
     const handleRepeat = (e) => {
         e.preventDefault();
+        const markedLevels = props.markedLevels;
         setStoreInitial();
         props.setSubFormEmail(props.codeData.email);
         props.isSubscribe && props.setSubFormTitle(props.codeData.title);
+        props.isSubscribe && props.setMarkedLevels(markedLevels);
         history.push('/subscribe');
     }
 
@@ -210,7 +212,8 @@ const CodeForm = (props) => {
 function mapStateToProps(state) {
     return {
         isSubscribe: state.isSubscribe,
-        codeData : state.codeData
+        codeData : state.codeData,
+        markedLevels: state.subForm.hazardLevelsMarked
     }
   }
   
@@ -218,7 +221,7 @@ function mapStateToProps(state) {
     return bindActionCreators({
      setSubFormEmail, setSubFormTitle, 
      setTimeLeft, clearCodeDataError,
-     fetchCode
+     fetchCode, setMarkedLevels
    }, dispatch)
   }
 
