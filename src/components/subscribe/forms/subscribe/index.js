@@ -77,7 +77,9 @@ class FormInput extends PureComponent {
   }
   
   render () {
-    const input = <Form.Input required name={this.name} label={this.label} placeholder={this.placeholder}
+    const input = <Form.Input required name={this.name} 
+                              label={this.label} 
+                              placeholder={this.placeholder}
                               defaultValue = {this.props.data.value} 
                               error={this.props.data.error ? (this.props.data.msg) : undefined}
                               onChange={this.onChange}
@@ -230,10 +232,6 @@ class SubscribeForm extends PureComponent{
       this.props.setEmail(event.target.value);
       this.props.clearEmailError();
     }
-    if(name == 'title'){
-      this.props.setTitle(event.target.value);
-      this.props.clearTitleError();
-    }
   }
 
 
@@ -373,5 +371,7 @@ function mapDispatchToProps(dispatch) {
     setSubFormInitial, fetchSubForm, fetchHazardLevels, setMarkedLevels
  }, dispatch)
 }
+
+export {FormInput, ButtonFormClose, ButtonFormSubmit}
 
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(SegmentForms))

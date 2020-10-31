@@ -73,9 +73,10 @@ class SubscribeContainer extends PureComponent{
   }
 
   onClickEdit = () => {
-    this.setState((prevState, props) => {return {modalVisible: !prevState.modalVisible}})
-    console.log(this.state.modalVisible)
+    this.setState( {modalVisible: true})
   }
+
+  modalCloseAction = () => this.setState({modalVisible: false})
   
   render() {
 
@@ -83,6 +84,9 @@ class SubscribeContainer extends PureComponent{
 
       return (
           <Container>
+            {this.state.modalVisible && <ModalGetUser modalCloseAction = {this.modalCloseAction}
+                                        />
+            }
             <Segment.Group>
               <Segment centered="true">
                 <Grid>
