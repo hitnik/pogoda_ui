@@ -81,8 +81,8 @@ const getHazardLevels = () => {
 const getUser = (email) => {
   let apiURL = new URL(apis.warnings, host);
   apiURL = new URL(email, apiURL);
-  return get(apiURL);
-
+  return get(apiURL)
+}
 
 const responseErrorsHumanize = (error) => {
   switch (error){
