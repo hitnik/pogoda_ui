@@ -1,25 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Form} from 'semantic-ui-react';
 import {FormInput} from '../subscribe'
 
-const FormEditSubscribe = () =>{
+const FormEditSubscribe = (props) =>{
 
-    const [value, setValue] = useState('');
-    const [error, setError] = useState();
-
-
-
-    // const handleChange = (event) =>{
-    //     console.log(event.target.value);
-    //     setEmail(email+1);
-    //     console.log(email);
-    //     setError();
-    // }
-
-    const handleInputChange = (event) =>{
-          setValue('dfgdfgdfg');
-          console.log(value);
-    }    
 
     return (
         <Form>
@@ -28,8 +12,8 @@ const FormEditSubscribe = () =>{
                             name = "email"
                             label = 'Адрес электронной почты'
                             placeholder = 'Адрес электронной почты'
-                            data = {{value:'', error:error}}
-                            onChange={handleInputChange}
+                            data = {props.data}
+                            onChange = {props.onInputChange}
                  />
              </Form.Group>
         </Form>
