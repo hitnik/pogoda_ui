@@ -1,8 +1,11 @@
 import { takeLatest, put, call, delay} from 'redux-saga/effects';
 import { requestedSubForm, rejectedSubForm, successedSubForm,
-        rejectedHazardLevels, requestedHazardLevels, successedHazardLevels   
+        rejectedHazardLevels, requestedHazardLevels, successedHazardLevels,
+        requestedGetUser, rejectedtedGetUser, successedGetUser,   
         } from '../store/slices/subForm';
-import { sendSubscribe, sendUnsubscribe, getHazardLevels } from '../actions/weatherActions/api';
+import { sendSubscribe, sendUnsubscribe, getHazardLevels,
+        getUser,
+        } from '../actions/weatherActions/api';
 import { push } from 'connected-react-router';
 import store from '../index';
 import { setCodeData} from '../store/slices/codeData';
@@ -43,7 +46,6 @@ function* fetchSubFormAsync(action){
 }
 
 function* fetchGetHazardLevels(){
-    
     try {
         yield put(requestedHazardLevels());
         const data = yield call(() => {
@@ -51,10 +53,24 @@ function* fetchGetHazardLevels(){
                 .then(response => response.json())
         });
         yield put(successedHazardLevels(data)); 
-} catch (error) {
-
+    } catch (error) {
         yield put(rejectedHazardLevels(error.message));
 }
+}
+
+function* fetchGetUserAsync(action){
+    const email = action.payload;
+    try {
+        yield put(rejectedtedGetUser());
+        const data = yield call(() => {
+        return getUser(email)
+                .then(response => response.json())
+        });
+        yield put(successedGetUser(data)); 
+    } catch (error) {
+        console.log(error)
+        yield put(rejectedtedGetUser(error.message));
+    }
 }
 
 function* watchSubFormSaga(){
@@ -65,5 +81,9 @@ function* watchGetHazardLevelsSaga() {
     yield takeLatest('subForm/fetchHazardLevels', fetchGetHazardLevels);
 }
 
+function* watchGetUserSaga() {
+    yield takeLatest('subForm/fetchGetUser', fetchGetUserAsync);
+}
 
-export {watchSubFormSaga, watchGetHazardLevelsSaga };
+
+export {watchSubFormSaga, watchGetHazardLevelsSaga ,watchGetUserSaga};

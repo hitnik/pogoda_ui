@@ -137,7 +137,8 @@ function mapStateToProps(state) {
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
       subscribe, unsubscribe, 
-      fetchWarnings, fetchWarningsNext
+      fetchWarnings, fetchWarningsNext,
+      
    }, dispatch)
   }
 

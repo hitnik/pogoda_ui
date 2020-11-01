@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { createPortal } from 'react-dom';
 import FormEditSubscribe from '../subscribe/forms/editSubscribe';
 import errorMessages from '../../store/initialConstants/errorMessages';
-import {getUser} from '../../actions/weatherActions/api';
+import {fetchGetUser} from '../../store/slices/subForm';
+
 
 const modalRoot = document.getElementById( 'modal' );
 
@@ -43,7 +44,7 @@ const ModalGetUser = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (! validate()) {return null};
-        // add action here
+        props.fetchGetUser(email);
 
     }
 
@@ -83,8 +84,9 @@ function mapStateToProps(state) {
     }
   }
   
-  function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return bindActionCreators({
+      fetchGetUser
    }, dispatch)
   }
 

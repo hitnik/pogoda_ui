@@ -3,7 +3,9 @@ import {watchFetchWarnings, watchSuccesedWarnings,
         watchFetchWarningsNext, watchSuccesedWarningsNext,
         } from './warningsSaga';
 import watchCodeSaga from './activateCodeSaga';
-import {watchSubFormSaga,watchGetHazardLevelsSaga } from './subFormSaga';
+import {watchSubFormSaga,watchGetHazardLevelsSaga,
+        watchGetUserSaga,
+        } from './subFormSaga';
 
 export default function* rootSaga(){
     yield all([
@@ -14,6 +16,7 @@ export default function* rootSaga(){
         watchCodeSaga(),
         watchSubFormSaga(),
         watchGetHazardLevelsSaga(),
+        watchGetUserSaga()
         ]);
 };
 

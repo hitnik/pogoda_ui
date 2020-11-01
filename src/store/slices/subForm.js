@@ -18,6 +18,8 @@ const init = {
     levelsError: null,
     hazardLevels: [],
     hazardLevelsMarked:[],
+    loadingGetUser: false,
+    errorGetUser: null,
 }
 
 const subFormSlice = createSlice({
@@ -98,8 +100,24 @@ const subFormSlice = createSlice({
               })
             state.hazardLevels = levels; 
         },
+        requestedGetUser: (state) =>{
+            state.loadingGetUser = true;
+            state.errorGetUser = null;
+        },
+        rejectedtedGetUser: (state, action) =>{
+            state.loadingGetUser = false;
+            state.errorGetUser = null;
+        },
+        successedGetUser: (state, action) =>{
+            state.loadingGetUser = false;
+            state.errorGetUser = null;
+            const data = action.payload;
+            console.log('data')
+            console.log(data)
+        },
         fetchSubForm: () =>{},
-        fetchHazardLevels: () =>{}
+        fetchHazardLevels: () =>{},
+        fetchGetUser: () => {},
     }
 });
 
@@ -113,7 +131,9 @@ export const { setSubFormEmail, setSubFormTitle,
                sendSubscribeRequest, setSubFormInitial,
                requestedSubForm, rejectedSubForm, successedSubForm,
                fetchSubForm, requestedHazardLevels, rejectedHazardLevels,
-               successedHazardLevels, fetchHazardLevels, setMarkedLevels
+               successedHazardLevels, fetchHazardLevels, setMarkedLevels,
+               requestedGetUser, rejectedtedGetUser, successedGetUser,
+               fetchGetUser,
              } = subFormSlice.actions ;
 
 export default subFormSlice.reducer;
