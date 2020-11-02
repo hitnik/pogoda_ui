@@ -80,7 +80,6 @@ const getHazardLevels = async () => {
 
 const getUser = async (email) => {
   let apiURL = new URL(apis.getUser, host);
-  console.log(email)
   const data = {email:email}
   return await post(apiURL, data)
 }

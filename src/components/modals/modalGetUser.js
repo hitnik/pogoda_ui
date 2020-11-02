@@ -57,16 +57,14 @@ const ModalGetUser = (props) => {
         >   
             <Modal.Header>Введите адрес почты, на который производится рассылка.</Modal.Header>
             <Modal.Content>
+                { props.error != null && <MessageErrror message={responseErrorsHumanize(props.error)}/>}
                 { props.loading ? 
                         <Dimmer active inverted>
                             <Loader inverted>Loading</Loader>
                         </Dimmer>
-                : props.error != null ?
-                        <MessageErrror message={responseErrorsHumanize(props.error)}/>
-                    :
-                <FormEditSubscribe data = {{value:email, error:error, msg:errorMsg}}
-                                   onInputChange = {handleInputChange} 
-                />
+                :  <FormEditSubscribe data = {{value:email, error:error, msg:errorMsg}}
+                                      onInputChange = {handleInputChange} 
+                    />
                 }
             </Modal.Content>
             <Modal.Actions>

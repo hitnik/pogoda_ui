@@ -10,7 +10,8 @@ const init = {
     token: null,
     loading: 'idle',
     responseError: null,
-    isSuccess: false
+    isSuccess: false,
+    isEdit: false,
 };
 
 const codeData = createSlice({
@@ -26,6 +27,7 @@ const codeData = createSlice({
             state.timeLeft = calculateTimeLeft(value.dateExpires);
             state.confirmURL = value.confirmURL;
             state.token = value.token;
+            state.isEdit = value.isEdit;
         },
         setTimeLeft : (state, action) =>{
             const value = action.payload;

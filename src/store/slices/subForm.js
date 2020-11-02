@@ -12,6 +12,7 @@ const init = {
         error: false,
         msg: null
     }, 
+    isEdit: false, 
     loading: 'idle',
     responseError: null,
     loadingLevels : false,
@@ -103,15 +104,18 @@ const subFormSlice = createSlice({
         requestedGetUser: (state) =>{
             state.loadingGetUser = true;
             state.errorGetUser = null;
+            state.isEdit = false;
         },
         rejectedGetUser: (state, action) =>{
             state.loadingGetUser = false;
-            const err = action.payload
+            state.isEdit = false;
+            const err = action.payload;
             state.errorGetUser = err;
         },
         successedGetUser: (state, action) =>{
             state.loadingGetUser = false;
             state.errorGetUser = null;
+            state.isEdit = true;
             const data = action.payload;
             state.title.value = data.title;
             state.email.value = data.email;

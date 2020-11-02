@@ -9,6 +9,7 @@ import { sendSubscribe, sendUnsubscribe, getHazardLevels,
 import { push } from 'connected-react-router';
 import store from '../index';
 import { setCodeData} from '../store/slices/codeData';
+import {subscribe} from '../store/slices/isSubscribe';
 
 function* fetchSubFormAsync(action){
     const data = action.payload;
@@ -35,7 +36,8 @@ function* fetchSubFormAsync(action){
             email: data.email,
             dateExpires: respData.expires,
             confirmURL: respData.code_confirm,
-            token: respData.token
+            token: respData.token,
+            isEdit: state.subForm.isEdit,
         }
         yield put(successedSubForm());
         yield call(store.dispatch,setCodeData(codeData));
@@ -64,9 +66,16 @@ function* fetchGetUserAsync(action){
         yield put(requestedGetUser());
         const data = yield call(() => {
         return getUser(email)
-                .then(response => response.json())
+                .then(response =>{
+                    if(!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
         });
         yield put(successedGetUser(data)); 
+        yield call(store.dispatch,subscribe);
+        yield call(store.dispatch,push('/subscribe')); 
     } catch (error) {
         yield put(rejectedGetUser(error.message));
     }

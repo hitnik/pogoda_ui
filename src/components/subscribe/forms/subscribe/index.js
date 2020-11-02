@@ -83,6 +83,7 @@ class FormInput extends PureComponent {
                               defaultValue = {this.props.data.value} 
                               error={this.props.data.error ? (this.props.data.msg) : undefined}
                               onChange={this.onChange}
+                              disabled = {this.props.disabled}
                               />
     return input; 
   }
@@ -159,8 +160,7 @@ const CheckBoxMap = (props) =>{
                                                         id={item.id} 
                                                         label={item.title}
                                                         value={item.id}
-                                                        {...(props.markedLevels.indexOf(item.id) >= 0 && {defaultChecked:true} )}
-                                                       
+                                                        {...(props.markedLevels.indexOf(item.id) >= 0 && {defaultChecked:true} )}                                                       
                                               />
                                       </Form.Field>
                                     } 
@@ -272,7 +272,8 @@ class SubscribeForm extends PureComponent{
                    onChange = {this.handleInputChange}
                    name = 'email'
                    label = 'Email'
-                   placeholder = 'Адрес электронной почты'   
+                   placeholder = 'Адрес электронной почты' 
+                   disabled = {this.props.isEdit} 
                   />
       </Form.Group>
       <CheckBoxMap loadingLevels={this.props.loadingLevels}
@@ -345,6 +346,7 @@ class SegmentForms extends PureComponent{
                             levelsError = {this.props.subForm.levelsError}
                             hazardLevels = {this.props.subForm.hazardLevels}
                             hazardLevelsMarked = {this.props.subForm.hazardLevelsMarked}
+                            isEdit = {this.props.subForm.isEdit}
                             
               
              />

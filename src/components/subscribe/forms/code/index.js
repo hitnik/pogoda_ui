@@ -81,7 +81,9 @@ const CodeForm = (props) => {
     const [value, setValue] = useState('');
     const [inputError, setInputError] = useState(false);
 
-    const messageSuccess = props.isSubscribe ? 'Подписка на рассылку успешно оформлена.'
+    const messageSuccess = props.isSubscribe ? 
+                                props.codeData.isEdit ? 'Данные рассылки успешно изменены.'
+                                : 'Подписка на рассылку успешно оформлена.'
                         : 'Подписка на рассылку отменена.';
        
     const successAction = () =>{
