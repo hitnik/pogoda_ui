@@ -1,7 +1,7 @@
 import { takeLatest, put, call, delay} from 'redux-saga/effects';
 import { requestedSubForm, rejectedSubForm, successedSubForm,
         rejectedHazardLevels, requestedHazardLevels, successedHazardLevels,
-        requestedGetUser, rejectedtedGetUser, successedGetUser,   
+        requestedGetUser, rejectedGetUser, successedGetUser,   
         } from '../store/slices/subForm';
 import { sendSubscribe, sendUnsubscribe, getHazardLevels,
         getUser,
@@ -61,15 +61,14 @@ function* fetchGetHazardLevels(){
 function* fetchGetUserAsync(action){
     const email = action.payload;
     try {
-        yield put(rejectedtedGetUser());
+        yield put(requestedGetUser());
         const data = yield call(() => {
         return getUser(email)
                 .then(response => response.json())
         });
         yield put(successedGetUser(data)); 
     } catch (error) {
-        console.log(error)
-        yield put(rejectedtedGetUser(error.message));
+        yield put(rejectedGetUser(error.message));
     }
 }
 

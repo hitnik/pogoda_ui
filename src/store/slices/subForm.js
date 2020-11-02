@@ -104,16 +104,18 @@ const subFormSlice = createSlice({
             state.loadingGetUser = true;
             state.errorGetUser = null;
         },
-        rejectedtedGetUser: (state, action) =>{
+        rejectedGetUser: (state, action) =>{
             state.loadingGetUser = false;
-            state.errorGetUser = null;
+            const err = action.payload
+            state.errorGetUser = err;
         },
         successedGetUser: (state, action) =>{
             state.loadingGetUser = false;
             state.errorGetUser = null;
             const data = action.payload;
-            console.log('data')
-            console.log(data)
+            state.title.value = data.title;
+            state.email.value = data.email;
+            state.hazardLevelsMarked = data.hazard_levels;
         },
         fetchSubForm: () =>{},
         fetchHazardLevels: () =>{},
@@ -132,7 +134,7 @@ export const { setSubFormEmail, setSubFormTitle,
                requestedSubForm, rejectedSubForm, successedSubForm,
                fetchSubForm, requestedHazardLevels, rejectedHazardLevels,
                successedHazardLevels, fetchHazardLevels, setMarkedLevels,
-               requestedGetUser, rejectedtedGetUser, successedGetUser,
+               requestedGetUser, rejectedGetUser, successedGetUser,
                fetchGetUser,
              } = subFormSlice.actions ;
 

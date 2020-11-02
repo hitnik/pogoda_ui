@@ -5,7 +5,7 @@ const apis = {
         activate: 'hazard/v1/code-validate',
         warnings: 'hazard/v1/warnings/',
         hazardLevels: 'hazard/v1/hazard-levels/',
-        getUser: 'hazard/v1/recipients/'
+        getUser: 'hazard/v1/weather-recipients'
     }
 
 const host = PRODUCTION ?  WEATHER_API_HOST_PROD : WEATHER_API_HOST_DEV
@@ -58,7 +58,7 @@ const sendCode = async (code, token, url) => {
 }
 
 
-const getActualWarnings = (page=1, pageSize=5) => {
+const getActualWarnings = async (page=1, pageSize=5) => {
   let apiURL = new URL(apis.warnings, host);
   const date = new Date().toISOString().slice(0,10);
   const date_start = date;
@@ -67,21 +67,22 @@ const getActualWarnings = (page=1, pageSize=5) => {
   apiURL.searchParams.append('page', page.toString())
   apiURL.searchParams.append('date_start_after', date_start);
   apiURL.searchParams.append('date_end_after', date_end);
-  return get(apiURL);
+  return await get(apiURL);
 }
 
-const getHazardLevel = (url) => {
-  return get(url);
+const getHazardLevel = async (url) => {
+  return await get(url);
 }
 
-const getHazardLevels = () => {
-  return get(new URL(apis.hazardLevels, host));
+const getHazardLevels = async () => {
+  return await get(new URL(apis.hazardLevels, host));
 }
 
-const getUser = (email) => {
-  let apiURL = new URL(apis.warnings, host);
-  apiURL = new URL(email, apiURL);
-  return get(apiURL)
+const getUser = async (email) => {
+  let apiURL = new URL(apis.getUser, host);
+  console.log(email)
+  const data = {email:email}
+  return await post(apiURL, data)
 }
 
 const responseErrorsHumanize = (error) => {

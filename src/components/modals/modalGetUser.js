@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
-import { Button, Icon, Modal} from 'semantic-ui-react'
+import { Button, Icon, Modal, Dimmer, Loader} from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createPortal } from 'react-dom';
 import FormEditSubscribe from '../subscribe/forms/editSubscribe';
 import errorMessages from '../../store/initialConstants/errorMessages';
 import {fetchGetUser} from '../../store/slices/subForm';
-
+import MessageErrror from '../../components/dummy/messages/messageError';
+import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 
 const modalRoot = document.getElementById( 'modal' );
 
@@ -56,9 +57,17 @@ const ModalGetUser = (props) => {
         >   
             <Modal.Header>Введите адрес почты, на который производится рассылка.</Modal.Header>
             <Modal.Content>
+                { props.loading ? 
+                        <Dimmer active inverted>
+                            <Loader inverted>Loading</Loader>
+                        </Dimmer>
+                : props.error != null ?
+                        <MessageErrror message={responseErrorsHumanize(props.error)}/>
+                    :
                 <FormEditSubscribe data = {{value:email, error:error, msg:errorMsg}}
                                    onInputChange = {handleInputChange} 
                 />
+                }
             </Modal.Content>
             <Modal.Actions>
                     <Button color='red' inverted onClick={handleClickClose}>
@@ -80,7 +89,8 @@ const ModalGetUser = (props) => {
 
 function mapStateToProps(state) {
     return {
-        isSubscribe: state.isSubscribe,
+        loading: state.subForm.loadingGetUser,
+        error: state.subForm.errorGetUser,
     }
   }
   
