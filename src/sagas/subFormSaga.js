@@ -4,7 +4,7 @@ import { requestedSubForm, rejectedSubForm, successedSubForm,
         requestedGetUser, rejectedGetUser, successedGetUser,   
         } from '../store/slices/subForm';
 import { sendSubscribe, sendUnsubscribe, getHazardLevels,
-        getUser,
+        getUser, sendEdit
         } from '../actions/weatherActions/api';
 import { push } from 'connected-react-router';
 import store from '../index';
@@ -16,7 +16,9 @@ function* fetchSubFormAsync(action){
     const state = store.getState();
     const send = () => {
         if (state.isSubscribe){
+            if (state.subForm.isEdit) return sendEdit(data.title, data.email, data.hazardLevels)
             return sendSubscribe(data.title, data.email, data.hazardLevels)
+            
         }
         return sendUnsubscribe(data.email)
     }
@@ -36,8 +38,9 @@ function* fetchSubFormAsync(action){
             email: data.email,
             dateExpires: respData.expires,
             confirmURL: respData.code_confirm,
-            token: respData.token,
+            targetUid: respData.target_uid,
             isEdit: state.subForm.isEdit,
+
         }
         yield put(successedSubForm());
         yield call(store.dispatch,setCodeData(codeData));

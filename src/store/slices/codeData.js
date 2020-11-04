@@ -7,11 +7,11 @@ const init = {
     dateExpires: null,
     confirmURL: null,
     timeLeft: {},
-    token: null,
+    targetUid: null,
     loading: 'idle',
     responseError: null,
     isSuccess: false,
-    isEdit: false,
+    successMsg: null,
 };
 
 const codeData = createSlice({
@@ -26,8 +26,7 @@ const codeData = createSlice({
             state.dateExpires = value.dateExpires;
             state.timeLeft = calculateTimeLeft(value.dateExpires);
             state.confirmURL = value.confirmURL;
-            state.token = value.token;
-            state.isEdit = value.isEdit;
+            state.targetUid = value.targetUid;
         },
         setTimeLeft : (state, action) =>{
             const value = action.payload;
@@ -45,9 +44,11 @@ const codeData = createSlice({
             const err = action.payload;
             state.responseError = err;
         },
-        successedCode: (state) => {
+        successedCode: (state, action) => {
             state.loading = "idle";
+            const msg = action.payload.message;
             state.isSuccess = true; 
+            state.successMsg =msg;
           },
         fetchCode: () =>{}
     }

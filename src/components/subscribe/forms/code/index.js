@@ -134,7 +134,7 @@ const CodeForm = (props) => {
     const handleSubmit = (e) =>{
         e.preventDefault();
         if (!validate()) return null;
-        props.fetchCode({code:value, token:props.codeData.token, url:props.codeData.confirmURL});
+        props.fetchCode({code:value, target_uid:props.codeData.targetUid, url:props.codeData.confirmURL});
     }
 
     const keyPress = (e) => {
@@ -145,7 +145,7 @@ const CodeForm = (props) => {
 
     return (
         <Container>
-        {props.codeData.isSuccess && <ModalSuccess message={messageSuccess} 
+        {props.codeData.isSuccess && <ModalSuccess message={props.codeData.successMsg} 
                                                    closeAction = {successAction} 
         />}
         <Segment.Group>

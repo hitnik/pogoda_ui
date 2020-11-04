@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 const apis = {
-        subscribe: 'hazard/v1/subscribe_newsletter',
-        unsubscribe: 'hazard/v1/unsubscribe_newsletter',
-        activate: 'hazard/v1/code-validate',
+        subscribe: 'hazard/v1/newsletter-subscribe',
+        unsubscribe: 'hazard/v1/newsletter-unsubscribe',
+        edit:'hazard/v1/newsletter-subscribe/edit',
         warnings: 'hazard/v1/warnings/',
         hazardLevels: 'hazard/v1/hazard-levels/',
         getUser: 'hazard/v1/weather-recipients'
@@ -45,15 +45,21 @@ const sendSubscribe = async (title, email, hazardLevels) =>{
   return await post(apiURL, data);
 }
 
+const sendEdit = async (title, email, hazardLevels) =>{
+  const apiURL = new URL(apis.edit, host);
+  const data = {title: title, email: email, hazard_levels: hazardLevels}
+  return await post(apiURL, data);
+}
+
 const sendUnsubscribe = async (email) =>{
   const apiURL = new URL(apis.unsubscribe, host);
   const data = {email: email};
   return await post(apiURL, data)
 }
 
-const sendCode = async (code, token, url) => {
+const sendCode = async (code, uid, url) => {
   const apiURL = new URL(url, host);
-  const data = {code: code, token:token};
+  const data = {code: code, target_uid: uid};
   return await post(apiURL, data);
 }
 
@@ -102,5 +108,5 @@ const responseErrorsHumanize = (error) => {
 export {sendSubscribe, sendUnsubscribe, 
         sendCode, getActualWarnings, 
         responseErrorsHumanize, getHazardLevel,
-        get, getHazardLevels,getUser
+        get, getHazardLevels,getUser, sendEdit
       }

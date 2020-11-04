@@ -8,7 +8,7 @@ function* fetchCodeAsync(action){
     try {
         yield put(requestedCode());
         const respData = yield call(() => {
-        return sendCode(data.code, data.token, data.url)
+        return sendCode(data.code, data.target_uid, data.url)
                 .then(response =>{
                     if(!response.ok) {
                         throw new Error(response.statusText);

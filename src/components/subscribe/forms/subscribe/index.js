@@ -232,23 +232,29 @@ class SubscribeForm extends PureComponent{
       this.props.setEmail(event.target.value);
       this.props.clearEmailError();
     }
+    if(name == 'title'){
+      this.props.setTitle(event.target.value);
+      this.props.clearTitleError();
+    }
+
   }
 
 
   handleSubmit = (e) => {
     e.preventDefault();
     if (! this.validate()) {return null};
-
-    const form = document.forms.subscribe;
-    const inputs = form.querySelectorAll("input[type='checkbox']");
-    const markedLevels = [];
-    Array.from(inputs).map(item => item.checked && markedLevels.push(parseInt(item.value)));
-    this.props.setMarkedLevels(markedLevels);
-    this.props.isSubscribe ? this.props.fetchSubForm(
-        {title:this.props.subForm.title.value, 
-          email: this.props.subForm.email.value,
-          hazardLevels: markedLevels})
-    :this.props.fetchSubForm({email:this.props.subForm.email.value});
+    if (this.props.isSubscribe){
+      const form = document.forms.subscribe;
+      const inputs = form.querySelectorAll("input[type='checkbox']");
+      const markedLevels = [];
+      Array.from(inputs).map(item => item.checked && markedLevels.push(parseInt(item.value)));
+      this.props.setMarkedLevels(markedLevels);
+        this.props.fetchSubForm(
+            {title:this.props.subForm.title.value, 
+              email: this.props.subForm.email.value,
+              hazardLevels: markedLevels})
+    } 
+    else this.props.fetchSubForm({email:this.props.subForm.email.value});
   }
 
   keyPress = (e) => {
@@ -283,7 +289,7 @@ class SubscribeForm extends PureComponent{
       />
         <ButtonGroupSubmitClose submitAction={this.handleSubmit} history={this.props.history} />
     </Form>
-    ) : (<Form onKeyDown={this.keyPress} loading={this.state.isLoading} widths="equal">
+    ) : (<Form onKeyDown={this.keyPress} loading={this.props.subForm.loading === 'pending' ? true: false} widths="equal">
       <Form.Group>
         <FormInput data = {this.props.subForm.email}
                    onChange = {this.handleInputChange}
