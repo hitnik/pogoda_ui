@@ -24,3 +24,7 @@ span.dotted {
 body .ui.container>.container{
     box-shadow: none;
   }
+
+span .gray {
+    color: gray;
+}
