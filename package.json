@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start-server": "webpack-dev-server --host 127.0.0.1 --port 8081 --mode development --open --hot",
-    "start": "webpack --mode development --watch",
+    "start": "webpack-dev-server --host 127.0.0.1 --port 8081 --mode development --open --hot",
+    "start-dev": "webpack --mode development --watch",
     "build": "webpack --mode production"
   },
   "author": "",
