@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App.js";
 import "semantic-ui-css/semantic.min.css";
+import './styles/App.css';
 import { HashRouter as Router} from "react-router-dom";
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';

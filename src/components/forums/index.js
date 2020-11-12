@@ -22,6 +22,18 @@ const SiteMenuItem = (props) => {
     )
 }
 
+const ForumsMenuItem = (props) =>{
+
+    return (
+        <Menu.Item
+            name='bio'
+            active={props.active}
+        >
+            {props.title}
+        </Menu.Item>
+    )
+}
+
 const ForumComponent = (props) =>{
 
     return (
@@ -35,21 +47,21 @@ const TopicsContainer = (props) => {
 
     return (
         <Segment basic>
-            <Grid celled>
-                <Grid.Row>
-                    <Grid.Column only='mobile'>
+            <Grid > 
+                {/* <Grid.Row only='mobile tablet' >
+                    <Grid.Column only='mobile tablet'>
                         <Button inverted color="black" className="label icon">
                             <Icon name="sidebar" size="big"/>
                             </Button>
-                        
                     </Grid.Column>
-                </Grid.Row>
+                </Grid.Row> */}
                 <Grid.Row>
                     <Grid.Column width={5} only="computer">
-                        <Menu fluid vertical tabular stackable>
-                            <Menu.Item
-                            name='bio'
-                            active={true}
+                        <Menu fluid vertical tabular>
+                            <SiteMenuItem short = 'Byfly'
+                                          count = {10}
+                                          active = {true}
+                                          name = 'Byfly обсуждение. настройка'
 
                             />
                             <Menu.Item
@@ -136,9 +148,12 @@ const MenuForumsComponent = (props) =>{
 const ForumsComponent = () => {
    
     return (
-        <Container fluid> 
+        <Container fluid>
+            <Segment.Group>
             <MenuForumsComponent/>
             <TopicsContainer/>
+            </Segment.Group> 
+            
         </Container>
     )
 }
