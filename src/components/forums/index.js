@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Menu, Container, Label, Icon, Segment, Button, Image, Grid, Item, Header} from 'semantic-ui-react';
 import {compareForumsData} from '../../utils';
+import ReactHtmlParser from 'react-html-parser';
+
 const forumsData = [
        
         {
@@ -89,32 +91,81 @@ const ForumsMenuItem = (props) =>{
 
 
 
-const HtmlComponent = (props) =>{
-    const body = ''
+const HtmlComponent1 = (props) =>{
+    
+    const ht = `
+    <blockquote class="uncited"><cite>Gerasimus:</cite>
+    <p>Сеть Byfly WIFI</p>
+    </blockquote>
+    <blockquote class="uncited"><cite>Gerasimus:</cite>
+    <p>Как можно просто усилить сигнал</p>
+    </blockquote>
+    <p> Модемом Byfly <br/>Модемом Byfly + свой роутер, репитер \ WDS - что угодно.</p>`
+
     return (
-        <div dangerouslySetInnerHTML={{__html: body}}>
-        </div>
+        <div>{ ReactHtmlParser(ht) }</div>
+    )
+}
+
+const HtmlComponent2 = (props) => {
+
+    const ht = `
+    <p>Всем привет.<br/>Есть тут еще любители Лиги Легенд на печально известном по этому посту:<br/><!-- m:"https://forum.onliner.by/viewtopic.php?t=1736876&start=72660#p108595202" --><a class="postlink" href="https://forum.onliner.by/viewtopic.php?t=1736876&amp;start=72660#p108595202" target="_blank">https://forum.onliner.by/viewtopic.php?t=1736876&amp;start=72660#p108595202</a><!-- m:"https://forum.onliner.by/viewtopic.php?t=1736876&start=72660#p108595202" --><br/>адресе: 185.40.64.65?<br/>Как там у вас житие-бытие.<br/>Сегодня вот что-то вспомнил ту переписку и решил глянуть трассировку. Маршрутик-то поменяли, однако:
+    <div class="msgpost-spoiler">
+    <div class="msgpost-spoiler-outer">
+    <div class="msgpost-spoiler-i"><a class="msgpost-spoiler-hd" href="#">скрытый текст</a></div>
+    <div class="msgpost-spoiler-txt">
+    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/02c271deec5cc5a2da36383595abfe89.jpeg" title="02c271deec5cc5a2da36383595abfe89.jpeg"/></div>
+    <p></p></div>
+    </div>
+    </div>
+    <p>Интересно, как там дела у страдающих людей. Реально ли играть без VPN нынче, особенно в "трудно-вечерний" период.</p>
+    </p>`
+
+    return (
+        <div>{ ReactHtmlParser(ht) }</div>
     )
 }
 
 const TopicItem = (props) =>{
 
     return (
-            <Segment>
-                <Item.Group>
-                <Item>
-                    <Item.Content>
-                    <Item.Header as='h5'>Onliner User NikName</Item.Header>
-                    <Item.Meta>12.11.2020 11:15</Item.Meta>
-                    <Item.Description>
-                        <HtmlComponent/>
-                    </Item.Description>
-                    <Item.Extra><a href="https://forum.onliner.by/viewtopic.php?t=1736876&amp;p=108662567">Перейти на сайт</a></Item.Extra>
-                    </Item.Content>
-                </Item>
-                </Item.Group>
-                
+            <Segment basic>
+                <Segment raised className="topic">
+                        <Item.Group>
+                        <Item>
+                            <Item.Content>
+                            <Item.Meta className="topic-meta">
+                                <h5 className="message-header-title">Onliner User NikName</h5>
+                                <span className="message-date">12.11.2020 11:15</span>
+                            </Item.Meta>
+                            <Item.Description>
+                                <Segment color='black' basic className="topic">
+                                  <HtmlComponent1/>  
+                                </Segment>
+                                
+                            </Item.Description>
+                            <Item.Extra><a href="https://forum.onliner.by/viewtopic.php?t=1736876&amp;p=108662567">Перейти на сайт</a></Item.Extra>
+                            </Item.Content>
+                        </Item>
+                        </Item.Group>
+                </Segment>
+                <Segment raised  className="topic topic-odd">
+                    <Item.Group>
+                    <Item>
+                        <Item.Content>
+                        <Item.Header as='h5'>Onliner User NikName</Item.Header>
+                        <Item.Meta>12.11.2020 11:15</Item.Meta>
+                        <Item.Description>
+                            <HtmlComponent2/>
+                        </Item.Description>
+                        <Item.Extra><a href="https://forum.onliner.by/viewtopic.php?t=1736876&amp;p=108662567">Перейти на сайт</a></Item.Extra>
+                        </Item.Content>
+                    </Item>
+                    </Item.Group>
+                </Segment>
             </Segment>
+            
         
     )
 }
