@@ -10,7 +10,8 @@ module.exports = {
     SubscribeContainer: path.resolve(__dirname, 'src/components/subscribe/'),
     SegmentForms: path.resolve(__dirname, 'src/components/subscribe/forms/subscribe'),
     CodeForm: path.resolve(__dirname, 'src/components/subscribe/forms/code'),
-    ModalSuccess: path.resolve(__dirname, 'src/components/modals/modalSuccess.js')
+    ModalSuccess: path.resolve(__dirname, 'src/components/modals/modalSuccess.js'),
+    ForumsComponent: path.resolve(__dirname, 'src/components/forums/')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

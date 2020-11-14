@@ -13,6 +13,7 @@ import { combineReducers } from 'redux';
 import isSubscribeSliceReducer from './store/slices/isSubscribe';
 import subFormSliceReducer from './store/slices/subForm';
 import codeData from './store/slices/codeData';
+import forumsSlice from './store/slices/forumsSlice';
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
 import { ConnectedRouter } from 'connected-react-router';
@@ -23,6 +24,7 @@ const rootReducer = (history) => combineReducers({
   subForm : subFormSliceReducer,
   codeData: codeData,
   warnings:warnings,
+  forumsSlice: forumsSlice,
   router : connectRouter(history)
 });
 

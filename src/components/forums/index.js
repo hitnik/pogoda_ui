@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import {Menu, Container, Label, Icon, Segment, Button, Image, Grid, Item, Header} from 'semantic-ui-react';
 import {compareForumsData} from '../../utils';
 import ReactHtmlParser from 'react-html-parser';
+import MenuForumsComponent from '../dummy/forums/menuForumcomponent';
 
 const forumsData = [
        
@@ -53,22 +54,7 @@ const forumsData = [
    
     ]
 
-const SiteMenuItem = (props) => {
 
-    return (
-        <Menu.Item 
-            {...((props.count > 0 && !props.active) ? {style: {cursor:'pointer'}} : {})}
-            name={props.short}
-            active={props.active}
-            onClick= {props.handleClick} 
-        >   
-            {props.count > 0 &&
-                <Label color='teal' floating>{props.count}</Label>
-            }   
-            {props.name} 
-        </Menu.Item>
-    )
-}
 
 
 const ForumsMenuItem = (props) =>{
@@ -109,18 +95,62 @@ const HtmlComponent1 = (props) =>{
 
 const HtmlComponent2 = (props) => {
 
-    const ht = `
-    <p>Всем привет.<br/>Есть тут еще любители Лиги Легенд на печально известном по этому посту:<br/><!-- m:"https://forum.onliner.by/viewtopic.php?t=1736876&start=72660#p108595202" --><a class="postlink" href="https://forum.onliner.by/viewtopic.php?t=1736876&amp;start=72660#p108595202" target="_blank">https://forum.onliner.by/viewtopic.php?t=1736876&amp;start=72660#p108595202</a><!-- m:"https://forum.onliner.by/viewtopic.php?t=1736876&start=72660#p108595202" --><br/>адресе: 185.40.64.65?<br/>Как там у вас житие-бытие.<br/>Сегодня вот что-то вспомнил ту переписку и решил глянуть трассировку. Маршрутик-то поменяли, однако:
+    const ht = `<blockquote class="uncited"><cite>BlackNFS:</cite>
+    <div><p>При переходе всё равно даёт 90 пинг, с ВПН странновато работает, скорее зависит от загрузки.
+    <div class="msgpost-spoiler">
+    <div class="msgpost-spoiler-outer">
+    <div class="msgpost-spoiler-i"><a class="msgpost-spoiler-hd" href="#">Riot</a></div>
+    <div class="msgpost-spoiler-txt">4 ms 3 ms 4 ms asbr9.net.belpak.by [93.85.80.238]<br/>80 ms 75 ms 74 ms pr02.fra02.riotdirect.net [80.81.193.162]<br/>85 ms 88 ms 90 ms ae2.er01.ams01.riotdirect.net [104.160.159.180]<br/>90 ms 85 ms 80 ms 104.160.141.105<br/>81 ms 80 ms 82 ms 185.40.64.65</div>
+    </div>
+    </div>
+    <p></p>
+    </p></blockquote>
+    <p> Немного не понял фразу. В смысле при переходе?<br/>Пинг в районе 100 был вроде и у человека на МТС (если не ошибаюсь), когда он в то время в топике провайдера своего скидывал трассировку до этого адреса (минуя серверы в РФ) в вечернее (19.00-00.00) время.</p>
+    <blockquote class="uncited"><cite>BlackNFS:</cite>
+    <p>И классический Франкфурт
+    <div class="msgpost-spoiler">
+    <div class="msgpost-spoiler-outer">
+    <div class="msgpost-spoiler-i"><a class="msgpost-spoiler-hd" href="#">скрытый текст</a></div>
+    <div class="msgpost-spoiler-txt">Водафон<a href="https://www.speedtest.net/result/10415806586">
+    <div><img class="msgpost-img" src="https://www.speedtest.net/result/10415806586.png"/></div>
+    <p></p></a><br/>GTT<a href="https://www.speedtest.net/result/10415844356">
+    <div><img class="msgpost-img" src="https://www.speedtest.net/result/10415844356.png"/></div>
+    <p></p></a></div>
+    </div>
+    </div>
+    <p>Вот вроде ip того самого сервера от Водафон - 145.253.248.206 (на него спидтест стучится)</p>
+    </p></blockquote>
     <div class="msgpost-spoiler">
     <div class="msgpost-spoiler-outer">
     <div class="msgpost-spoiler-i"><a class="msgpost-spoiler-hd" href="#">скрытый текст</a></div>
     <div class="msgpost-spoiler-txt">
-    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/02c271deec5cc5a2da36383595abfe89.jpeg" title="02c271deec5cc5a2da36383595abfe89.jpeg"/></div>
-    <p></p></div>
+    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/f284eeae3735c67194612ca84d512f1c.jpeg" title="f284eeae3735c67194612ca84d512f1c.jpeg"/></div>
+    <p>level3 мелькает с проблемами из РБ еще и тут<br/><!-- m:"https://eu.forums.blizzard.com/ru/overwatch/t/%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0-%D1%81-%D0%B2%D1%8B%D1%81%D0%BE%D0%BA%D0%B8%D0%BC-%D0%BF%D0%B8%D0%BD%D0%B3%D0%BE%D0%BC/24673" --><a class="postlink" href="https://eu.forums.blizzard.com/ru/overwatch/t/%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0-%D1%81-%D0%B2%D1%8B%D1%81%D0%BE%D0%BA%D0%B8%D0%BC-%D0%BF%D0%B8%D0%BD%D0%B3%D0%BE%D0%BC/24673" target="_blank">https://eu.forums.blizzard.com/ru/overwatch/t/%D0%BF%D1%80%D0%BE% ... 0%BC/24673</a><!-- m:"https://eu.forums.blizzard.com/ru/overwatch/t/%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0-%D1%81-%D0%B2%D1%8B%D1%81%D0%BE%D0%BA%D0%B8%D0%BC-%D0%BF%D0%B8%D0%BD%D0%B3%D0%BE%D0%BC/24673" --><br/>например.</p></div>
     </div>
     </div>
-    <p>Интересно, как там дела у страдающих людей. Реально ли играть без VPN нынче, особенно в "трудно-вечерний" период.</p>
-    </p>`
+    <p>Вообще, у меня остается такое чувство, что РБ немного проклята в плане интернета. И чисто субъективное ощущение, что по вечерам (~19.00-00.00) тупо рубят частично шлюзы на внешку (причем, возможно, не только в БТК, но и на каналах от НЦОТ).<br/>Вот пример пинга на 185.40.64.65 в период, когда пинг с моего компьютера был в районе 90-100мс полчасика примерно назад:
+    <div class="msgpost-spoiler">
+    <div class="msgpost-spoiler-outer">
+    <div class="msgpost-spoiler-i"><a class="msgpost-spoiler-hd" href="#">скрытый текст</a></div>
+    <div class="msgpost-spoiler-txt">хотя я и без понятия, насколько можно доверять показаниям с данного сайта
+    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/21f0b3107f49e64b82f9ce92b027502e.jpeg" title="21f0b3107f49e64b82f9ce92b027502e.jpeg"/></div>
+    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/7d61d1a0c46b5eb7575ba17a60e3d9bc.jpeg" title="7d61d1a0c46b5eb7575ba17a60e3d9bc.jpeg"/></div>
+    </div>
+    </div>
+    </div>
+    <p>Вот тот же 185.40.64.65, когда случилась "белорусская магия" сегодня почти в 00.00, начали всякие Ростелекомы (и прочие) в Москве нормально (с большего) по тарифу скорость показывать.
+    <div class="msgpost-spoiler">
+    <div class="msgpost-spoiler-outer">
+    <div class="msgpost-spoiler-i"><a class="msgpost-spoiler-hd" href="#">скрытый текст</a></div>
+    <div class="msgpost-spoiler-txt">13.11.2020 23.53
+    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/057684ece04d243eaa42acd2097a9ad5.jpeg" title="057684ece04d243eaa42acd2097a9ad5.jpeg"/></div>
+    <p>а вот я сделал скрин в 00.08:
+    <div><img class="msgpost-img" src="https://content.onliner.by/forum/2534987/800x800/47181c42d7222508d83a8a477ccfb353.jpeg" title="47181c42d7222508d83a8a477ccfb353.jpeg"/></div>
+    <p></p></p></div>
+    </div>
+    </div>
+    <p>Так оно нынче играбельно в вечерний период с пингом под 100 (хотя бы на уровне доавгустовских ощущений) или те же Фаберже, но по другому маршруту? Если ВПН не использовать.</p>
+    </p></p></div>`
 
     return (
         <div>{ ReactHtmlParser(ht) }</div>
@@ -220,65 +250,14 @@ const TopicsContainer = (props) => {
     )
 }
 
-const MenuForumsComponent = (props) =>{
 
-    const sitesData = [
-        {
-            id: 1,
-            name: "onliner.by",
-            short: "on",
-            count: 15,
-            countUrl: "http://127.0.0.1:8000/forums/v1/topics-count/1?date=",
-            forumsUrl: "http://127.0.0.1:8000/forums/v1/forums/?site=1"
-        },
-        {
-            id: 2,
-            name: "providers.by",
-            short: "pr",
-            count: 0,
-            countUrl: "http://127.0.0.1:8000/forums/v1/topics-count/2?date=",
-            forumsUrl: "http://127.0.0.1:8000/forums/v1/forums/?site=2"
-        },
-        {
-            id: 3,
-            name: "otzyvy.by",
-            short: "ot",
-            count: 5,
-            countUrl: "http://127.0.0.1:8000/forums/v1/topics-count/3?date=",
-            forumsUrl: "http://127.0.0.1:8000/forums/v1/forums/?site=3"
-        }
-    ];
-
-    return (
-        <Segment>
-            <Menu pointing secondary fluid stackable>
-                <Menu.Menu position='left'>
-                    {sitesData.map(
-                        (item, index) => <SiteMenuItem key={item.id} 
-                                                active={index === 0}  
-                                                name = {item.name}
-                                                short = {item.short}
-                                                count = {item.count}
-                                        />
-                )}
-            </Menu.Menu>
-            <Menu.Menu position="right">
-                <Menu.Item>
-                    <div className="ui left right labeled input">
-                        <Button className="label left icon"><Icon name="arrow left" size="big" /></Button>
-                        <input type="text" ></input>
-                        <Button className="label right icon"><Icon name="arrow right" size="big" /></Button>
-                    </div>
-                </Menu.Item>
-            </Menu.Menu>
-        </Menu>
-        </Segment>
-        
-    )
-}
 
 const ForumsComponent = () => {
-   
+    
+    useEffect(() => {
+        // Your code here
+      }, []);
+
     return (
         <Container>
             <Segment.Group>
