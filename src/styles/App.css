@@ -45,12 +45,15 @@ span .gray {
 }
 
 .ui.segment.topic {
-    position: relative;
     background-color: #e1e5e8;
     border: 1px solid #e1e5e8;
-    padding-bottom: 10px;
+    padding-bottom: 0.6em;
     margin-bottom: 1px;
-    zoom: 1;
+}
+
+.ui.segment.topic-inner {
+    padding: 0.6em;
+    border-bottom: 2px solid #1b1c1d!important;
 }
 
 .ui.segment.topic-odd{
@@ -66,20 +69,20 @@ span .gray {
 
 .ui.items>.item .meta.topic-meta{
     margin: 0;
+    height: 1em;
 }
 
 .message-header-title{
     float: left;
     min-width: 20%;
     position: relative;
-    padding-left: 10px;
     text-align: left;
     color: rgba(0,0,0,.87);
 }
 
 .message-date {
-    /* float: right;
-    right: 5%; */
+    float: right;
+    right: 5%;
     position: relative;
 }
 .message-url-original{

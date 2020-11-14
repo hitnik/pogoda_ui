@@ -140,7 +140,7 @@ const TopicItem = (props) =>{
                                 <span className="message-date">12.11.2020 11:15</span>
                             </Item.Meta>
                             <Item.Description>
-                                <Segment color='black' basic className="topic">
+                                <Segment color='black' basic className="topic-inner">
                                   <HtmlComponent1/>  
                                 </Segment>
                                 
@@ -154,10 +154,14 @@ const TopicItem = (props) =>{
                     <Item.Group>
                     <Item>
                         <Item.Content>
-                        <Item.Header as='h5'>Onliner User NikName</Item.Header>
-                        <Item.Meta>12.11.2020 11:15</Item.Meta>
+                        <Item.Meta className="topic-meta">
+                                <h5 className="message-header-title">Onliner User NikName</h5>
+                                <span className="message-date">12.11.2020 11:15</span>
+                            </Item.Meta>
                         <Item.Description>
-                            <HtmlComponent2/>
+                        <Segment color='black' basic className="topic-inner">
+                                    <HtmlComponent2/>
+                                </Segment>
                         </Item.Description>
                         <Item.Extra><a href="https://forum.onliner.by/viewtopic.php?t=1736876&amp;p=108662567">Перейти на сайт</a></Item.Extra>
                         </Item.Content>
