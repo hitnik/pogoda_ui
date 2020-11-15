@@ -6,9 +6,14 @@ const apis = {
     sites: 'forums/v1/sites/',
 }
 
-const getSites = async () =>{
+const getSites = async (date) =>{
     const apiURL = new URL(apis.sites, host);
+    apiURL.searchParams.append('date', date)
     return await get(apiURL)
 } 
 
-export {getSites};
+const getSitesCount = async (url) => {
+    return await get(url);
+}
+
+export {getSites, getSitesCount};

@@ -26,7 +26,7 @@ const compareForumsData = (a, b) => {
 
 const convertDateToLocalIso = (isoDate) =>{
   const localDate = new Date(isoDate);
-  return localDate.getFullYear()+'-'+localDate.getMonth()+'-'+localDate.getDay()
+  return localDate.getFullYear()+'-'+(localDate.getMonth()+1)+'-'+localDate.getDate()
 }  
 
 const convertDateToLocalRu = (isoDate) =>{
@@ -34,4 +34,11 @@ const convertDateToLocalRu = (isoDate) =>{
   return localDate.toLocaleDateString('ru-Ru')
 }  
 
-export {compareForumsData, convertDateToLocalIso,convertDateToLocalRu};
+const yesterday = () =>{
+    let date = new Date();
+    date = new Date(date.setDate(date.getDate() - 1));
+    return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+  }
+
+
+export {compareForumsData, convertDateToLocalIso,convertDateToLocalRu, yesterday};

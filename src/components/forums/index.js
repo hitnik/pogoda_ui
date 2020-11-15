@@ -264,7 +264,9 @@ const ForumsComponent = (props) => {
         <Container>
             {props.siteData.error === null ?
                 <Segment.Group>
-                    <MenuForumsComponent siteData={props.siteData.data}/>
+                    <MenuForumsComponent siteData={props.siteData.data}
+                                        activeIndex = {props.siteMenuActiveIndex}
+                    />
                     <TopicsContainer/>
                 </Segment.Group>
             : <ErrorComponent/>
@@ -278,6 +280,7 @@ const ForumsComponent = (props) => {
 const mapStateToProps = (state) => {
     return {
         siteData: state.forumsSlice.siteData,
+        siteMenuActiveIndex: state.forumsSlice.siteMenuActiveIndex,
     }
   }
   

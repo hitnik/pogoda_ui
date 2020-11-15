@@ -37,7 +37,7 @@ const MenuForumsComponent = (props) =>{
                 <Menu.Menu position='left'>
                     {props.siteData.map(
                         (item, index) => <SiteMenuItem key={item.id} 
-                                                active={index === 0}  
+                                                active={index === props.activeIndex}  
                                                 name = {item.name}
                                                 short = {item.short}
                                                 count = {item.count}
