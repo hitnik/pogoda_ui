@@ -35,7 +35,7 @@ const MenuForumsComponent = (props) =>{
         <Segment>
             <Menu pointing secondary fluid stackable>
                 <Menu.Menu position='left'>
-                    {sitesData.map(
+                    {props.siteData.map(
                         (item, index) => <SiteMenuItem key={item.id} 
                                                 active={index === 0}  
                                                 name = {item.name}

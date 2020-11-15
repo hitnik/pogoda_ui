@@ -6,6 +6,7 @@ import watchCodeSaga from './activateCodeSaga';
 import {watchSubFormSaga,watchGetHazardLevelsSaga,
         watchGetUserSaga,
         } from './subFormSaga';
+import watchFetchSiteDataSaga from './forumsSaga';
 
 export default function* rootSaga(){
     yield all([
@@ -16,7 +17,8 @@ export default function* rootSaga(){
         watchCodeSaga(),
         watchSubFormSaga(),
         watchGetHazardLevelsSaga(),
-        watchGetUserSaga()
+        watchGetUserSaga(),
+        watchFetchSiteDataSaga(),
         ]);
 };
 

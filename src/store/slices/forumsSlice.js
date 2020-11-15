@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const init = {
+    date: new Date().toISOString(),
     siteData : {
         data : [],
         loading : false,
@@ -13,6 +14,8 @@ const forumsSlice = createSlice({
     initialState: init, 
     reducers:{
         requestedSiteData: (state) =>{
+            const date = new Date().toISOString()
+            state.date = date;
             if (state.siteData.loading === false ) {
                 state.siteData.loading = true;
               }
@@ -25,8 +28,9 @@ const forumsSlice = createSlice({
         },
         successedSiteData: (state, action) => {
             state.siteData.loading = false;
-            status.siteData.error = null;
+            state.siteData.error = null;
             const data = action.payload;
+            console.log(data)
             state.siteData.data = data;
           },
         fetchSiteData: () =>{},
@@ -35,7 +39,7 @@ const forumsSlice = createSlice({
 
 
 export const { 
-    rejectedSiteData, rejectedSiteData, successedSiteData, 
+    requestedSiteData, rejectedSiteData, successedSiteData, 
     fetchSiteData,
   } = forumsSlice.actions ;
 

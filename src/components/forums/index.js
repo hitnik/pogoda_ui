@@ -6,6 +6,8 @@ import {Menu, Container, Label, Icon, Segment, Button, Image, Grid, Item, Header
 import {compareForumsData} from '../../utils';
 import ReactHtmlParser from 'react-html-parser';
 import MenuForumsComponent from '../dummy/forums/menuForumcomponent';
+import ErrorComponent from '../dummy/errorComponent';
+import {fetchSiteData} from '../../store/slices/forumsSlice';
 
 const forumsData = [
        
@@ -252,19 +254,21 @@ const TopicsContainer = (props) => {
 
 
 
-const ForumsComponent = () => {
+const ForumsComponent = (props) => {
     
     useEffect(() => {
-        // Your code here
+        props.fetchSiteData();
       }, []);
 
     return (
         <Container>
-            <Segment.Group>
-            <MenuForumsComponent/>
-            <TopicsContainer/>
-            </Segment.Group> 
-            
+            {props.siteData.error === null ?
+                <Segment.Group>
+                    <MenuForumsComponent siteData={props.siteData.data}/>
+                    <TopicsContainer/>
+                </Segment.Group>
+            : <ErrorComponent/>
+        } 
         </Container>
     )
 }
@@ -273,13 +277,13 @@ const ForumsComponent = () => {
 
 const mapStateToProps = (state) => {
     return {
-
+        siteData: state.forumsSlice.siteData,
     }
   }
   
   const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-
+        fetchSiteData, 
       
    }, dispatch)
   }

@@ -1,13 +1,15 @@
-import { takeLatest, put, call} from 'redux-saga/effects';
+import { takeLatest, takeEvery, put, call} from 'redux-saga/effects';
 import {requestedSiteData, rejectedSiteData, successedSiteData} from '../store/slices/forumsSlice';
 import { getSites } from '../actions/forumsApi/api';
+import store from '../index';
+import {convertDateToLocalIso, convertDateToLocalRu}  from '../utils';
 
-function* fetchSiteDataAsync(action){
-    const data = action.payload;
+function* fetchSiteDataAsync(){
+    console.log("fetch site data")
     try {
         yield put(requestedSiteData());
-        const respData = yield call(() => {
-        return sendCode(data.code, data.target_uid, data.url)
+        const respData = yield call(async () => {
+        return await getSites()
                 .then(response =>{
                     if(!response.ok) {
                         throw new Error(response.statusText);
@@ -15,15 +17,18 @@ function* fetchSiteDataAsync(action){
                     return response.json();
                     })
         });
-        yield put(successedCode(respData)); 
+        const date = convertDateToLocalIso(store.getState().forumsSlice.date);
+        
+        yield put(successedSiteData(respData)); 
     } catch (error) {
-        yield put(rejectedCode(error.message));
+        console.log(error)
+        yield put(rejectedSiteData(error.message));
     }
 }
 
 
-function* watchfetchSiteDataSaga(){
-    yield takeLatest('forums/fetchSiteData', fetchSiteDataAsync);
+function* watchFetchSiteDataSaga(){
+    yield takeEvery('forums/fetchSiteData', fetchSiteDataAsync);
 };
 
-export default watchCodeSaga;
+export default watchFetchSiteDataSaga;

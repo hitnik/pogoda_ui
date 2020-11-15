@@ -6,8 +6,8 @@ const apis = {
     sites: 'forums/v1/sites/',
 }
 
-const getSites = () =>{
-    let apiURL = new URL(apis.sites, host);
+const getSites = async () =>{
+    const apiURL = new URL(apis.sites, host);
     return await get(apiURL)
 } 
 
