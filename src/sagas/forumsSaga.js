@@ -1,5 +1,7 @@
-import { takeLatest, takeEvery, put, call} from 'redux-saga/effects';
-import {requestedSiteData, rejectedSiteData, successedSiteData} from '../store/slices/forumsSlice';
+import { takeLatest, takeEvery, put, call, fork} from 'redux-saga/effects';
+import {requestedSiteData, rejectedSiteData, successedSiteData,
+        fetchSitesCount, succesedSitesCount
+        } from '../store/slices/forumsSlice';
 import { getSites, getSitesCount } from '../actions/forumsApi/api';
 import store from '../index';
 import {convertDateToLocalIso, convertDateToLocalRu}  from '../utils';
@@ -18,9 +20,21 @@ function* fetchSiteDataAsync(){
                     return response.json();
                     })
         });
-        for (const i in  respData) {
+        yield put(successedSiteData(respData)); 
+        yield call(store.dispatch,fetchSitesCount());
+    } catch (error) {
+        console.log(error)
+        yield put(rejectedSiteData(error.message));
+    }
+}
+
+function* fetchSitesCountAsync(){
+    console.log('fetch count')
+    const forumsSlice = store.getState().forumsSlice;
+    try {
+        for (const i in  forumsSlice.siteData.data) {
             const count = yield call(async () => {
-                return await getSitesCount(respData[i].count)
+                return await getSitesCount(forumsSlice.siteData.data[i].count)
                 .then(response =>{
                     if(!response.ok) {
                         throw new Error(response.statusText);
@@ -30,16 +44,32 @@ function* fetchSiteDataAsync(){
             });
             respData[i].count = count.count;
         };
-        yield put(successedSiteData(respData)); 
     } catch (error) {
         console.log(error)
         yield put(rejectedSiteData(error.message));
     }
+    
 }
 
+function* fetchForumsAsync() {
+    
+}
+
+function* watchFetchForums(){
+
+};
 
 function* watchFetchSiteDataSaga(){
     yield takeEvery('forums/fetchSiteData', fetchSiteDataAsync);
 };
 
-export default watchFetchSiteDataSaga;
+function* watchFetchSitesCountSaga(){
+    yield takeEvery('forums/fetchSitesCount', fetchSitesCountAsync);
+}
+
+function* forumsRootSaga(){
+    yield fork(watchFetchSiteDataSaga);
+    yield fork(watchFetchSitesCountSaga);
+}
+
+export default forumsRootSaga;

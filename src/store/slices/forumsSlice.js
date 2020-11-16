@@ -7,8 +7,8 @@ const init = {
     siteData : {
         data : [],
         loading : false,
-        error : null,
     },
+    error : null
 }
 
 const forumsSlice = createSlice({
@@ -21,16 +21,16 @@ const forumsSlice = createSlice({
             if (state.siteData.loading === false ) {
                 state.siteData.loading = true;
               }
-              state.siteData.error = null;  
+              state.error = null;  
         },
         rejectedSiteData: (state, action) => {
             state.siteData.loading = false;
             const err = action.payload;
-            state.siteData.error = err;
+            state.error = err;
         },
         successedSiteData: (state, action) => {
             state.siteData.loading = false;
-            state.siteData.error = null;
+            state.error = null;
             const data = action.payload;
             for (let i = 0; i < data.length; i++) {
                 if (data[i].count > 0){
@@ -41,14 +41,26 @@ const forumsSlice = createSlice({
             };
             state.siteData.data = data;
           },
+        succesedSitesCount: (state, action) => {
+            state.error = null;
+            // const data = action.payload;
+            // for (let i = 0; i < data.length; i++) {
+            //     if (data[i].count > 0){
+            //         state.siteMenuActiveIndex = i;
+            //         break;
+            //     }
+                
+            // };
+        },
         fetchSiteData: () =>{},
+        fetchSitesCount: () => {},
     }
 });
 
 
 export const { 
     requestedSiteData, rejectedSiteData, successedSiteData, 
-    fetchSiteData,
+    fetchSiteData, succesedSitesCount, fetchSitesCount
   } = forumsSlice.actions ;
 
 export default forumsSlice.reducer;
