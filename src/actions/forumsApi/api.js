@@ -16,4 +16,14 @@ const getSitesCount = async (url) => {
     return await get(url);
 }
 
-export {getSites, getSitesCount};
+const getForums = async (url, date) => {
+    const apiURL = new URL(url);
+    apiURL.searchParams.append('date', date);
+    return await get(apiURL);
+}
+
+const getTopics = async (url) => {
+    return await get(url);
+}
+
+export {getSites, getSitesCount, getForums, getTopics};

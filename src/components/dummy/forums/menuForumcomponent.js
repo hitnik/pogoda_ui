@@ -1,35 +1,10 @@
 import React from "react";
 import {Menu,  Icon, Segment, Button} from 'semantic-ui-react';
 import SiteMenuItem from './siteMenuItem';
+import {convertDateToLocalRu, convertDateToTopic} from '../../../utils';
+
 
 const MenuForumsComponent = (props) =>{
-
-    const sitesData = [
-        {
-            id: 1,
-            name: "onliner.by",
-            short: "on",
-            count: 15,
-            countUrl: "http://127.0.0.1:8000/forums/v1/topics-count/1?date=",
-            forumsUrl: "http://127.0.0.1:8000/forums/v1/forums/?site=1"
-        },
-        {
-            id: 2,
-            name: "providers.by",
-            short: "pr",
-            count: 0,
-            countUrl: "http://127.0.0.1:8000/forums/v1/topics-count/2?date=",
-            forumsUrl: "http://127.0.0.1:8000/forums/v1/forums/?site=2"
-        },
-        {
-            id: 3,
-            name: "otzyvy.by",
-            short: "ot",
-            count: 5,
-            countUrl: "http://127.0.0.1:8000/forums/v1/topics-count/3?date=",
-            forumsUrl: "http://127.0.0.1:8000/forums/v1/forums/?site=3"
-        }
-    ];
 
     return (
         <Segment>
@@ -48,7 +23,7 @@ const MenuForumsComponent = (props) =>{
                 <Menu.Item>
                     <div className="ui left right labeled input">
                         <Button className="label left icon"><Icon name="arrow left" size="big" /></Button>
-                        <input type="text" ></input>
+                        <input type="text" value={convertDateToTopic(props.date)} ></input>
                         <Button className="label right icon"><Icon name="arrow right" size="big" /></Button>
                     </div>
                 </Menu.Item>

@@ -31,14 +31,28 @@ const convertDateToLocalIso = (isoDate) =>{
 
 const convertDateToLocalRu = (isoDate) =>{
   const localDate = new Date(isoDate);
-  return localDate.toLocaleDateString('ru-Ru')
+  var options = { year: 'numeric', month: 'numeric', day: 'numeric'};
+  return localDate.toLocaleDateString('ru-Ru', options)
 }  
 
 const yesterday = () =>{
     let date = new Date();
-    date = new Date(date.setDate(date.getDate() - 1));
+
+    // ВАжно не забыть поменять дату
+
+    date = new Date(date.setDate(date.getDate() - 2));
     return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
   }
 
+const convertDateToTopic = (isoDate)=> {
+    const localDate = new Date(isoDate);
+    var options = { year: 'numeric', month: 'long', day: 'numeric',
+                      hour: '2-digit', minute:'2-digit'
+                    };
+    return localDate.toLocaleDateString('ru-Ru', options)
+}
 
-export {compareForumsData, convertDateToLocalIso,convertDateToLocalRu, yesterday};
+export {compareForumsData, convertDateToLocalIso,
+        convertDateToLocalRu, yesterday,
+        convertDateToTopic,
+      };

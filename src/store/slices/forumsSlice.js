@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {yesterday} from '../../utils';
-
+import {compareForumsData} from '../../utils';
 const init = {
     date: yesterday(),
     siteMenuActiveIndex: null,
+    forumsMenuActiveIndex: null,
     siteData : {
         data : [],
         loading : false,
     },
-    error : null
+    error : null,
+    forums : [],
+    topics: [],
 }
 
 const forumsSlice = createSlice({
@@ -32,35 +35,49 @@ const forumsSlice = createSlice({
             state.siteData.loading = false;
             state.error = null;
             const data = action.payload;
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].count > 0){
-                    state.siteMenuActiveIndex = i;
-                    break;
-                }
-                
-            };
             state.siteData.data = data;
           },
         succesedSitesCount: (state, action) => {
             state.error = null;
-            // const data = action.payload;
-            // for (let i = 0; i < data.length; i++) {
-            //     if (data[i].count > 0){
-            //         state.siteMenuActiveIndex = i;
-            //         break;
-            //     }
-                
-            // };
+            const data = action.payload;
+            state.siteData.data = data;
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].count > 0){
+                    state.siteMenuActiveIndex = i;
+                    break;
+                }   
+            };
+        },
+        succesedForums: (state, action) => {
+            state.error = null;
+            let data = action.payload;
+            data = data.sort(compareForumsData);
+            state.forums = data;
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].count > 0){
+                    state.forumsMenuActiveIndex = i;
+                    break;
+                }   
+            
+            };
+        },
+        succesedTopics: (state, action) =>{
+            state.error = null;
+            const data = action.payload;
+            state.topics = data;
         },
         fetchSiteData: () =>{},
         fetchSitesCount: () => {},
+        fetchForums: () => {},
+        fetchTopics: () =>{},
     }
 });
 
 
 export const { 
     requestedSiteData, rejectedSiteData, successedSiteData, 
-    fetchSiteData, succesedSitesCount, fetchSitesCount
+    fetchSiteData, succesedSitesCount, fetchSitesCount,
+    fetchForums, succesedForums , fetchTopics, succesedTopics
   } = forumsSlice.actions ;
 
 export default forumsSlice.reducer;

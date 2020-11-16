@@ -1,10 +1,11 @@
 import { takeLatest, takeEvery, put, call, fork} from 'redux-saga/effects';
 import {requestedSiteData, rejectedSiteData, successedSiteData,
-        fetchSitesCount, succesedSitesCount
+        fetchSitesCount, succesedSitesCount, succesedForums,
+        succesedTopics, fetchTopics
         } from '../store/slices/forumsSlice';
-import { getSites, getSitesCount } from '../actions/forumsApi/api';
+import { getSites, getSitesCount, getForums, getTopics } from '../actions/forumsApi/api';
 import store from '../index';
-import {convertDateToLocalIso, convertDateToLocalRu}  from '../utils';
+import {convertDateToLocalIso}  from '../utils';
 
 function* fetchSiteDataAsync(){
     console.log("fetch site data")
@@ -29,12 +30,12 @@ function* fetchSiteDataAsync(){
 }
 
 function* fetchSitesCountAsync(){
-    console.log('fetch count')
-    const forumsSlice = store.getState().forumsSlice;
+    let siteData =  store.getState().forumsSlice.siteData.data;
+    let result = [];
     try {
-        for (const i in  forumsSlice.siteData.data) {
-            const count = yield call(async () => {
-                return await getSitesCount(forumsSlice.siteData.data[i].count)
+        for (let i = 0; i < siteData.length; i++) {
+            const data = yield call(async () => {
+                return await getSitesCount(siteData[i].count)
                 .then(response =>{
                     if(!response.ok) {
                         throw new Error(response.statusText);
@@ -42,8 +43,12 @@ function* fetchSitesCountAsync(){
                     return response.json();
                     })
             });
-            respData[i].count = count.count;
+            result.push({id: siteData[i].id , name: siteData[i].name,
+                         short: siteData[i].short, 
+                         count: data.count, forums: siteData[i].forums
+                        })    
         };
+        yield put(succesedSitesCount(result));
     } catch (error) {
         console.log(error)
         yield put(rejectedSiteData(error.message));
@@ -52,11 +57,64 @@ function* fetchSitesCountAsync(){
 }
 
 function* fetchForumsAsync() {
-    
+    console.log('fetch forums')
+    const forumsSlice =  store.getState().forumsSlice;
+    try {
+        if (forumsSlice.siteMenuActiveIndex == null){
+            throw new Error();
+        }
+        const data = forumsSlice.siteData.data[forumsSlice.siteMenuActiveIndex];
+        const date = convertDateToLocalIso(forumsSlice.date)
+        const respData = yield call(async () => {
+        return await getForums(data.forums, date)
+                .then(response =>{
+                    if(!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                    })
+        });
+        yield put(succesedForums(respData)); 
+    } catch (error) {
+        console.log(error)
+        yield put(rejectedSiteData(error.message));
+    }
 }
 
-function* watchFetchForums(){
+function* fetchTopicsAsync(){
+    console.log('fetch async topics')
+    const forumsSlice =  store.getState().forumsSlice;
+    try {
+        if (forumsSlice.forumsMenuActiveIndex == null){
+            throw new Error();
+        }
+        let url = forumsSlice.forums[forumsSlice.forumsMenuActiveIndex].topicsUrl;
+        let results = [];
+        let respData = {}
+        do {
+            if (respData.next){
+                url = respData.next
+            }
+            respData = yield call(async () => {
+                return await getTopics(url)
+                    .then(response =>{
+                        if(!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                        })
+            });
+            results = results.concat(respData.results)
+          } while (respData.next);
+        yield put(succesedTopics(results)); 
+    } catch (error) {
+        console.log(error)
+        yield put(rejectedSiteData(error.message));
+    }
+}
 
+function* watchFetchForumsSaga(){
+    yield takeEvery('forums/fetchForums', fetchForumsAsync);
 };
 
 function* watchFetchSiteDataSaga(){
@@ -67,9 +125,15 @@ function* watchFetchSitesCountSaga(){
     yield takeEvery('forums/fetchSitesCount', fetchSitesCountAsync);
 }
 
+function* watchFetchTopicsSaga(){
+    yield takeEvery('forums/fetchTopics', fetchTopicsAsync);
+}
+
 function* forumsRootSaga(){
     yield fork(watchFetchSiteDataSaga);
     yield fork(watchFetchSitesCountSaga);
+    yield fork(watchFetchForumsSaga);
+    yield fork(watchFetchTopicsSaga)
 }
 
 export default forumsRootSaga;
