@@ -18,6 +18,10 @@ const forumsSlice = createSlice({
     name: 'forums',
     initialState: init, 
     reducers:{
+        setForumsMenuActiveIndex: (state, action)=>{
+            const index = action.payload
+            state.forumsMenuActiveIndex = index;
+        },
         requestedSiteData: (state) =>{
             const date = yesterday();
             state.date = date;
@@ -77,7 +81,8 @@ const forumsSlice = createSlice({
 export const { 
     requestedSiteData, rejectedSiteData, successedSiteData, 
     fetchSiteData, succesedSitesCount, fetchSitesCount,
-    fetchForums, succesedForums , fetchTopics, succesedTopics
+    fetchForums, succesedForums , fetchTopics, succesedTopics,
+    setForumsMenuActiveIndex,
   } = forumsSlice.actions ;
 
 export default forumsSlice.reducer;

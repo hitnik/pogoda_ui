@@ -40,15 +40,13 @@ const yesterday = () =>{
 
     // ВАжно не забыть поменять дату
 
-    date = new Date(date.setDate(date.getDate() - 2));
+    date = new Date(date.setDate(date.getDate() - 3));
     return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
   }
 
 const convertDateToTopic = (isoDate)=> {
     const localDate = new Date(isoDate);
-    var options = { year: 'numeric', month: 'long', day: 'numeric',
-                      hour: '2-digit', minute:'2-digit'
-                    };
+    var options = {day: 'numeric',  month: 'long', year: 'numeric'};
     return localDate.toLocaleDateString('ru-Ru', options)
 }
 
