@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux';
 import { Container, Segment} from 'semantic-ui-react';
 import MenuForumsComponent from '../dummy/forums/menuForumcomponent';
 import ErrorComponent from '../dummy/errorComponent';
-import {fetchSiteData, fetchForums, fetchTopics} from '../../store/slices/forumsSlice';
+import {fetchSiteData, fetchForums, fetchTopics,
+        setForumsMenuActiveIndex,
+        } from '../../store/slices/forumsSlice';
 import TopicsContainer from '../dummy/forums/topicContainer';
 
 const ForumsComponent = (props) => {
@@ -23,10 +25,9 @@ const ForumsComponent = (props) => {
     }, [props.forumsMenuActiveIndex]);
 
 
-    const handleForumMenuItemClick = () =>{
+    const handleForumMenuItemClick = (e) =>{
         console.log('menuClick')
-        // const id = event.target.id;
-        // console.log(id)
+        props.setForumsMenuActiveIndex(parseInt(e.target.id))
     }
 
     return (
@@ -65,7 +66,8 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        fetchSiteData, fetchForums, fetchTopics
+        fetchSiteData, fetchForums, fetchTopics,
+        setForumsMenuActiveIndex,
       
    }, dispatch)
   }

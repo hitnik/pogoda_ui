@@ -5,17 +5,12 @@ import ReactHtmlParser from 'react-html-parser';
 
 const ForumsMenuItem = (props) =>{
 
-    const handleClick= () =>{
-        console.log('click n menu');
-        props.handleClick();
-    }
-
     return (
         <Menu.Item 
             {...((props.count > 0 && !props.active) ? {style: {cursor:'pointer'}} : {})}
             id={props.id}
             active={props.active}
-            onClick= {handleClick} 
+            {...(props.count > 0 && !props.active) && {onClick : props.onClick}}
         >
             {props.count > 0 &&
                 <Label color='teal' floating >{props.count}</Label>
@@ -64,10 +59,6 @@ const TopicItem = (props) =>{
 
 const TopicsContainer = (props) => {
 
-    const onMenuItemClick = () =>{
-        props.onMenuClick()
-    }
-
     return (
         <Segment basic>
             <Grid > 
@@ -81,7 +72,7 @@ const TopicsContainer = (props) => {
                                                         name = {item.name}
                                                         id = {index}
                                                         count = {item.count}
-                                                        handleClick = {onMenuItemClick}
+                                                        onClick = {props.onMenuClick}
                                                     />
                             )}
                         </Menu>
@@ -94,8 +85,9 @@ const TopicsContainer = (props) => {
                                (item, index) => <ForumsMenuItem key={item.id} 
                                                     active={index === props.activeIndex}  
                                                     name = {item.name}
-                                                    id = {item.id.toString()}
+                                                    id = {index}
                                                     count = {item.count}
+                                                    onClick = {props.onMenuClick}
                                                 />
                            )}
                         </Menu>

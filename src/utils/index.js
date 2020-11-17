@@ -38,9 +38,9 @@ const convertDateToLocalRu = (isoDate) =>{
 const yesterday = () =>{
     let date = new Date();
 
-    // ВАжно не забыть поменять дату
+    // ВАжно не забыть поменять дату в продакшен
 
-    date = new Date(date.setDate(date.getDate() - 3));
+    date = new Date(date.setDate(date.getDate() - 4));
     return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
   }
 
