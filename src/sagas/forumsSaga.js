@@ -1,7 +1,7 @@
 import { takeLatest, takeEvery, put, call, fork} from 'redux-saga/effects';
 import {requestedSiteData, rejectedSiteData, successedSiteData,
         fetchSitesCount, succesedSitesCount, succesedForums,
-        succesedTopics, fetchTopics
+        succesedTopics, requestedForums,
         } from '../store/slices/forumsSlice';
 import { getSites, getSitesCount, getForums, getTopics } from '../actions/forumsApi/api';
 import store from '../index';
@@ -60,6 +60,7 @@ function* fetchForumsAsync() {
     console.log('fetch forums')
     const forumsSlice =  store.getState().forumsSlice;
     try {
+        yield put(requestedForums());
         if (forumsSlice.siteMenuActiveIndex == null){
             throw new Error();
         }

@@ -19,16 +19,24 @@ const forumsSlice = createSlice({
     initialState: init, 
     reducers:{
         setForumsMenuActiveIndex: (state, action)=>{
-            const index = action.payload
+            const index = action.payload;
             state.forumsMenuActiveIndex = index;
         },
-        requestedSiteData: (state) =>{
-            const date = yesterday();
+        setSitesMenuActiveIndex: (state, action)=>{
+            const index = action.payload;
+            state.siteMenuActiveIndex = index;
+            
+        },
+        setDate: (state, action) =>{
+            const date = action.payload;
             state.date = date;
+        },
+        requestedSiteData: (state) =>{
             if (state.siteData.loading === false ) {
                 state.siteData.loading = true;
               }
-              state.error = null;  
+              state.error = null;
+              state.siteMenuActiveIndex = null;  
         },
         rejectedSiteData: (state, action) => {
             state.siteData.loading = false;
@@ -51,6 +59,10 @@ const forumsSlice = createSlice({
                     break;
                 }   
             };
+        },
+        requestedForums: (state) =>{
+            state.error = null;
+            state.forumsMenuActiveIndex = null;
         },
         succesedForums: (state, action) => {
             state.error = null;
@@ -82,7 +94,8 @@ export const {
     requestedSiteData, rejectedSiteData, successedSiteData, 
     fetchSiteData, succesedSitesCount, fetchSitesCount,
     fetchForums, succesedForums , fetchTopics, succesedTopics,
-    setForumsMenuActiveIndex,
+    setForumsMenuActiveIndex, setSitesMenuActiveIndex,
+    setDate, setDateError, requestedForums,
   } = forumsSlice.actions ;
 
 export default forumsSlice.reducer;

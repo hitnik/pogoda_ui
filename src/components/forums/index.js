@@ -6,15 +6,19 @@ import { Container, Segment} from 'semantic-ui-react';
 import MenuForumsComponent from '../dummy/forums/menuForumcomponent';
 import ErrorComponent from '../dummy/errorComponent';
 import {fetchSiteData, fetchForums, fetchTopics,
-        setForumsMenuActiveIndex,
+        setForumsMenuActiveIndex, setSitesMenuActiveIndex,
+        setDate, 
         } from '../../store/slices/forumsSlice';
 import TopicsContainer from '../dummy/forums/topicContainer';
+import {dateDecrement, dateIncrement, isYearPassed,
+        isTommorow
+        } from '../../utils';
 
 const ForumsComponent = (props) => {
     
     useEffect(() => {
         props.fetchSiteData();
-      }, []);
+      }, [props.date]);
 
     useEffect(() =>{
         props.siteMenuActiveIndex != null && props.fetchForums();
@@ -25,9 +29,29 @@ const ForumsComponent = (props) => {
     }, [props.forumsMenuActiveIndex]);
 
 
+
     const handleForumMenuItemClick = (e) =>{
-        console.log('menuClick')
-        props.setForumsMenuActiveIndex(parseInt(e.target.id))
+        const regex = /forum_/;
+        const index = parseInt(e.target.id.replace(regex, ''));
+        props.setForumsMenuActiveIndex(index)
+    }
+
+    const handleSiteMenuItemClick = (e) =>{
+        const regex = /site_/;
+        const index = parseInt(e.target.id.replace(regex, ''));
+        props.setSitesMenuActiveIndex(index)
+    }
+
+    const handleClickDateLeft = () =>{
+        const date = dateDecrement(props.date);
+        if (isYearPassed(date)){return}
+        props.setDate(dateDecrement(props.date));
+    }
+
+    const handleClickDateRight = () =>{
+        const date = dateIncrement(props.date)
+        if (isTommorow(date)){return}
+        props.setDate(dateIncrement(props.date));
     }
 
     return (
@@ -37,6 +61,9 @@ const ForumsComponent = (props) => {
                     <MenuForumsComponent siteData={props.siteData.data}
                                         activeIndex = {props.siteMenuActiveIndex}
                                         date = {props.date}
+                                        onMenuClick = {handleSiteMenuItemClick}
+                                        handleClickLeft = {handleClickDateLeft}
+                                        handleClickRight = {handleClickDateRight}
                     />
                     <TopicsContainer forums={props.forums}
                                      activeIndex={props.forumsMenuActiveIndex}
@@ -67,7 +94,8 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         fetchSiteData, fetchForums, fetchTopics,
-        setForumsMenuActiveIndex,
+        setForumsMenuActiveIndex, setSitesMenuActiveIndex,
+        setDate, 
       
    }, dispatch)
   }

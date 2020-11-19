@@ -36,21 +36,56 @@ const convertDateToLocalRu = (isoDate) =>{
 }  
 
 const yesterday = () =>{
-    let date = new Date();
+  let date = new Date();
 
-    // ВАжно не забыть поменять дату в продакшен
+  // ВАжно не забыть поменять дату в продакшен
 
-    date = new Date(date.setDate(date.getDate() - 4));
-    return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+  date = new Date(date.setDate(date.getDate() - 12));
+  return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
   }
 
 const convertDateToTopic = (isoDate)=> {
-    const localDate = new Date(isoDate);
-    var options = {day: 'numeric',  month: 'long', year: 'numeric'};
-    return localDate.toLocaleDateString('ru-Ru', options)
+  const localDate = new Date(isoDate);
+  var options = {day: 'numeric',  month: 'long', year: 'numeric'};
+  return localDate.toLocaleDateString('ru-Ru', options)
+}
+
+const dateDecrement = (date) =>{
+  let localDate = new Date(date);
+  localDate = new Date(localDate.setDate(localDate.getDate() - 1));
+  return localDate.getFullYear() + '-' + (localDate.getMonth()+1) + '-' + localDate.getDate()
+}
+
+const dateIncrement = (date) =>{
+  let localDate = new Date(date);
+  localDate = new Date(localDate.setDate(localDate.getDate() + 1));
+  return localDate.getFullYear() + '-' + (localDate.getMonth()+1) + '-' + localDate.getDate()
+}
+
+const isYearPassed = (date) => {
+  let localDate = new Date(date);
+  let yearAgo = new Date(new Date().getFullYear(), new Date().getMonth(), 
+                            new Date().getDate(), localDate.getHours(), 
+                            localDate.getMinutes(), localDate.getSeconds(),
+                            localDate.getMilliseconds() 
+                            );
+  yearAgo = new Date(yearAgo.setFullYear(yearAgo.getFullYear() - 1));
+  return localDate <= yearAgo
+}
+
+const isTommorow = (date) =>{
+  let localDate = new Date(date);
+  let tommorow = new Date(new Date().getFullYear(), new Date().getMonth(), 
+                          new Date().getDate(), localDate.getHours(), 
+                          localDate.getMinutes(), localDate.getSeconds(),
+                          localDate.getMilliseconds() 
+                          );
+  tommorow = new Date(tommorow.setDate(tommorow.getDate() + 1));
+  return localDate >= tommorow
 }
 
 export {compareForumsData, convertDateToLocalIso,
         convertDateToLocalRu, yesterday,
-        convertDateToTopic,
+        convertDateToTopic, dateDecrement, dateIncrement,
+        isYearPassed, isTommorow
       };

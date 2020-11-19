@@ -6,9 +6,9 @@ const SiteMenuItem = (props) => {
     return (
         <Menu.Item 
             {...((props.count > 0 && !props.active) ? {style: {cursor:'pointer'}} : {})}
-            name={props.short}
+            id = {props.id}
             active={props.active}
-            onClick= {props.handleClick} 
+            {...(props.count > 0 && !props.active) && {onClick : props.handleClick}}
         >   
             {props.count > 0 &&
                 <Label color='teal' floating>{props.count}</Label>

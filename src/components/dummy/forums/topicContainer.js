@@ -70,7 +70,7 @@ const TopicsContainer = (props) => {
                                 item.count > 0 && <ForumsMenuItem key={item.id} 
                                                         active={index === props.activeIndex}  
                                                         name = {item.name}
-                                                        id = {index}
+                                                        id = {'forum_'+index.toString()}
                                                         count = {item.count}
                                                         onClick = {props.onMenuClick}
                                                     />
@@ -85,7 +85,7 @@ const TopicsContainer = (props) => {
                                (item, index) => <ForumsMenuItem key={item.id} 
                                                     active={index === props.activeIndex}  
                                                     name = {item.name}
-                                                    id = {index}
+                                                    id = {'forum_'+index.toString()}
                                                     count = {item.count}
                                                     onClick = {props.onMenuClick}
                                                 />
