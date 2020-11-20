@@ -88,7 +88,7 @@ const CodeForm = (props) => {
        
     const successAction = () =>{
         setStoreInitial();
-        history.push('/')
+        history.push('/weather')
     }
 
     useEffect(() => {
@@ -118,7 +118,7 @@ const CodeForm = (props) => {
     const handleClose = (e) => {
         e.preventDefault();
         setStoreInitial();
-        history.push('/')
+        history.push('/weather')
     }  
 
     const handleRepeat = (e) => {
@@ -128,7 +128,7 @@ const CodeForm = (props) => {
         props.setSubFormEmail(props.codeData.email);
         props.isSubscribe && props.setSubFormTitle(props.codeData.title);
         props.isSubscribe && props.setMarkedLevels(markedLevels);
-        history.push('/subscribe');
+        history.push('/weather/subscribe');
     }
 
     const handleSubmit = (e) =>{

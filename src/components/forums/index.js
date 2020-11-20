@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import { withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Segment} from 'semantic-ui-react';
+import { Container, Segment, Header, Grid} from 'semantic-ui-react';
 import MenuForumsComponent from '../dummy/forums/menuForumcomponent';
 import ErrorComponent from '../dummy/errorComponent';
 import {fetchSiteData, fetchForums, fetchTopics,
@@ -64,12 +64,24 @@ const ForumsComponent = (props) => {
                                         onMenuClick = {handleSiteMenuItemClick}
                                         handleClickLeft = {handleClickDateLeft}
                                         handleClickRight = {handleClickDateRight}
+                                        handleDateChange = {props.setDate}
                     />
-                    <TopicsContainer forums={props.forums}
+                    {props.siteMenuActiveIndex != null
+                        ? 
+                        <TopicsContainer forums={props.forums}
                                      activeIndex={props.forumsMenuActiveIndex}
                                      topics = {props.topics}  
                                      onMenuClick = {handleForumMenuItemClick} 
-                    />
+                        />
+                        :
+                        <Segment>
+                             <Grid >
+                                <Grid.Column textAlign="center">
+                                    <Header as='h4'>Здесь пусто</Header>
+                                </Grid.Column>
+                             </Grid>
+                        </Segment>
+                    }    
                 </Segment.Group>
             : <ErrorComponent/>
         } 

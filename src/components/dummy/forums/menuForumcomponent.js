@@ -1,7 +1,6 @@
 import React from "react";
 import {Menu,  Icon, Segment, Button} from 'semantic-ui-react';
 import SiteMenuItem from './siteMenuItem';
-import {convertDateToTopic} from '../../../utils';
 import CalendarComponent from './calendar';
 
 const MenuForumsComponent = (props) =>{
@@ -23,24 +22,19 @@ const MenuForumsComponent = (props) =>{
             </Menu.Menu>
             <Menu.Menu position="right">
                 <Menu.Item>
-                        <CalendarComponent/>
-                        <div  className="ui  left right labeled input">
-                            <Button className="label left icon"
-                                    onClick={props.handleClickLeft}
-                            >
-                                <Icon name="arrow left" size="big" />
-                            </Button>
-                            <input  type="text" 
-                                    readonly="readonly"
-                                    value={convertDateToTopic(props.date)}
-                            > 
-                            </input>
-                            <Button className="label right icon"
-                                    onClick={props.handleClickRight}
-                            >
-                                <Icon name="arrow right" size="big" />
-                            </Button>
-                        </div>
+                    <Button className="label left icon"
+                            onClick={props.handleClickLeft}
+                    >
+                            <Icon name="arrow left"  />
+                        </Button>
+                    <CalendarComponent date={new Date(props.date)}
+                                       handleDateChange={props.handleDateChange} 
+                    />
+                    <Button className="label right icon"
+                            onClick={props.handleClickRight}
+                    >
+                        <Icon name="arrow right"  />
+                    </Button>
                 </Menu.Item>
             </Menu.Menu>
         </Menu>

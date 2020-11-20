@@ -40,7 +40,7 @@ class ButtonGroupSubmitClose extends PureComponent {
   close = (e) => {
     e.preventDefault();
     setStoreInitial();
-    this.props.history.push('/');
+    this.props.history.push('/weather');
   }
 
   render () {

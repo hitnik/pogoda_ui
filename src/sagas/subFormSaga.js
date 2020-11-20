@@ -44,7 +44,7 @@ function* fetchSubFormAsync(action){
         }
         yield put(successedSubForm());
         yield call(store.dispatch,setCodeData(codeData));
-        yield call(store.dispatch,push('/code-confirm')); 
+        yield call(store.dispatch,push('/weather/code-confirm')); 
     } catch (error) {
         yield put(rejectedSubForm(error.message));
     }
@@ -78,7 +78,7 @@ function* fetchGetUserAsync(action){
         });
         yield put(successedGetUser(data)); 
         yield call(store.dispatch,subscribe);
-        yield call(store.dispatch,push('/subscribe')); 
+        yield call(store.dispatch,push('/weather/subscribe')); 
     } catch (error) {
         yield put(rejectedGetUser(error.message));
     }

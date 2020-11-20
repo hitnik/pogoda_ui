@@ -1,4 +1,4 @@
-import { takeLatest, takeEvery, put, call, fork} from 'redux-saga/effects';
+import {  takeEvery, put, call, fork} from 'redux-saga/effects';
 import {requestedSiteData, rejectedSiteData, successedSiteData,
         fetchSitesCount, succesedSitesCount, succesedForums,
         succesedTopics, requestedForums,

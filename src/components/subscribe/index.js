@@ -63,13 +63,13 @@ class SubscribeContainer extends PureComponent{
   onClickSubscribe = () => {
     this.props.subscribe();
     setStoreInitial();
-    this.props.history.push('/subscribe')
+    this.props.history.push('/weather/subscribe')
   }
 
   onClickUnsubscribe = () =>{
     this.props.unsubscribe();
     setStoreInitial();
-    this.props.history.push('/subscribe')
+    this.props.history.push('/weather/subscribe')
   }
 
   onClickEdit = () => {

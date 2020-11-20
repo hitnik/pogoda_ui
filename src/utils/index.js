@@ -29,6 +29,7 @@ const convertDateToLocalIso = (isoDate) =>{
   return localDate.getFullYear()+'-'+(localDate.getMonth()+1)+'-'+localDate.getDate()
 }  
 
+
 const convertDateToLocalRu = (isoDate) =>{
   const localDate = new Date(isoDate);
   var options = { year: 'numeric', month: 'numeric', day: 'numeric'};
@@ -37,17 +38,14 @@ const convertDateToLocalRu = (isoDate) =>{
 
 const yesterday = () =>{
   let date = new Date();
-
-  // ВАжно не забыть поменять дату в продакшен
-
-  date = new Date(date.setDate(date.getDate() - 12));
+  date = new Date(date.setDate(date.getDate() - 1));
   return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
   }
 
 const convertDateToTopic = (isoDate)=> {
   const localDate = new Date(isoDate);
-  var options = {day: 'numeric',  month: 'long', year: 'numeric'};
-  return localDate.toLocaleDateString('ru-Ru', options)
+  var options = {hour:'numeric', minute:'numeric', day: 'numeric',  month: 'long', year: 'numeric'};
+  return localDate.toLocaleTimeString('ru-Ru', options)
 }
 
 const dateDecrement = (date) =>{

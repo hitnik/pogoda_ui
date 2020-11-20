@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { Switch, Route} from 'react-router-dom';
 import  SegmentForms from "../subscribe/forms/subscribe/";
 import CodeForm from '../subscribe/forms/code';
-import HomePage from '../home/'
+import WeatherComponent from '../weather'
 import ForumsComponent from '../forums';
 
 
@@ -11,10 +11,11 @@ export default class Main extends PureComponent{
         return (
                 <div>
                     <Switch>
-                        <Route exact path='/' component={HomePage}/>
-                        <Route path='/subscribe' component={SegmentForms}/>
-                        <Route path='/code-confirm' component={CodeForm}/>
-                        <Route path='/forums' component={ForumsComponent} />
+                        <Route exact path='/' component={ForumsComponent} />
+                        <Route exact path='/weather' component={WeatherComponent}/>
+                        <Route path='/weather/subscribe' component={SegmentForms}/>
+                        <Route path='/weather/code-confirm' component={CodeForm}/>
+                        
                     </Switch>
                 </div>
         )

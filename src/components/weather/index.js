@@ -12,7 +12,7 @@ import WarningComponent  from '../dummy/warning/warningComponent';
 
 
 
-const HomePage = (props) => {
+const WeatherComponent = (props) => {
 
     const testData = {
         date_end: "2020-10-01",
@@ -141,5 +141,5 @@ function mapStateToProps(state) {
    }, dispatch)
   }
 
-  export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HomePage));
+  export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WeatherComponent));
 
