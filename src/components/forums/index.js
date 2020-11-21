@@ -13,9 +13,84 @@ import TopicsContainer from '../dummy/forums/topicContainer';
 import {dateDecrement, dateIncrement, isYearPassed,
         isTommorow
         } from '../../utils';
+import {fetchWarnings} from '../../store/slices/warningsSlice';
+
+const warnings =  [
+    {
+        "id": 1605943797,
+        "url": "http://10.254.90.101/hazard/v1/warnings/1605943797/",
+        "title": "Предупреждение о неблагоприятном явлении",
+        "external_link": "http://www.pogoda.by/news/?page=35907",
+        "summary": "22 ноября (воскресенье) на отдельных участках дорог республики ожидается гололедица.В дневные часы местами ожидается \nусиление ветра порывами до 15-18 м/с.",
+        "hazard_level": {
+            "id": 2,
+            "title": "Желтый уровень",
+            "danger_level": 1,
+            "color_code": "FFFF00",
+            "description": "Погодные условия потенциально опасны — возможны осадки, грозы, возрастание порывов ветра, высокие или низкие температуры и др. Эти явления погоды обычны для территории страны, но временами могут представлять опасность для отдельных видов социально-экономической деятельности"
+        },
+        "date_start": "2020-11-22",
+        "date_end": "2020-11-22"
+    },
+    {
+        "id": 1605937976,
+        "url": "http://10.254.90.101/hazard/v1/warnings/1605937976/",
+        "title": "Предупреждение о неблагоприятном явлении",
+        "external_link": "http://www.pogoda.by/news/?page=35906",
+        "summary": "21 ноября (суббота) местами по востоку республики на отдельных участках дорог сохранится гололедица.",
+        "hazard_level": {
+            "id": 3,
+            "title": "Оранжевый уровень",
+            "danger_level": 2,
+            "color_code": "FFA500",
+            "description": "Погодные условия представляют реальную опасность — шквалы, ливни, грозы, град, жара, морозы, снегопады, метели и пр. Явления могут негативно повлиять на социально-экономическую деятельность и привести к значительному материальному ущербу, а также возможны человеческие жертвы"
+        },
+        "date_start": "2020-11-21",
+        "date_end": "2020-11-21"
+    },
+    {
+        "id": 1605857830,
+        "url": "http://10.254.90.101/hazard/v1/warnings/1605857830/",
+        "title": "Предупреждение о неблагоприятном явлении",
+        "external_link": "http://www.pogoda.by/news/?page=35901",
+        "summary": " отдельных участках дорог республики ожидается гололедица.",
+        "hazard_level": {
+            "id": 2,
+            "title": "Желтый уровень",
+            "danger_level": 1,
+            "color_code": "FFFF00",
+            "description": "Погодные условия потенциально опасны — возможны осадки, грозы, возрастание порывов ветра, высокие или низкие температуры и др. Эти явления погоды обычны для территории страны, но временами могут представлять опасность для отдельных видов социально-экономической деятельности"
+        },
+        "date_start": "2020-11-21",
+        "date_end": "2020-11-21"
+    },
+]
+
 
 const ForumsComponent = (props) => {
-    
+
+       
+    const [warningsIndex, setWarningsIndex] = useState(0);
+
+    const [isMount, setIsMount] = useState(true);
+
+    useEffect( () =>{
+        props.fetchWarnings();
+    },[isMount]);
+
+
+    useEffect( () =>{
+        setTimeout(() => { 
+            setIsMount(!isMount);
+        },600000);
+    });
+
+    useEffect(() => {
+        setTimeout(() => {
+            warnings.length > 0 && setWarningsIndex((warningsIndex+1)%warnings.length);
+        }, 20000);
+      });
+
     useEffect(() => {
         props.fetchSiteData();
       }, [props.date]);
@@ -71,7 +146,8 @@ const ForumsComponent = (props) => {
                         <TopicsContainer forums={props.forums}
                                      activeIndex={props.forumsMenuActiveIndex}
                                      topics = {props.topics}  
-                                     onMenuClick = {handleForumMenuItemClick} 
+                                     onMenuClick = {handleForumMenuItemClick}
+                                     warning = {props.warnings[warningsIndex]}
                         />
                         :
                         <Segment>
@@ -100,6 +176,7 @@ const mapStateToProps = (state) => {
         forumsMenuActiveIndex: state.forumsSlice.forumsMenuActiveIndex,
         forums: state.forumsSlice.forums,
         topics: state.forumsSlice.topics,
+        warnings: state.warnings.warningsArr,
     }
   }
   
@@ -107,7 +184,7 @@ const mapStateToProps = (state) => {
     return bindActionCreators({
         fetchSiteData, fetchForums, fetchTopics,
         setForumsMenuActiveIndex, setSitesMenuActiveIndex,
-        setDate, 
+        setDate, fetchWarnings
       
    }, dispatch)
   }

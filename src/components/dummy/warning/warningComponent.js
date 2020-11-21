@@ -8,6 +8,13 @@ const colors ={
     'FF0000' : 'red'
 }
 
+const colorsBanner ={
+    '008000' : '#2a9d8f',
+    'FFFF00' : '#ffd166',
+    'FFA500' : '#f4a261',
+    'FF0000' : '#e76f51'
+}
+
 const Pop = (props) => {
     return(
     <Popup content={props.content}
@@ -49,17 +56,21 @@ const WarningComponent = (props) =>{
 
 const WarningComponentLigthWeight = (props) =>{
 
-    return (      
-            <Segment compact color={colors[props.data.hazard_level.color_code]}>
+    return ( 
+             props.data ?    
+            <Segment compact color={colors[props.data.hazard_level.color_code]} 
+                    style={{background: colorsBanner[props.data.hazard_level.color_code]}}
+            >
                 <Item>
-                <Item.Header >
-                    <Header as='h5'>{props.data.hazard_level.title}.</Header>
-                </Item.Header>
-                <Item.Content>
-                    <Item.Description>{props.data.summary}</Item.Description>
-                </Item.Content>
+                    <Item.Header >
+                        <Header as='h5'>{props.data.hazard_level.title}.</Header>
+                    </Item.Header>
+                    <Item.Content>
+                        <Item.Description>{props.data.summary}</Item.Description>
+                    </Item.Content>
                 </Item>
-            </Segment>       
+            </Segment>
+            : null     
     )
 }
 

@@ -4,32 +4,6 @@ import LogoImg from '../../images/logo.png';
 import BtcImg from '../../images/btc.png';
 import {Link} from 'react-router-dom';
 
-const tagOptions = [
-    {
-      key: 'Important',
-      text: 'Important',
-      value: 'Important',
-      label: { color: 'red', empty: true, circular: true },
-    },
-    {
-      key: 'Announcement',
-      text: 'Announcement',
-      value: 'Announcement',
-      label: { color: 'blue', empty: true, circular: true },
-    },
-    {
-      key: 'Cannot Fix',
-      text: 'Cannot Fix',
-      value: 'Cannot Fix',
-      label: { color: 'black', empty: true, circular: true },
-    },
-    {
-      key: 'News',
-      text: 'News',
-      value: 'News',
-      label: { color: 'purple', empty: true, circular: true },
-    }
-]
 
 class Navbar extends PureComponent{
 

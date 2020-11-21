@@ -14,23 +14,6 @@ import WarningComponent  from '../dummy/warning/warningComponent';
 
 const WeatherComponent = (props) => {
 
-    const testData = {
-        date_end: "2020-10-01",
-        date_start: "2020-10-01",
-        external_link: "http://www.pogoda.by/news/?page=35691",
-        hazard_level:{ 
-            color_code: "FFFF00",
-            danger_level: 1,
-            description: "Погодные условия потенциально опасны — возможны осадки, грозы, возрастание порывов ветра, высокие или низкие температуры и др. Эти явления погоды обычны для территории страны, но временами могут представлять опасность для отдельных видов социально-экономической деятельности",
-            id: 2,
-            title: "Желтый уровень",
-        },
-        id: 1601452103,
-        summary: "Желтый уровень опасности. Днем 1 октября (четверг) в отдельных районах республики ожидается усиление ветра порывами до 15-18 м/с.",
-        title: "Предупреждение о неблагоприятном явлении",
-        url: "http://127.0.0.1:8000/hazard/v1/warnings/1601452103/"
-    }
-
     const [buttonsVisible, setButtonsVisible] = useState(false)
     const [isMount, setIsMount] = useState(true);
 

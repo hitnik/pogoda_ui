@@ -83,9 +83,9 @@ function* fetchTopicsAsync(){
     console.log('fetch async topics')
     const forumsSlice =  store.getState().forumsSlice;
     try {
-        if (forumsSlice.forumsMenuActiveIndex == null){
-            throw new Error();
-        }
+        // if (forumsSlice.forumsMenuActiveIndex == null){
+        //     throw new Error();
+        // }
         let url = forumsSlice.forums[forumsSlice.forumsMenuActiveIndex].topicsUrl;
         let results = [];
         let respData = {}

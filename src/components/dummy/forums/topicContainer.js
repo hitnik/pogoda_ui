@@ -89,8 +89,10 @@ const TopicsContainer = (props) => {
                             )}
                             </Menu>
                         </Segment>
-                        <Segment basic>
-                            <WarningLeftBanner/>
+                        <Segment basic className="bunner-left">
+                            <WarningLeftBanner data={props.warning}
+                                                bannerVisible={props.bannerVisible}
+                            />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column mobile={16} tablet={16} computer={11}>
