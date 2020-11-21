@@ -61,9 +61,6 @@ function* fetchForumsAsync() {
     const forumsSlice =  store.getState().forumsSlice;
     try {
         yield put(requestedForums());
-        if (forumsSlice.siteMenuActiveIndex == null){
-            throw new Error();
-        }
         const data = forumsSlice.siteData.data[forumsSlice.siteMenuActiveIndex];
         const date = convertDateToLocalIso(forumsSlice.date)
         const respData = yield call(async () => {

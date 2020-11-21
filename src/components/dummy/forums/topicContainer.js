@@ -2,7 +2,7 @@ import React from "react";
 import {Menu, Label, Segment, Grid, Item} from 'semantic-ui-react';
 import {convertDateToTopic} from '../../../utils';
 import ReactHtmlParser from 'react-html-parser';
-
+import WarningLeftBanner from '../warning/bannerWarning';
 const ForumsMenuItem = (props) =>{
 
     return (
@@ -31,8 +31,7 @@ const HtmlComponent = (props) =>{
 
 const TopicItem = (props) =>{
 
-    return (
-            <Segment basic>
+    return (      
                 <Segment raised className="topic">
                         <Item.Group>
                         <Item>
@@ -50,10 +49,7 @@ const TopicItem = (props) =>{
                             </Item.Content>
                         </Item>
                         </Item.Group>
-                </Segment>
-            </Segment>
-            
-        
+                </Segment>          
     )
 }
 
@@ -80,17 +76,22 @@ const TopicsContainer = (props) => {
                 </Grid.Row>
                 <Grid.Row centered>
                     <Grid.Column width={5} only="computer">
-                        <Menu fluid vertical tabular>
-                           {props.forums.map(
-                               (item, index) => <ForumsMenuItem key={item.id} 
-                                                    active={index === props.activeIndex}  
-                                                    name = {item.name}
-                                                    id = {'forum_'+index.toString()}
-                                                    count = {item.count}
-                                                    onClick = {props.onMenuClick}
-                                                />
-                           )}
-                        </Menu>
+                        <Segment basic>
+                            <Menu fluid vertical tabular>
+                            {props.forums.map(
+                                (item, index) => <ForumsMenuItem key={item.id} 
+                                                        active={index === props.activeIndex}  
+                                                        name = {item.name}
+                                                        id = {'forum_'+index.toString()}
+                                                        count = {item.count}
+                                                        onClick = {props.onMenuClick}
+                            />
+                            )}
+                            </Menu>
+                        </Segment>
+                        <Segment basic>
+                            <WarningLeftBanner/>
+                        </Segment>
                     </Grid.Column>
                     <Grid.Column mobile={16} tablet={16} computer={11}>
                             {props.topics.map(

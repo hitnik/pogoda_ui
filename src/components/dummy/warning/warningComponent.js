@@ -1,6 +1,13 @@
 import React from 'react';
 import {Segment, Item, Popup, Icon, Header} from 'semantic-ui-react';
 
+const colors ={
+    '008000' : 'green',
+    'FFFF00' : 'yellow',
+    'FFA500' : 'orange',
+    'FF0000' : 'red'
+}
+
 const Pop = (props) => {
     return(
     <Popup content={props.content}
@@ -12,13 +19,6 @@ const Pop = (props) => {
 }
 
 const WarningComponent = (props) =>{
-
-    const colors ={
-        '008000' : 'green',
-        'FFFF00' : 'yellow',
-        'FFA500' : 'orange',
-        'FF0000' : 'red'
-    }
 
     return (
         <Segment color={colors[props.data.hazard_level.color_code]}>
@@ -46,5 +46,24 @@ const WarningComponent = (props) =>{
         </Segment>
     )
 }
+
+const WarningComponentLigthWeight = (props) =>{
+
+    return (      
+            <Segment compact color={colors[props.data.hazard_level.color_code]}>
+                <Item>
+                <Item.Header >
+                    <Header as='h5'>{props.data.hazard_level.title}.</Header>
+                </Item.Header>
+                <Item.Content>
+                    <Item.Description>{props.data.summary}</Item.Description>
+                </Item.Content>
+                </Item>
+            </Segment>       
+    )
+}
+
+
+export {WarningComponentLigthWeight};
 
 export default WarningComponent;
