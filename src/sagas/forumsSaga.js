@@ -62,6 +62,9 @@ function* fetchForumsAsync() {
     try {
         yield put(requestedForums());
         const data = forumsSlice.siteData.data[forumsSlice.siteMenuActiveIndex];
+
+        if (!data) return
+
         const date = convertDateToLocalIso(forumsSlice.date)
         const respData = yield call(async () => {
         return await getForums(data.forums, date)
@@ -83,9 +86,9 @@ function* fetchTopicsAsync(){
     console.log('fetch async topics')
     const forumsSlice =  store.getState().forumsSlice;
     try {
-        // if (forumsSlice.forumsMenuActiveIndex == null){
-        //     throw new Error();
-        // }
+        if (forumsSlice.forumsMenuActiveIndex == null) return
+        if(!forumsSlice.forums[forumsSlice.forumsMenuActiveIndex]) return
+        
         let url = forumsSlice.forums[forumsSlice.forumsMenuActiveIndex].topicsUrl;
         let results = [];
         let respData = {}
