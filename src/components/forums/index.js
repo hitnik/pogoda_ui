@@ -86,9 +86,11 @@ const ForumsComponent = (props) => {
     });
 
     useEffect(() => {
-        setTimeout(() => {
-            warnings.length > 0 && setWarningsIndex((warningsIndex+1)%warnings.length);
-        }, 20000);
+       if (props.warnings.length > 1) {
+            setTimeout(() => {
+                setWarningsIndex((warningsIndex+1)%props.warnings.length);
+            }, 20000);   
+       }   
       });
 
     useEffect(() => {

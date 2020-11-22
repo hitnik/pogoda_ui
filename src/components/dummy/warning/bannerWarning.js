@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Advertisement, Transition} from 'semantic-ui-react';
+import React from "react";
+import {Advertisement} from 'semantic-ui-react';
 import {WarningComponentLigthWeight} from './warningComponent';
 
 const data = {
@@ -18,20 +18,11 @@ const data = {
 
 const WarningLeftBanner = (props)=>{
 
-    const [visible, setVisible] = useState(true);
-
-    // useEffect(() => {
-    //     setVisible(false); 
-    //     setTimeout(() => {}, 500);
-    //     setVisible(true);
-    // }, [props.data])
-
-    return(
-        <Transition visible={visible} animation='scale' duration={400}>
-          <Advertisement centered className="bunner-left" unit='vertical rectangle'>
-            <WarningComponentLigthWeight data ={props.data}/>
-        </Advertisement>  
-        </Transition>
+    return(     
+        <Advertisement centered className="bunner-left" unit='vertical rectangle'>
+          <WarningComponentLigthWeight data ={props.data}/>
+      </Advertisement>  
+ 
     )
 }
 
