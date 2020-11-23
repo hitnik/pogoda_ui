@@ -3,6 +3,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
+var myImage = require("./src/favicon/favicon.ico");
 
 module.exports = {
   entry: {
@@ -15,7 +16,6 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: path.resolve(__dirname,'/src/favicon'),
     filename: process.env.production ? `bundle-[chunkHash].js` : `bundle-[hash].js`
   },
   optimization: {
@@ -54,7 +54,7 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.(jpg|png)$/,
+        test: /\.(jpg|png|ico)$/,
         use: {
           loader: 'url-loader',
         },
