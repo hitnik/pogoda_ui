@@ -15,6 +15,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: /src/favicon,
     filename: process.env.production ? `bundle-[chunkHash].js` : `bundle-[hash].js`
   },
   optimization: {
