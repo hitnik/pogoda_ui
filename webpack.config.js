@@ -70,7 +70,7 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      favicon: "./favicon.ico"
+      favicon: "./src/favicon/favicon.ico"
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
