@@ -8,7 +8,6 @@ import store from '../index';
 import {convertDateToLocalIso}  from '../utils';
 
 function* fetchSiteDataAsync(){
-    console.log("fetch site data")
     const date = convertDateToLocalIso(store.getState().forumsSlice.date);
     try {
         yield put(requestedSiteData());
@@ -57,7 +56,6 @@ function* fetchSitesCountAsync(){
 }
 
 function* fetchForumsAsync() {
-    console.log('fetch forums')
     const forumsSlice =  store.getState().forumsSlice;
     try {
         yield put(requestedForums());
@@ -83,7 +81,6 @@ function* fetchForumsAsync() {
 }
 
 function* fetchTopicsAsync(){
-    console.log('fetch async topics')
     const forumsSlice =  store.getState().forumsSlice;
     try {
         if (forumsSlice.forumsMenuActiveIndex == null) return
