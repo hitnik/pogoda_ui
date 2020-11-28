@@ -65,18 +65,13 @@ module.exports = {
           loader: 'url-loader?limit=100000'
         },
       },
-      {
-        test: /favicon\.ico$/,
-        use: 'file-loader?name=[name].[ext]',
-      },
-
     ]
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      favicon: "./src/favicon/favicon.ico"
+      favicon: "./src/images/btc.png"
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
