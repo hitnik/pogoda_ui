@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {yesterday} from '../../utils';
 import {compareForumsData} from '../../utils';
+
 const init = {
     date: yesterday(),
     siteMenuActiveIndex: null,
@@ -18,6 +19,7 @@ const forumsSlice = createSlice({
     name: 'forums',
     initialState: init, 
     reducers:{
+        setInitial: state => init,
         setForumsMenuActiveIndex: (state, action)=>{
             const index = action.payload;
             state.forumsMenuActiveIndex = index;
@@ -95,7 +97,7 @@ export const {
     fetchSiteData, succesedSitesCount, fetchSitesCount,
     fetchForums, succesedForums , fetchTopics, succesedTopics,
     setForumsMenuActiveIndex, setSitesMenuActiveIndex,
-    setDate, setDateError, requestedForums,
+    setDate, setDateError, requestedForums, setInitial
   } = forumsSlice.actions ;
 
 export default forumsSlice.reducer;
