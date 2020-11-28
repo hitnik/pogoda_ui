@@ -64,7 +64,12 @@ module.exports = {
         use:{
           loader: 'url-loader?limit=100000'
         },
-      }
+      },
+      {
+        test: /favicon\.ico$/,
+        use: 'file-loader?name=[name].[ext]',
+      },
+
     ]
   },
   plugins: [

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./components/App.js";
 import "semantic-ui-css/semantic.min.css";
 import './styles/App.css';
+import './favicon/favicon.ico';
 import { HashRouter as Router} from "react-router-dom";
 import { Provider } from 'react-redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
@@ -18,7 +19,7 @@ import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
 import { ConnectedRouter } from 'connected-react-router';
 import history from './components/main/history';
-import './favicon/favicon.ico';
+
 
 const rootReducer = (history) => combineReducers({
   isSubscribe: isSubscribeSliceReducer,
