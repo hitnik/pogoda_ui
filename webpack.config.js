@@ -15,7 +15,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: process.env.production ? `bundle-[chunkHash].js` : `bundle-[hash].js`
+    filename: process.env.production ? `bundle-[chunkHash].js` : `bundle.js`,
+    // filename: process.env.production ? `bundle-[chunkHash].js` : `bundle-[hash].js`
   },
   optimization: {
     minimize: true,
@@ -70,12 +71,12 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      // favicon: "./src/favicon/favicon.ico"
+      favicon: "./src/favicon/favicon.ico"
     }),
     new webpack.SourceMapDevToolPlugin({}),
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(process.env.PRODUCTION) || false,
-      WEATHER_API_HOST_DEV: JSON.stringify("http://10.254.90.101"),
+      WEATHER_API_HOST_DEV: JSON.stringify("http://10.254.90.101:8000"),
       WEATHER_API_HOST_PROD: JSON.stringify(process.env.API_HOST),
     })
   ]

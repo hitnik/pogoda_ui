@@ -18,6 +18,7 @@ import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
 import { ConnectedRouter } from 'connected-react-router';
 import history from './components/main/history';
+import './favicon/favicon.ico';
 
 const rootReducer = (history) => combineReducers({
   isSubscribe: isSubscribeSliceReducer,
