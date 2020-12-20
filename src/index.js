@@ -40,6 +40,10 @@ const store = configureStore({
 
 sagaMiddleware.run(rootSaga);
 
+const wether_ws = PRODUCTION ?  WEATHER_WS_HOST_PROD : WEATHER_WS_HOST_DEV;
+
+const socketWeather = new WebSocket(new URL('/ws/weather', wether_ws))
+
 const Root = ({ store }) => (
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -48,8 +52,11 @@ const Root = ({ store }) => (
         </Router>
         </ConnectedRouter>
     </Provider>
-  )
+  )  
 
 ReactDOM.render((<Root store={store}/>), document.getElementById("root"));
+
+
+export {socketWeather};
 
 export default store;

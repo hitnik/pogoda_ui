@@ -78,6 +78,8 @@ module.exports = {
       PRODUCTION: JSON.stringify(process.env.PRODUCTION) || false,
       WEATHER_API_HOST_DEV: JSON.stringify("http://10.254.90.101:8000"),
       WEATHER_API_HOST_PROD: JSON.stringify(process.env.API_HOST),
+      WEATHER_WS_HOST_DEV: JSON.stringify('ws://127.0.0.1:8000'),
+      WEATHER_WS_HOST_PROD: JSON.stringify(process.env.WEATHER_WS_HOST)
     })
   ]
 };
