@@ -19,6 +19,7 @@ import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
 import weatherSocketMiddleware from './store/middleware/weatherSocketMiddleware';
 import { ConnectedRouter } from 'connected-react-router';
+import WebSocketConnection from './components/wrappers/websocketConnector';
 import history from './components/main/history';
 
 
@@ -53,9 +54,11 @@ sagaMiddleware.run(rootSaga);
 const Root = ({ store }) => (
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <Router>
-            <App />
-        </Router>
+        <WebSocketConnection>
+          <Router>
+              <App />
+          </Router>
+        </WebSocketConnection>
         </ConnectedRouter>
     </Provider>
   )  

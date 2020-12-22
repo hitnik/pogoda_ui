@@ -9,15 +9,15 @@ const weatherWSSlice = createSlice({
     name: 'weatherSocket',
     initialState: init,
     reducers:{
-        onConnect: (state, action) =>{
-            state.connect = true;
-            console.log('connected')
+        wsConnect:() => {},
+        onConnect: (state) =>{
+            console.log('slice connected')
         }
 
     }
 });
 
-export const { onConnect
+export const { onConnect, wsConnect
   } = weatherWSSlice.actions;
 
 export default weatherWSSlice.reducer
