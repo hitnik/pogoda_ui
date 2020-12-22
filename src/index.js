@@ -14,8 +14,10 @@ import isSubscribeSliceReducer from './store/slices/isSubscribe';
 import subFormSliceReducer from './store/slices/subForm';
 import codeData from './store/slices/codeData';
 import forumsSlice from './store/slices/forumsSlice';
+import weatherWSSlice from './store/slices/warningsSlice';
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
+import weatherSocketMiddleware from './store/middleware/weatherSocketMiddleware';
 import { ConnectedRouter } from 'connected-react-router';
 import history from './components/main/history';
 
@@ -26,12 +28,20 @@ const rootReducer = (history) => combineReducers({
   codeData: codeData,
   warnings:warnings,
   forumsSlice: forumsSlice,
+  weatherSocket: weatherWSSlice,
   router : connectRouter(history)
 });
 
+const weatherWsHost = PRODUCTION ?  new URL('/ws/weather', WEATHER_WS_HOST_PROD) : new URL('/ws/weather', WEATHER_WS_HOST_DEV);
+
+
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [...getDefaultMiddleware(), sagaMiddleware, routerMiddleware(history)]
+const middleware = [...getDefaultMiddleware(), 
+                    sagaMiddleware, 
+                    routerMiddleware(history),
+                    weatherSocketMiddleware(weatherWsHost),
+]
 
 const store = configureStore({
   reducer:rootReducer(history),
@@ -39,10 +49,6 @@ const store = configureStore({
 });
 
 sagaMiddleware.run(rootSaga);
-
-const wether_ws = PRODUCTION ?  WEATHER_WS_HOST_PROD : WEATHER_WS_HOST_DEV;
-
-const socketWeather = new WebSocket(new URL('/ws/weather', wether_ws))
 
 const Root = ({ store }) => (
     <Provider store={store}>
@@ -56,7 +62,5 @@ const Root = ({ store }) => (
 
 ReactDOM.render((<Root store={store}/>), document.getElementById("root"));
 
-
-export {socketWeather};
 
 export default store;
