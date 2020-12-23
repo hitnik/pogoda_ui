@@ -11,13 +11,18 @@ const weatherWSSlice = createSlice({
     reducers:{
         wsConnect:() => {},
         onConnect: (state) =>{
+            state.connect = true;
             console.log('slice connected')
-        }
-
+        },
+        onError: (state , action) => {
+            const err = action.payload;
+            state.error = err;
+            console.log(err);
+        },
     }
 });
 
-export const { onConnect, wsConnect
+export const { onConnect, wsConnect, onError
   } = weatherWSSlice.actions;
 
 export default weatherWSSlice.reducer

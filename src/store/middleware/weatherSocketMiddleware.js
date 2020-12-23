@@ -1,4 +1,4 @@
-import {onConnect} from '../slices/weatherSocketSlice';
+import { onConnect, onError} from '../slices/weatherSocketSlice';
 
 function waitForSocket(socket, callback) {
     setTimeout(() => {
@@ -6,32 +6,39 @@ function waitForSocket(socket, callback) {
     }, 10);
 }
 
-export default (host) =>{
+const connect = (host, attempts) => {
+    let socket = new WebSocket(host)
+    setTimeout(() => {
+        attempts--; 
+        console.log(attempts)
+        attempts > 0 && socket.readyState !== 1 && connect(host, attempts)
+        return socket
+    }, 100);   
+}
+
+export const weatherSocketMiddleware  =  (host) => (store) => next => action => {
     let socket = null;
 
-    const con = store => () => {
-        store.dispatch(onConnect());
+    const onEr = store => (event) => {
+        store.dispatch(onError("Error"));
       };
 
-    return ({dispatch}) => next => action => {
-        
-    
-        switch (action.type) {
-            case 'weatherSocket/wsConnect':
-                console.log('middleware connected')
-                if (socket !== null) {
-                    socket.close();
-                    }
-                
-                dispatch({type:'weatherSocket/onConnect' })   
-                // connect to the remote host
-                socket = new WebSocket(host);
-                
-                
-                break;
-        }
-        return next(action);
-} 
-    
+    switch (action.type) {
+        case 'weatherSocket/wsConnect':
+            console.log('middleware connected')
+            if (socket !== null) {
+                socket.close();
+                }
+            // connect to the remote host
+            socket = new WebSocket(host);    
+            if (socket){
+                socket.onerror = onEr(store)
+                socket.onopen = () => store.dispatch(onConnect());
+            } else store.dispatch(onError('Websocket connection error'))
+            
+            
+            break;
+    }            
+    return next(action);  
 }
 
