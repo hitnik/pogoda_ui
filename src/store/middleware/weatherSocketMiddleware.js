@@ -11,9 +11,15 @@ function waitForSocket(socket, callback) {
 export const weatherSocketMiddleware  =  (host) => (store) => next => action => {
     let socket = null;
 
-    const onEr = store => (event) => {
+    const onEr = store => () => {
         store.dispatch(onError("Error"));
       };
+
+    const onMessage = store => (event) => {
+        const payload = JSON.parse(event.data);
+        console.log('receiving server message');  
+        console.log(payload)
+    }
 
     switch (action.type) {
         case 'weatherSocket/wsConnect':
@@ -23,11 +29,23 @@ export const weatherSocketMiddleware  =  (host) => (store) => next => action => 
                 }
             // connect to the remote host
             socket = new WebSocket(host);    
+            
             socket.onerror = onEr(store)
-            socket.onopen = () => store.dispatch(onConnect());
+            socket.onopen = () => {
+                store.dispatch(onConnect());
+                socket.send(JSON.stringify({
+                    'payload': 'ping'
+                }));
+                console.log('send')
+            }
+
+            socket.onmessage = () => onMessage(store);
             
             
             break;
+
+        default:
+            return next(action);
     }            
     return next(action);  
 }
