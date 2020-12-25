@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
-import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
+import { Transition, Icon, Container, Grid, Segment, Placeholder, Header, Button } from 'semantic-ui-react';
 import { fetchWarnings, fetchWarningsNext } from '../../store/slices/warningsSlice';
 import MessageErrror from '../dummy/messages/messageError';
 import { responseErrorsHumanize } from '../../actions/weatherActions/api';
@@ -70,6 +70,11 @@ const WeatherComponent = (props) => {
                     </Grid.Column>
                 </Grid>
             </Segment> 
+
+            <Segment>
+                <Button>test ws</Button>
+            </Segment>
+            
             <Segment>
                 <Segment basic centered="true">
                 <Grid>
