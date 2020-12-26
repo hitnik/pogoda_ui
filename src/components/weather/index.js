@@ -9,7 +9,7 @@ import { fetchWarnings, fetchWarningsNext } from '../../store/slices/warningsSli
 import MessageErrror from '../dummy/messages/messageError';
 import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 import WarningComponent  from '../dummy/warning/warningComponent';
-
+import { wsSend } from '../../store/slices/weatherSocketSlice';
 
 
 const WeatherComponent = (props) => {
@@ -47,6 +47,12 @@ const WeatherComponent = (props) => {
         setTimeout(() => setButtonsVisible(false), 180000)
     }, [buttonsVisible]);
 
+    const testSend = () => {
+        props.wsSend('ping')
+        console.log('func send')
+        
+    }
+
     return (     
         <Container >
           <Segment basic={true} centered="true">
@@ -72,7 +78,7 @@ const WeatherComponent = (props) => {
             </Segment> 
 
             <Segment>
-                <Button>test ws</Button>
+                <Button onClick={testSend}>test ws</Button>
             </Segment>
             
             <Segment>
@@ -126,6 +132,7 @@ function mapStateToProps(state) {
     return bindActionCreators({
       subscribe, unsubscribe, 
       fetchWarnings, fetchWarningsNext,
+      wsSend,
    }, dispatch)
   }
 
