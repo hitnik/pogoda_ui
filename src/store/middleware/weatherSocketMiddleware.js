@@ -17,7 +17,10 @@ export const weatherSocketMiddleware  =  (host) => (store) => next => action => 
 
     const onMessage = store => (event) => {
         const payload = JSON.parse(event.data);
-        console.log('receiving server message');  
+
+        console.log('receiving server message');
+    
+
         console.log(payload)
     }
 
@@ -29,24 +32,22 @@ export const weatherSocketMiddleware  =  (host) => (store) => next => action => 
                 }
             // connect to the remote host
             socket = new WebSocket(host);    
-            
-            socket.onerror = onEr(store)
-            socket.onopen = () => {
-                store.dispatch(onConnect());
-                socket.send(JSON.stringify({
-                    'payload': 'ping'
-                }));
-                console.log('send')
-            }
 
-            socket.onmessage = () => onMessage(store);
+
+            socket.onerror = onEr(store);
+            socket.onopen = () => store.dispatch(onConnect());
+            socket.onmessage = onMessage(store);
             
             
             break;
+        // case 'weatherSocket/wsSend':
+        //     console.log('middleware send');
+        //     console.log('sending a message', action.payload);
 
-        default:
-            return next(action);
-    }            
+        //     break;
+    }       
+
+
     return next(action);  
 }
 

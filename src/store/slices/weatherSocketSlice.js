@@ -10,11 +10,15 @@ const weatherWSSlice = createSlice({
     initialState: init,
     reducers:{
         wsConnect:() => {},
-        onConnect: (state) =>{
-            state.connect = true;
-            console.log('slice connected')
+        wsSend:(state, action) => {
+            console.log('send in slice')
+            console.log(action.payload)
         },
-        onError: (state , action) => {
+        onConnect: (state) => {
+            state.connect = true;
+            state.error = null;
+        },
+        onError: (state, action) => {
             const err = action.payload;
             state.error = err;
             console.log(err);
@@ -22,7 +26,7 @@ const weatherWSSlice = createSlice({
     }
 });
 
-export const { onConnect, wsConnect, onError
+export const { onConnect, wsConnect, onError, wsSend
   } = weatherWSSlice.actions;
 
 export default weatherWSSlice.reducer

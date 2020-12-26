@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SubscribeContainer from '../subscribe';
 import {subscribe, unsubscribe } from '../../store/slices/isSubscribe';
-import { Transition, Icon, Container, Grid, Segment, Placeholder, Header } from 'semantic-ui-react';
+import { Transition, Icon, Container, Grid, Segment, Placeholder, Header, Button } from 'semantic-ui-react';
 import { fetchWarnings, fetchWarningsNext } from '../../store/slices/warningsSlice';
 import MessageErrror from '../dummy/messages/messageError';
 import { responseErrorsHumanize } from '../../actions/weatherActions/api';
 import WarningComponent  from '../dummy/warning/warningComponent';
-
+import { wsSend } from '../../store/slices/weatherSocketSlice';
 
 
 const WeatherComponent = (props) => {
@@ -47,6 +47,12 @@ const WeatherComponent = (props) => {
         setTimeout(() => setButtonsVisible(false), 180000)
     }, [buttonsVisible]);
 
+    const testSend = () => {
+        props.wsSend('ping')
+        console.log('func send')
+        
+    }
+
     return (     
         <Container >
           <Segment basic={true} centered="true">
@@ -70,6 +76,11 @@ const WeatherComponent = (props) => {
                     </Grid.Column>
                 </Grid>
             </Segment> 
+
+            <Segment>
+                <Button onClick={testSend}>test ws</Button>
+            </Segment>
+            
             <Segment>
                 <Segment basic centered="true">
                 <Grid>
@@ -121,6 +132,7 @@ function mapStateToProps(state) {
     return bindActionCreators({
       subscribe, unsubscribe, 
       fetchWarnings, fetchWarningsNext,
+      wsSend,
    }, dispatch)
   }
 
