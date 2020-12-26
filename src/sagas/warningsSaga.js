@@ -1,7 +1,7 @@
 import { takeLatest, put, call, delay} from 'redux-saga/effects';
 import { requestedWarnings, successedWarnings,
         rejectedWarnings, updateWarningsArr, 
-        requestedWarningsNext, successedWarningsNext,
+        successedWarningsNext,
         } from '../store/slices/warningsSlice';
 import {getActualWarnings,getHazardLevel,get } from '../actions/weatherActions/api';
 import store from '../index';
@@ -43,7 +43,6 @@ function* fetchWarningsNextAsync() {
                 return get(next)
                         .then(response => response.json())
                 });
-                console.log(data)
                 yield put(successedWarningsNext(data)); 
         } catch (error) {
                 console.log(error)

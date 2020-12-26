@@ -7,6 +7,7 @@ import {watchSubFormSaga,watchGetHazardLevelsSaga,
         watchGetUserSaga,
         } from './subFormSaga';
 import forumsRootSaga from './forumsSaga';
+import { watchFetchWSMessageSaga } from './wsWeatherSaga';
 
 export default function* rootSaga(){
     yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga(){
         watchGetHazardLevelsSaga(),
         watchGetUserSaga(),
         forumsRootSaga(),
+        watchFetchWSMessageSaga(),
         ]);
 };
 

@@ -39,6 +39,9 @@ const warningsSlice = createSlice({
       const item = action.payload;
       state.warningsArr.push(item);
     },
+    clearWarningsArr:(state) => {
+      state.warningsArr = [] ;
+    },
     rejectedWarnings: (state, action) => {
       const err = action.payload;
       state.dataRaw = {};
@@ -73,7 +76,7 @@ export const {requestedWarnings, successedWarnings,
               rejectedWarnings, fetchWarnings,
               updateWarningsArr, setPageSize,
               requestedWarningsNext, successedWarningsNext,
-              fetchWarningsNext
+              fetchWarningsNext, clearWarningsArr
             } = warningsSlice.actions;
 
 export default warningsSlice.reducer

@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+
 const init = {
     connect: false,
     error: null,
@@ -23,10 +24,12 @@ const weatherWSSlice = createSlice({
             state.error = err;
             console.log(err);
         },
+        receiveMessage: () =>{},
     }
 });
 
-export const { onConnect, wsConnect, onError, wsSend
+export const { onConnect, wsConnect, onError,
+     wsSend, receiveMessage
   } = weatherWSSlice.actions;
 
 export default weatherWSSlice.reducer

@@ -37,20 +37,13 @@ const WeatherComponent = (props) => {
         document.addEventListener('scroll', trackScrolling);
     },[isMount]);
 
-    useEffect( () =>{
-        setTimeout(() => { 
-            setIsMount(!isMount);
-        },600000);
-    });
 
     useEffect( () => {
         setTimeout(() => setButtonsVisible(false), 180000)
     }, [buttonsVisible]);
 
     const testSend = () => {
-        props.wsSend('ping')
-        console.log('func send')
-        
+        props.wsSend('feeds')       
     }
 
     return (     
