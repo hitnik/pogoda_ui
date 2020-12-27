@@ -28,12 +28,6 @@ const ForumsComponent = (props) => {
     },[isMount]);
 
 
-    useEffect( () =>{
-        setTimeout(() => { 
-            setIsMount(!isMount);
-        },600000);
-    });
-
     useEffect(() => {
        if (props.warnings.length > 1) {
             setTimeout(() => {

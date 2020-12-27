@@ -2,7 +2,6 @@ import { takeEvery, put, call, delay} from 'redux-saga/effects';
 import { updateWarningsArr,clearWarningsArr } from '../store/slices/warningsSlice';
 
 function* fetchWSMessage (action) {
-    console.log('ws saga');
     const payload = action.payload;
     if (payload.response === 'ok'){
         if (payload.payload && payload.payload !== "pong" && payload.payload !== 'empty'){

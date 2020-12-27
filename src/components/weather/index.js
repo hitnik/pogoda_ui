@@ -42,9 +42,6 @@ const WeatherComponent = (props) => {
         setTimeout(() => setButtonsVisible(false), 180000)
     }, [buttonsVisible]);
 
-    const testSend = () => {
-        props.wsSend('feeds')       
-    }
 
     return (     
         <Container >
@@ -69,11 +66,6 @@ const WeatherComponent = (props) => {
                     </Grid.Column>
                 </Grid>
             </Segment> 
-
-            <Segment>
-                <Button onClick={testSend}>test ws</Button>
-            </Segment>
-            
             <Segment>
                 <Segment basic centered="true">
                 <Grid>

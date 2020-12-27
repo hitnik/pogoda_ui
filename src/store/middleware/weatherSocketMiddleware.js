@@ -17,8 +17,6 @@ export const weatherSocketMiddleware  =  (host) =>  {
 
     const onMsg = store => (event) => {
         const payload = JSON.parse(event.data);
-
-        console.log('receiving server message');
         store.dispatch(receiveMessage(payload))
 
     }
@@ -26,7 +24,6 @@ export const weatherSocketMiddleware  =  (host) =>  {
     return (store) => next => action => {
         switch (action.type) {
             case 'weatherSocket/wsConnect':
-                console.log('middleware connected')
                 if (socket !== null) {
                     socket.close();
                     }
@@ -42,7 +39,6 @@ export const weatherSocketMiddleware  =  (host) =>  {
                 break;
     
             case 'weatherSocket/wsSend':
-                console.log('middleware send');
                 socket.send(JSON.stringify({
                     'payload': action.payload
                 }));    
